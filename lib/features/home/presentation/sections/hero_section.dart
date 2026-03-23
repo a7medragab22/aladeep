@@ -10,7 +10,7 @@ class HeroSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 40),
+      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 100.h),
       decoration: const BoxDecoration(
         gradient: LinearGradient(
           colors: [Color(0xFF0E2A3B), Color(0xFF0B1F2B)],
