@@ -1,5 +1,4 @@
 import 'package:aladeep/core/themes/app_color.dart';
-import 'package:aladeep/core/utils/player_youtube_video.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
