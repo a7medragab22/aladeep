@@ -1,5 +1,6 @@
 import 'package:aladeep/core/themes/app_color.dart';
 import 'package:aladeep/core/utils/header.dart';
+import 'package:aladeep/features/home/presentation/widgets/comments_section.dart';
 import 'package:aladeep/features/home/presentation/widgets/features_list_section.dart';
 import 'package:aladeep/features/home/presentation/widgets/hero_section.dart';
 import 'package:aladeep/features/home/presentation/widgets/state_section.dart';
@@ -27,6 +28,7 @@ class HomeView extends StatelessWidget {
             SliverToBoxAdapter(child: WhySection()),
             FeaturesListSection(),
             SliverToBoxAdapter(child: SuccefullStorysSection()),
+            CommentsSection(),
           ],
         ),
       ),

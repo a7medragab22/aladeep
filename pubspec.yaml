@@ -33,6 +33,7 @@ dependencies:
   dotted_border: ^3.1.0
   flutter:
     sdk: flutter
+  flutter_bloc: ^9.1.1
   flutter_screenutil: ^5.9.3
   video_player: ^2.11.1
   youtube_player_flutter: ^9.1.3
