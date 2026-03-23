@@ -1,48 +1,8 @@
-import 'package:aladeep/features/home/data/repo/comments_repository_impl.dart';
+
+import 'package:aladeep/core/themes/app_color.dart';
 import 'package:aladeep/features/home/domain/entities/comment_entity.dart';
-import 'package:aladeep/features/home/presentation/cubits/commentscubit/comments_cubit.dart';
-import 'package:aladeep/features/home/presentation/cubits/commentscubit/comments_state.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-
-class CommentsSection extends StatelessWidget {
-  const CommentsSection({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => CommentsCubit(CommentsRepositoryImpl())..getComments(),
-      child: BlocBuilder<CommentsCubit, CommentsState>(
-        builder: (context, state) {
-          if (state is CommentsLoading) {
-            return const SliverToBoxAdapter(
-              child: Center(child: CircularProgressIndicator()),
-            );
-          }
-
-          if (state is CommentsError) {
-            return SliverToBoxAdapter(
-              child: Center(child: Text(state.message)),
-            );
-          }
-
-          if (state is CommentsLoaded) {
-            return SliverList(
-              delegate: SliverChildBuilderDelegate(
-                (context, index) {
-                  return CommentCard(comment: state.comments[index]);
-                },
-                childCount: state.comments.length,
-              ),
-            );
-          }
-
-          return const SliverToBoxAdapter(child: SizedBox());
-        },
-      ),
-    );
-  }
-}
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CommentCard extends StatelessWidget {
   final CommentEntity comment;
@@ -63,11 +23,11 @@ class CommentCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           _Header(rating: comment.rating),
-          const SizedBox(height: 12),
+           SizedBox(height: 12.h),
           _CommentText(text: comment.comment),
-          const SizedBox(height: 16),
+           SizedBox(height: 16.h),
           const Divider(),
-          const SizedBox(height: 12),
+           SizedBox(height: 12.h),
           _Footer(comment: comment),
         ],
       ),
@@ -113,6 +73,7 @@ class _CommentText extends StatelessWidget {
         fontSize: 16,
         height: 1.6,
         fontWeight: FontWeight.w500,
+        color: AppColor.primaryColor
       ),
     );
   }
@@ -175,3 +136,4 @@ class _Avatar extends StatelessWidget {
     );
   }
 }
+
