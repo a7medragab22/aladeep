@@ -1,4 +1,4 @@
-
+import 'package:aladeep/core/themes/app_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -15,12 +15,14 @@ class Header extends StatelessWidget {
             width: 45.w,
             height: 45.h,
             decoration: BoxDecoration(
-              border: Border.all(color: Colors.grey.shade300),
+              border: Border.all(color: AppColor.secondaryColor),
               borderRadius: BorderRadius.circular(12.r),
             ),
-            child: IconButton(
-              onPressed: () {},
-              icon: Icon(Icons.menu, size: 24.sp),
+            child: Center(
+              child: IconButton(
+                onPressed: () {},
+                icon: Icon(Icons.menu, size: 24.sp),
+              ),
             ),
           ),
         ],
