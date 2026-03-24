@@ -37,17 +37,10 @@ class TestYourSelfSection extends StatelessWidget {
           child: Column(
             children: [
               // Icon container
-              Container(
-                padding: EdgeInsets.all(20.r),
-                decoration: BoxDecoration(
-                  color: AppColor.primaryGold.withValues(alpha: 0.12),
-                  shape: BoxShape.circle,
-                ),
-                child: Icon(
-                  Icons.assignment_turned_in_rounded,
-                  size: 52.sp,
-                  color: AppColor.primaryGold,
-                ),
+              Icon(
+                Icons.assignment_turned_in_rounded,
+                size: 52.sp,
+                color: AppColor.primaryGold,
               ),
 
               SizedBox(height: 20.h),
@@ -97,7 +90,7 @@ class TestYourSelfSection extends StatelessWidget {
               SizedBox(height: 24.h),
 
               CustomButton(
-                icon: Icons.play_arrow_rounded,
+                icon: Icons.arrow_back,
                 text: 'ابدأ الاختبار التشخيصي',
                 backgroundColor: AppColor.primaryGold,
                 textColor: AppColor.primaryDark,

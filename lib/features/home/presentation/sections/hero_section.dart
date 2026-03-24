@@ -107,26 +107,3 @@ class HeroSection extends StatelessWidget {
     );
   }
 }
-
-class _TrustBadge extends StatelessWidget {
-  final IconData icon;
-  final String text;
-  const _TrustBadge({required this.icon, required this.text});
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Icon(icon, color: AppColor.primaryGold, size: 20.sp),
-        SizedBox(height: 4.h),
-        Text(
-          text,
-          style: TextStyle(
-            color: Colors.white.withValues(alpha: 0.7),
-            fontSize: 10.sp,
-          ),
-        ),
-      ],
-    );
-  }
-}

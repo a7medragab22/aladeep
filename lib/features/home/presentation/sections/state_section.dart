@@ -19,7 +19,7 @@ class StatsSection extends StatelessWidget {
           SizedBox(height: 30),
           _StatItem(number: "100%", label: "نسبة رضا وتفوق الطلاب"),
           SizedBox(height: 30),
-          _StatItem(number: "2+", label: "برامج تدريب متخصصة"),
+          _StatItem(number: "2+", label: "برامج تدريبي متخصص"),
           SizedBox(height: 30),
           _StatItem(number: "24/7", label: "دعم فني وتواصل مستمر"),
         ],
@@ -52,7 +52,7 @@ class _StatItem extends StatelessWidget {
           textAlign: TextAlign.center,
           style: const TextStyle(
             fontSize: 16,
-            color: AppColor.primaryDark,
+            color: AppColor.primaryDarker,
             fontWeight: FontWeight.bold,
           ),
         ),

@@ -1,11 +1,12 @@
 import 'package:aladeep/core/themes/app_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class _FeatureCard extends StatelessWidget {
   final String title;
   final String description;
-  final IconData icon;
+  final FaIconData icon; // FontAwesome compatible
   final int index;
 
   const _FeatureCard({
@@ -48,7 +49,7 @@ class _FeatureCard extends StatelessWidget {
               ),
               borderRadius: BorderRadius.circular(16),
             ),
-            child: Icon(icon, size: 28.sp, color: AppColor.primaryGold),
+            child: FaIcon(icon, size: 28.sp, color: AppColor.primaryGold),
           ),
 
           SizedBox(width: 16.w),
@@ -99,37 +100,37 @@ class FeaturesListSection extends StatelessWidget {
         'title': 'محاكي قياس الذكي',
         'desc':
             'اختبارات عشوائية تسحب من بنك أسئلة ضخم لتوفير تجربة مطابقة تماماً لاختبار قياس الحقيقي، مع تصحيح فوري.',
-        'icon': Icons.psychology_rounded,
+        'icon': FontAwesomeIcons.brain,
       },
       {
         'title': 'مسار تعليمي متدرج',
         'desc':
             'لن تتجاوز أي خطوة قبل إتقانها! نظامنا المبتكر يجبرك على اجتياز الاختبارات لفتح الدروس التالية لضمان الفهم العميق.',
-        'icon': Icons.route_rounded,
+        'icon': FontAwesomeIcons.route,
       },
       {
         'title': 'بيئة آمنة ومركزة',
         'desc':
             'حماية كاملة لحسابك، وتجربة خالية من التشتت الإعلاني مع مشغل فيديوهات مخصص وملازم تفاعلية جاهزة للطباعة.',
-        'icon': Icons.privacy_tip_rounded,
+        'icon': FontAwesomeIcons.lock,
       },
       {
         'title': 'تواصل مباشر ومستمر',
         'desc':
             'منتدى نقاشات تفاعلي أسفل كل دورة لطرح الأسئلة، بالإضافة إلى بثوث مباشرة مجدولة للمراجعة مع المدرب.',
-        'icon': Icons.forum_rounded,
+        'icon': FontAwesomeIcons.comments,
       },
       {
         'title': 'لوحة شرف تنافسية',
         'desc':
             'تنافس مع زملائك وتصدر لوحة الشرف الخاصة بالدورة بناءً على متوسط نتائجك في الاختبارات لزيادة حماسك.',
-        'icon': Icons.emoji_events_rounded,
+        'icon': FontAwesomeIcons.trophy,
       },
       {
         'title': 'شهادات اجتياز معتمدة',
         'desc':
             'احصل على شهادة تفوق فور اجتيازك للاختبار النهائي، توثق مجهودك ونسبة إنجازك في الدورة التدريبية.',
-        'icon': Icons.verified_rounded,
+        'icon': FontAwesomeIcons.certificate,
       },
     ];
 
@@ -139,7 +140,7 @@ class FeaturesListSection extends StatelessWidget {
         return _FeatureCard(
           title: item['title'] as String,
           description: item['desc'] as String,
-          icon: item['icon'] as IconData,
+          icon: item['icon'] as FaIconData, // FontAwesomeIcons
           index: index,
         );
       }, childCount: features.length),
