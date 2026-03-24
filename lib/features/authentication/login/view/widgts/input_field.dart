@@ -31,7 +31,7 @@ class InputField extends StatelessWidget {
         hintText: hint,
         hintTextDirection: TextDirection.rtl,
         hintStyle: TextStyle(color: Colors.grey.shade400, fontSize: 13.sp),
-        prefixIcon: Icon(icon, color: AppColor.secondaryColor, size: 20.sp),
+        prefixIcon: Icon(icon, color: AppColor.primaryGold, size: 20.sp),
         suffixIcon: suffixIcon,
         filled: true,
         fillColor: Colors.grey.shade50,
@@ -46,7 +46,7 @@ class InputField extends StatelessWidget {
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(color: AppColor.secondaryColor, width: 1.5),
+          borderSide: BorderSide(color: AppColor.primaryGold, width: 1.5),
         ),
       ),
     );

@@ -36,20 +36,20 @@ class FooterSection extends StatelessWidget {
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   colors: [
-                    AppColor.secondaryColor.withValues(alpha: 0.15),
-                    AppColor.secondaryColor.withValues(alpha: 0.05),
+                    AppColor.primaryGold.withValues(alpha: 0.15),
+                    AppColor.primaryGold.withValues(alpha: 0.05),
                   ],
                 ),
                 borderRadius: BorderRadius.circular(24),
                 border: Border.all(
-                  color: AppColor.secondaryColor.withValues(alpha: 0.25),
+                  color: AppColor.primaryGold.withValues(alpha: 0.25),
                 ),
               ),
               child: Column(
                 children: [
                   Icon(
                     Icons.rocket_launch_rounded,
-                    color: AppColor.secondaryColor,
+                    color: AppColor.primaryGold,
                     size: 36.sp,
                   ),
                   SizedBox(height: 12.h),
@@ -80,8 +80,8 @@ class FooterSection extends StatelessWidget {
                     child: ElevatedButton(
                       onPressed: () {},
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColor.secondaryColor,
-                        foregroundColor: AppColor.primaryColor,
+                        backgroundColor: AppColor.primaryGold,
+                        foregroundColor: AppColor.primaryDark,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(30),
                         ),
@@ -117,20 +117,16 @@ class FooterSection extends StatelessWidget {
                           vertical: 10.h,
                         ),
                         decoration: BoxDecoration(
-                          color: AppColor.secondaryColor.withValues(
-                            alpha: 0.12,
-                          ),
+                          color: AppColor.primaryGold.withValues(alpha: 0.12),
                           borderRadius: BorderRadius.circular(12),
                           border: Border.all(
-                            color: AppColor.secondaryColor.withValues(
-                              alpha: 0.3,
-                            ),
+                            color: AppColor.primaryGold.withValues(alpha: 0.3),
                           ),
                         ),
                         child: Text(
                           'الأديب',
                           style: TextStyle(
-                            color: AppColor.secondaryColor,
+                            color: AppColor.primaryGold,
                             fontWeight: FontWeight.bold,
                             fontSize: 18.sp,
                           ),
@@ -189,7 +185,7 @@ class FooterSection extends StatelessWidget {
                   Text(
                     'روابط سريعة',
                     style: TextStyle(
-                      color: AppColor.secondaryColor,
+                      color: AppColor.primaryGold,
                       fontWeight: FontWeight.bold,
                       fontSize: 15.sp,
                     ),
@@ -237,7 +233,7 @@ class FooterSection extends StatelessWidget {
                   Text(
                     'الدعم الفني والاشتراكات',
                     style: TextStyle(
-                      color: AppColor.secondaryColor,
+                      color: AppColor.primaryGold,
                       fontWeight: FontWeight.bold,
                       fontSize: 15.sp,
                     ),
@@ -280,7 +276,7 @@ class FooterSection extends StatelessWidget {
                       Text(
                         'GMTWEB',
                         style: TextStyle(
-                          color: AppColor.secondaryColor.withValues(alpha: 0.7),
+                          color: AppColor.primaryGold.withValues(alpha: 0.7),
                           fontSize: 11.sp,
                           fontWeight: FontWeight.bold,
                         ),

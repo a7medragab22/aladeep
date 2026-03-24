@@ -93,7 +93,7 @@ class RegisterView extends StatelessWidget {
 
                         CustomButton(
                           text: "إنشاء الحساب مجاناً",
-                          onTap: () {
+                          onPressed: () {
                             print("BUTTON CLICKED 🔥");
                             cubit.register(
                               name: nameController.text,

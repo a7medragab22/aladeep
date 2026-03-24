@@ -45,7 +45,7 @@ class SuccefullStorysSection extends StatelessWidget {
             style: TextStyle(
               fontSize: 24.sp,
               fontWeight: FontWeight.bold,
-              color: AppColor.primaryColor,
+              color: AppColor.primaryDark,
             ),
           ),
 
@@ -55,7 +55,7 @@ class SuccefullStorysSection extends StatelessWidget {
             'آراء بعض الطلاب الذين حققوا طموحاتهم وتفوقوا في القدرات مع منصة الأديب.',
             textAlign: TextAlign.center,
             style: TextStyle(
-              color: AppColor.primaryColor.withValues(alpha: 0.6),
+              color: AppColor.primaryDark.withValues(alpha: 0.6),
               fontSize: 13.sp,
               height: 1.7,
             ),
@@ -68,7 +68,8 @@ class SuccefullStorysSection extends StatelessWidget {
             name: 'أحمد عبدالله',
             score: '98%',
             category: 'اللفظي',
-            comment: 'منصة رائعة جداً، المحاكي فادني بشكل كبير في كسر رهبة الاختبار الحقيقي، وأسئلة التجميعات بالبنك مطابقة تماماً لما جاءني في قياس الفعلي.',
+            comment:
+                'منصة رائعة جداً، المحاكي فادني بشكل كبير في كسر رهبة الاختبار الحقيقي، وأسئلة التجميعات بالبنك مطابقة تماماً لما جاءني في قياس الفعلي.',
             initial: 'أ',
             color: Colors.blue.shade900,
           ),
@@ -77,7 +78,8 @@ class SuccefullStorysSection extends StatelessWidget {
             name: 'سارة محمد',
             score: '100%',
             category: 'اللفظي',
-            comment: 'شرح الأستاذ صلاح لا يعلى عليه، يبسط المعلومة بشكل عجيب. ونظام إجبار الترتيب في الدروس خلاني ألتزم وأذاكر صح.',
+            comment:
+                'شرح الأستاذ صلاح لا يعلى عليه، يبسط المعلومة بشكل عجيب. ونظام إجبار الترتيب في الدروس خلاني ألتزم وأذاكر صح.',
             initial: 'س',
             color: Colors.purple.shade900,
           ),
@@ -86,7 +88,8 @@ class SuccefullStorysSection extends StatelessWidget {
             name: 'خالد فهد',
             score: '97%',
             category: 'اللفظي',
-            comment: 'لوحة الشرف خلتني أتحمس أراجع وأجيب درجات أعلى في الاختبارات عشان أطلع المركز الأول. شكراً لمنصة الأديب على هذا الإبداع!',
+            comment:
+                'لوحة الشرف خلتني أتحمس أراجع وأجيب درجات أعلى في الاختبارات عشان أطلع المركز الأول. شكراً لمنصة الأديب على هذا الإبداع!',
             initial: 'خ',
             color: Colors.teal.shade900,
           ),
@@ -123,7 +126,7 @@ class _StoryCard extends StatelessWidget {
         border: Border.all(color: Colors.grey.shade100),
         boxShadow: [
           BoxShadow(
-            color: AppColor.primaryColor.withValues(alpha: 0.06),
+            color: AppColor.primaryDark.withValues(alpha: 0.06),
             blurRadius: 16,
             offset: const Offset(0, 4),
           ),
@@ -136,11 +139,19 @@ class _StoryCard extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Icon(Icons.format_quote_rounded, size: 32, color: Colors.black12),
+              const Icon(
+                Icons.format_quote_rounded,
+                size: 32,
+                color: Colors.black12,
+              ),
               Row(
                 children: List.generate(
                   5,
-                  (i) => Icon(Icons.star_rounded, color: Colors.amber, size: 16.sp),
+                  (i) => Icon(
+                    Icons.star_rounded,
+                    color: Colors.amber,
+                    size: 16.sp,
+                  ),
                 ),
               ),
             ],
@@ -155,7 +166,7 @@ class _StoryCard extends StatelessWidget {
             style: TextStyle(
               fontSize: 13.sp,
               height: 1.7,
-              color: AppColor.primaryColor.withValues(alpha: 0.75),
+              color: AppColor.primaryDark.withValues(alpha: 0.75),
             ),
           ),
 
@@ -186,7 +197,7 @@ class _StoryCard extends StatelessWidget {
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 14.sp,
-                      color: AppColor.primaryColor,
+                      color: AppColor.primaryDark,
                     ),
                   ),
                   SizedBox(height: 4.h),
@@ -201,7 +212,11 @@ class _StoryCard extends StatelessWidget {
                         ),
                       ),
                       SizedBox(width: 4.w),
-                      Icon(Icons.trending_up_rounded, color: Colors.green, size: 14.sp),
+                      Icon(
+                        Icons.trending_up_rounded,
+                        color: Colors.green,
+                        size: 14.sp,
+                      ),
                     ],
                   ),
                 ],

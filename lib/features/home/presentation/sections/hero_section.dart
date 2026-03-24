@@ -1,8 +1,6 @@
-import 'dart:developer';
-
+import 'package:aladeep/core/routes/app_routs_name.dart';
 import 'package:aladeep/core/themes/app_color.dart';
 import 'package:aladeep/core/utils/custom_button.dart';
-import 'package:aladeep/features/authentication/login/view/presntation/login.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -33,10 +31,10 @@ class HeroSection extends StatelessWidget {
           Container(
             padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
             decoration: BoxDecoration(
-              color: AppColor.secondaryColor.withValues(alpha: 0.15),
+              color: AppColor.primaryGold.withValues(alpha: 0.15),
               borderRadius: BorderRadius.circular(30),
               border: Border.all(
-                color: AppColor.secondaryColor.withValues(alpha: 0.4),
+                color: AppColor.primaryGold.withValues(alpha: 0.4),
               ),
             ),
             child: Row(
@@ -44,14 +42,14 @@ class HeroSection extends StatelessWidget {
               children: [
                 Icon(
                   Icons.auto_awesome,
-                  color: AppColor.secondaryColor,
+                  color: AppColor.primaryGold,
                   size: 14.sp,
                 ),
                 SizedBox(width: 6.w),
                 Text(
                   'منصة تعليمية متخصصة #1',
                   style: TextStyle(
-                    color: AppColor.secondaryColor,
+                    color: AppColor.primaryGold,
                     fontSize: 12.sp,
                     fontWeight: FontWeight.w600,
                   ),
@@ -90,64 +88,22 @@ class HeroSection extends StatelessWidget {
           SizedBox(height: 40.h),
 
           CustomButton(
-            icon: Icons.rocket_launch,
             text: 'ابدأ التعلم الآن',
-            backgroundColor: AppColor.secondaryColor,
-            textColor: AppColor.primaryColor,
+            textColor: AppColor.primaryDarker,
+            icon: Icons.rocket_launch_sharp,
+            backgroundColor: AppColor.primaryGold,
+            onPressed: () =>
+                Navigator.pushNamed(context, AppRoutsName.loginView),
           ),
-          SizedBox(height: 14.h),
-
-          TextButton(
-            onPressed: () {
-              log("Navigator to login");
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const LoginView()),
-              );
-            },
-            child: Text(
-              'تسجيل الدخول',
-              style: TextStyle(color: Colors.white, fontSize: 14.sp),
-            ),
-          ),
-
-          SizedBox(height: 48.h),
-
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              _TrustBadge(icon: Icons.verified_user, text: 'آمن 100%'),
-              SizedBox(width: 20.w),
-              _TrustBadge(icon: Icons.support_agent, text: 'دعم 24/7'),
-              SizedBox(width: 20.w),
-              _TrustBadge(icon: Icons.groups, text: '+10,000 طالب'),
-            ],
+          SizedBox(height: 16.h),
+          CustomButton(
+            text: 'تسجيل الدخول',
+            backgroundColor: AppColor.primaryDark,
+            onPressed: () =>
+                Navigator.pushNamed(context, AppRoutsName.loginView),
           ),
         ],
       ),
-    );
-  }
-}
-
-class _TrustBadge extends StatelessWidget {
-  final IconData icon;
-  final String text;
-  const _TrustBadge({required this.icon, required this.text});
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Icon(icon, color: AppColor.secondaryColor, size: 20.sp),
-        SizedBox(height: 4.h),
-        Text(
-          text,
-          style: TextStyle(
-            color: Colors.white.withValues(alpha: 0.7),
-            fontSize: 10.sp,
-          ),
-        ),
-      ],
     );
   }
 }
