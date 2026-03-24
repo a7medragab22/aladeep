@@ -1,8 +1,6 @@
-import 'dart:developer';
-
+import 'package:aladeep/core/routes/app_routs_name.dart';
 import 'package:aladeep/core/themes/app_color.dart';
 import 'package:aladeep/core/utils/custom_button.dart';
-import 'package:aladeep/features/authentication/login/view/presntation/login.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -90,38 +88,19 @@ class HeroSection extends StatelessWidget {
           SizedBox(height: 40.h),
 
           CustomButton(
-            icon: Icons.rocket_launch,
             text: 'ابدأ التعلم الآن',
+            textColor: AppColor.primaryDarker,
+            icon: Icons.rocket_launch_sharp,
             backgroundColor: AppColor.primaryGold,
-            textColor: AppColor.primaryDark,
+            onPressed: () =>
+                Navigator.pushNamed(context, AppRoutsName.loginView),
           ),
-          SizedBox(height: 14.h),
-
-          TextButton(
-            onPressed: () {
-              log("Navigator to login");
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const LoginView()),
-              );
-            },
-            child: Text(
-              'تسجيل الدخول',
-              style: TextStyle(color: Colors.white, fontSize: 14.sp),
-            ),
-          ),
-
-          SizedBox(height: 48.h),
-
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              _TrustBadge(icon: Icons.verified_user, text: 'آمن 100%'),
-              SizedBox(width: 20.w),
-              _TrustBadge(icon: Icons.support_agent, text: 'دعم 24/7'),
-              SizedBox(width: 20.w),
-              _TrustBadge(icon: Icons.groups, text: '+10,000 طالب'),
-            ],
+          SizedBox(height: 16.h),
+          CustomButton(
+            text: 'تسجيل الدخول',
+            backgroundColor: AppColor.primaryDark,
+            onPressed: () =>
+                Navigator.pushNamed(context, AppRoutsName.loginView),
           ),
         ],
       ),

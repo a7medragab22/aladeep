@@ -5,19 +5,19 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class CustomButton extends StatelessWidget {
   const CustomButton({
     super.key,
-     this.icon,
+    this.icon,
     required this.text,
-     this.backgroundColor = AppColor.secondaryColor,
+    this.backgroundColor = AppColor.primaryGold,
     this.textColor = Colors.white,
     this.borderColor,
-    this.onTap,
+    this.onPressed,
   });
   final IconData? icon;
   final String text;
   final Color? backgroundColor;
   final Color textColor;
   final Color? borderColor;
-  final VoidCallback? onTap;
+  final VoidCallback? onPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +25,7 @@ class CustomButton extends StatelessWidget {
       height: 55,
       width: double.infinity,
       child: ElevatedButton.icon(
-        onPressed: () {},
+        onPressed: onPressed,
         icon: Icon(icon),
         label: Text(text),
         style: ElevatedButton.styleFrom(
