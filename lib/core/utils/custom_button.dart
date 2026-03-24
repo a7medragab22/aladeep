@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -9,11 +8,14 @@ class CustomButton extends StatelessWidget {
     required this.text,
     required this.backgroundColor,
     this.textColor = Colors.white,
+    this.borderColor,
   });
   final IconData icon;
   final String text;
   final Color backgroundColor;
   final Color textColor;
+  final Color? borderColor;
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -26,9 +28,13 @@ class CustomButton extends StatelessWidget {
         style: ElevatedButton.styleFrom(
           backgroundColor: backgroundColor,
           foregroundColor: textColor,
-          textStyle: TextStyle(fontWeight: FontWeight.bold, fontSize: 18.sp),
+          elevation: 0,
+          textStyle: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.sp),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(30),
+            side: borderColor != null
+                ? BorderSide(color: borderColor!)
+                : BorderSide.none,
           ),
         ),
       ),

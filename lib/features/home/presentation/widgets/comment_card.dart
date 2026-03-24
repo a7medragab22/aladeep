@@ -1,4 +1,3 @@
-
 import 'package:aladeep/core/themes/app_color.dart';
 import 'package:aladeep/features/home/domain/entities/comment_entity.dart';
 import 'package:flutter/material.dart';
@@ -12,128 +11,113 @@ class CommentCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      padding: const EdgeInsets.all(16),
+      margin: EdgeInsets.symmetric(horizontal: 20.w, vertical: 8.h),
+      padding: EdgeInsets.all(20.r),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: Colors.grey.shade200),
+        border: Border.all(color: Colors.grey.shade100),
+        boxShadow: [
+          BoxShadow(
+            color: AppColor.primaryColor.withValues(alpha: 0.05),
+            blurRadius: 16,
+            offset: const Offset(0, 4),
+          ),
+        ],
       ),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.end,
         children: [
-          _Header(rating: comment.rating),
-           SizedBox(height: 12.h),
-          _CommentText(text: comment.comment),
-           SizedBox(height: 16.h),
-          const Divider(),
-           SizedBox(height: 12.h),
-          _Footer(comment: comment),
+          // Header: quote icon + stars
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Icon(Icons.format_quote_rounded, size: 32, color: Colors.black12),
+              Row(
+                children: List.generate(
+                  5,
+                  (index) => Icon(
+                    Icons.star_rounded,
+                    color: index < comment.rating ? Colors.amber : Colors.grey.shade200,
+                    size: 16.sp,
+                  ),
+                ),
+              ),
+            ],
+          ),
+
+          SizedBox(height: 12.h),
+
+          // Comment text
+          Text(
+            comment.comment,
+            textAlign: TextAlign.right,
+            textDirection: TextDirection.rtl,
+            style: TextStyle(
+              fontSize: 13.sp,
+              height: 1.7,
+              color: AppColor.primaryColor.withValues(alpha: 0.75),
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+
+          SizedBox(height: 16.h),
+          Divider(color: Colors.grey.shade100),
+          SizedBox(height: 12.h),
+
+          // Footer: avatar + name + score
+          Row(
+            children: [
+              // Avatar
+              CircleAvatar(
+                radius: 22,
+                backgroundColor: Colors.blue.shade900,
+                child: Text(
+                  comment.name.isNotEmpty ? comment.name[0] : '?',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16.sp,
+                  ),
+                ),
+              ),
+
+              const Spacer(),
+
+              // Name + score
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Text(
+                    comment.name,
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 14.sp,
+                      color: AppColor.primaryColor,
+                    ),
+                  ),
+                  SizedBox(height: 4.h),
+                  Row(
+                    children: [
+                      Text(
+                        '${comment.score}% - ${comment.category}',
+                        style: TextStyle(
+                          color: Colors.green.shade600,
+                          fontWeight: FontWeight.w600,
+                          fontSize: 12.sp,
+                        ),
+                      ),
+                      SizedBox(width: 4.w),
+                      Icon(Icons.trending_up_rounded,
+                          color: Colors.green, size: 14.sp),
+                    ],
+                  ),
+                ],
+              ),
+            ],
+          ),
         ],
       ),
     );
   }
 }
-class _Header extends StatelessWidget {
-  final int rating;
-
-  const _Header({required this.rating});
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        const Icon(Icons.format_quote, size: 40, color: Colors.grey),
-        Row(
-          children: List.generate(
-            5,
-            (index) => Icon(
-              Icons.star,
-              color: index < rating ? Colors.amber : Colors.grey.shade300,
-              size: 20,
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-}
-class _CommentText extends StatelessWidget {
-  final String text;
-
-  const _CommentText({required this.text});
-
-  @override
-  Widget build(BuildContext context) {
-    return Text(
-      text,
-      textAlign: TextAlign.right,
-      style: const TextStyle(
-        fontSize: 16,
-        height: 1.6,
-        fontWeight: FontWeight.w500,
-        color: AppColor.primaryColor
-      ),
-    );
-  }
-}
-
-class _Footer extends StatelessWidget {
-  final CommentEntity comment;
-
-  const _Footer({required this.comment});
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        _Avatar(name: comment.name),
-        const Spacer(),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: [
-            Text(
-              comment.name,
-              style: const TextStyle(
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            const SizedBox(height: 4),
-            Row(
-              children: [
-                const Icon(Icons.trending_up, color: Colors.green, size: 16),
-                const SizedBox(width: 4),
-                Text(
-                  "${comment.score}% - ${comment.category}",
-                  style: const TextStyle(
-                    color: Colors.green,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ),
-      ],
-    );
-  }
-}
-class _Avatar extends StatelessWidget {
-  final String name;
-
-  const _Avatar({required this.name});
-
-  @override
-  Widget build(BuildContext context) {
-    return CircleAvatar(
-      radius: 22,
-      backgroundColor: Colors.blue.shade900,
-      child: Text(
-        name[0],
-        style: const TextStyle(color: Colors.white),
-      ),
-    );
-  }
-}
-

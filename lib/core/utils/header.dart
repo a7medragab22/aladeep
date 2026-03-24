@@ -7,22 +7,59 @@ class Header extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
+      decoration: const BoxDecoration(color: Color(0xFF0A1F2E)),
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
+          // Menu button
           Container(
-            width: 45.w,
-            height: 45.h,
+            width: 42.w,
+            height: 42.h,
             decoration: BoxDecoration(
-              border: Border.all(color: AppColor.secondaryColor),
+              border: Border.all(
+                color: AppColor.secondaryColor.withValues(alpha: 0.5),
+              ),
               borderRadius: BorderRadius.circular(12.r),
             ),
-            child: Center(
-              child: IconButton(
-                onPressed: () {},
-                icon: Icon(Icons.menu, size: 24.sp),
-              ),
+            child: IconButton(
+              onPressed: () {
+                Scaffold.of(context).openEndDrawer();
+              },
+              icon: Icon(Icons.menu, size: 22.sp, color: Colors.white),
+              padding: EdgeInsets.zero,
+            ),
+          ),
+
+          // Logo text
+          RichText(
+            text: TextSpan(
+              children: [
+                TextSpan(
+                  text: 'الأديب ',
+                  style: TextStyle(
+                    color: AppColor.secondaryColor,
+                    fontSize: 20.sp,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                TextSpan(
+                  text: '|',
+                  style: TextStyle(
+                    color: Colors.white.withValues(alpha: 0.3),
+                    fontSize: 20.sp,
+                  ),
+                ),
+                TextSpan(
+                  text: ' القدرات',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 16.sp,
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
+              ],
             ),
           ),
         ],

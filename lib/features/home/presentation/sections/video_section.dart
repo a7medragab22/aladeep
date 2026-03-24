@@ -8,18 +8,19 @@ class VideoSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 80),
+      padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 60.h),
       decoration: const BoxDecoration(
         gradient: LinearGradient(
-          colors: [Color(0xFF0D2B45), Color(0xFF123D5C)],
+          colors: [Color(0xFF0D2B45), Color(0xFF0A1F2E)],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
         ),
       ),
       child: Column(
         children: [
-          SizedBox(height: 20.h),
-
           Text(
-            "اكتشف منصة الأديب",
+            'اكتشف منصة الأديب',
+            textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 24.sp,
               fontWeight: FontWeight.bold,
@@ -27,22 +28,89 @@ class VideoSection extends StatelessWidget {
             ),
           ),
 
-          SizedBox(height: 10.h),
+          SizedBox(height: 8.h),
 
           Text(
-            "شاهد كيف نصنع التفوق ونغير مفهوم المذاكرة التقليدية",
+            'شاهد كيف نصنع التفوق ونغير مفهوم المذاكرة التقليدية',
             textAlign: TextAlign.center,
-            style: TextStyle(color: Colors.white, fontSize: 14.sp),
+            style: TextStyle(
+              color: Colors.white.withValues(alpha: 0.7),
+              fontSize: 13.sp,
+              height: 1.6,
+            ),
           ),
 
-          const SizedBox(height: 20),
+          SizedBox(height: 28.h),
 
-          ClipRRect(
-            borderRadius: BorderRadius.circular(16),
-            child: AspectRatio(
-              aspectRatio: 16 / 9,
-              child: SizedBox(),
-              //  PlayerYouTubeVideo(),
+          // Video placeholder
+          Container(
+            width: double.infinity,
+            height: 200.h,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20),
+              border: Border.all(
+                color: AppColor.secondaryColor.withValues(alpha: 0.3),
+                width: 1.5,
+              ),
+              gradient: LinearGradient(
+                colors: [
+                  AppColor.primaryColor.withValues(alpha: 0.8),
+                  const Color(0xFF0A1F2E),
+                ],
+              ),
+            ),
+            child: Stack(
+              alignment: Alignment.center,
+              children: [
+                // Decorative circles
+                Positioned(
+                  top: -20,
+                  right: -20,
+                  child: Container(
+                    width: 100,
+                    height: 100,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: AppColor.secondaryColor.withValues(alpha: 0.06),
+                    ),
+                  ),
+                ),
+
+                // Play button
+                Container(
+                  padding: EdgeInsets.all(18.r),
+                  decoration: BoxDecoration(
+                    color: AppColor.secondaryColor,
+                    shape: BoxShape.circle,
+                    boxShadow: [
+                      BoxShadow(
+                        color: AppColor.secondaryColor.withValues(alpha: 0.4),
+                        blurRadius: 20,
+                        spreadRadius: 2,
+                      ),
+                    ],
+                  ),
+                  child: Icon(
+                    Icons.play_arrow_rounded,
+                    color: AppColor.primaryColor,
+                    size: 36.sp,
+                  ),
+                ),
+
+                Positioned(
+                  bottom: 14,
+                  left: 0,
+                  right: 0,
+                  child: Text(
+                    'اضغط لمشاهدة الفيديو التعريفي',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Colors.white.withValues(alpha: 0.5),
+                      fontSize: 11.sp,
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
         ],

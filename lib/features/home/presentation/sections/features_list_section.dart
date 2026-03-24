@@ -1,4 +1,3 @@
-
 import 'package:aladeep/core/themes/app_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -7,47 +6,84 @@ class _FeatureCard extends StatelessWidget {
   final String title;
   final String description;
   final IconData icon;
+  final int index;
 
   const _FeatureCard({
     required this.title,
     required this.description,
     required this.icon,
+    required this.index,
   });
 
   @override
   Widget build(BuildContext context) {
+    final bool isDark = index.isOdd;
+
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 32, vertical: 24),
-      padding: const EdgeInsets.symmetric(vertical: 80),
+      margin: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
+      padding: EdgeInsets.all(24.r),
       decoration: BoxDecoration(
-        color: Colors.grey.shade100,
-        borderRadius: BorderRadius.circular(16),
+        color: isDark ? AppColor.primaryColor : Colors.white,
+        borderRadius: BorderRadius.circular(24),
+        border: isDark
+            ? null
+            : Border.all(color: AppColor.primaryColor.withValues(alpha: 0.08)),
+        boxShadow: [
+          BoxShadow(
+            color: AppColor.primaryColor.withValues(alpha: isDark ? 0.2 : 0.06),
+            blurRadius: 20,
+            offset: const Offset(0, 6),
+          ),
+        ],
       ),
-      child: Column(
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          // Icon box
           Container(
-            padding: EdgeInsets.all(16),
+            padding: EdgeInsets.all(14.r),
             decoration: BoxDecoration(
+              color: AppColor.secondaryColor.withValues(alpha: isDark ? 0.15 : 0.1),
               borderRadius: BorderRadius.circular(16),
-              color: AppColor.secondaryColor.withValues(alpha: .2),
             ),
-            child: Icon(icon, size: 60.sp, color: AppColor.secondaryColor),
-          ),
-          SizedBox(height: 16.h),
-          Text(
-            title,
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              color: AppColor.primaryColor,
-              fontSize: 24.sp,
+            child: Icon(
+              icon,
+              size: 28.sp,
+              color: AppColor.secondaryColor,
             ),
           ),
-          SizedBox(height: 12.h),
-          Text(
-            description,
-            textAlign: TextAlign.center,
-            textDirection: TextDirection.rtl,
-            style: TextStyle(color: AppColor.primaryColor, fontSize: 16.sp),
+
+          SizedBox(width: 16.w),
+
+          // Text
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Text(
+                  title,
+                  textAlign: TextAlign.right,
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: isDark ? Colors.white : AppColor.primaryColor,
+                    fontSize: 16.sp,
+                  ),
+                ),
+                SizedBox(height: 8.h),
+                Text(
+                  description,
+                  textAlign: TextAlign.right,
+                  textDirection: TextDirection.rtl,
+                  style: TextStyle(
+                    color: isDark
+                        ? Colors.white.withValues(alpha: 0.65)
+                        : AppColor.primaryColor.withValues(alpha: 0.6),
+                    fontSize: 12.sp,
+                    height: 1.7,
+                  ),
+                ),
+              ],
+            ),
           ),
         ],
       ),
@@ -62,53 +98,50 @@ class FeaturesListSection extends StatelessWidget {
   Widget build(BuildContext context) {
     final features = [
       {
-        "title": "محاكي قياس الذكي",
-        "desc":
-            'اختبارات عشوائية تسحب من بنك أسئلة ضخم لتوفير تجربة مطابقة تماماً لاختبار قياس الحقيقي، مع تصحيح فوري.',
-        "icon": Icons.psychology,
+        'title': 'محاكي قياس الذكي',
+        'desc': 'اختبارات عشوائية تسحب من بنك أسئلة ضخم لتوفير تجربة مطابقة تماماً لاختبار قياس الحقيقي، مع تصحيح فوري.',
+        'icon': Icons.psychology_rounded,
       },
       {
-        "title": "مسار تعليمي متدرج",
-        "desc":
-            'لن تتجاوز أي خطوة قبل إتقانها! نظامنا المبتكر يجبرك على اجتياز الاختبارات لفتح الدروس التالية لضمان الفهم العميق.',
-        "icon": Icons.route,
+        'title': 'مسار تعليمي متدرج',
+        'desc': 'لن تتجاوز أي خطوة قبل إتقانها! نظامنا المبتكر يجبرك على اجتياز الاختبارات لفتح الدروس التالية لضمان الفهم العميق.',
+        'icon': Icons.route_rounded,
       },
       {
-        "title": 'بيئة آمنة ومركزة',
-        "desc":
-            'حماية كاملة لحسابك، وتجربة خالية من التشتت الإعلاني مع مشغل فيديوهات مخصص وملازم تفاعلية جاهزة للطباعة.',
-        "icon": Icons.privacy_tip,
+        'title': 'بيئة آمنة ومركزة',
+        'desc': 'حماية كاملة لحسابك، وتجربة خالية من التشتت الإعلاني مع مشغل فيديوهات مخصص وملازم تفاعلية جاهزة للطباعة.',
+        'icon': Icons.privacy_tip_rounded,
       },
       {
-        "title": 'تواصل مباشر ومستمر',
-        "desc":
-            'منتدى نقاشات تفاعلي أسفل كل دورة لطرح الأسئلة، بالإضافة إلى بثوث مباشرة مجدولة للمراجعة المباشرة مع المدرب.',
-        "icon": Icons.message,
+        'title': 'تواصل مباشر ومستمر',
+        'desc': 'منتدى نقاشات تفاعلي أسفل كل دورة لطرح الأسئلة، بالإضافة إلى بثوث مباشرة مجدولة للمراجعة مع المدرب.',
+        'icon': Icons.forum_rounded,
       },
       {
-        "title": 'لوحة شرف تنافسية',
-        "desc":
-            'تنافس مع زملائك وتصدر لوحة الشرف الخاصة بالدورة بناءً على متوسط نتائجك في الاختبارات لزيادة حماسك وشغفك',
-        "icon": Icons.gif_box,
+        'title': 'لوحة شرف تنافسية',
+        'desc': 'تنافس مع زملائك وتصدر لوحة الشرف الخاصة بالدورة بناءً على متوسط نتائجك في الاختبارات لزيادة حماسك.',
+        'icon': Icons.emoji_events_rounded,
       },
       {
-        "title": 'شهادات اجتياز معتمدة',
-        "desc":
-            'احصل على شهادة تفوق فور اجتيازك للاختبار النهائي، توثق مجهودك ونسبة إنجازك في الدورة التدريبية.',
-
-        "icon": Icons.verified,
+        'title': 'شهادات اجتياز معتمدة',
+        'desc': 'احصل على شهادة تفوق فور اجتيازك للاختبار النهائي، توثق مجهودك ونسبة إنجازك في الدورة التدريبية.',
+        'icon': Icons.verified_rounded,
       },
     ];
 
     return SliverList(
-      delegate: SliverChildBuilderDelegate((context, index) {
-        final item = features[index];
-        return _FeatureCard(
-          title: item["title"] as String,
-          description: item["desc"] as String,
-          icon: item["icon"] as IconData,
-        );
-      }, childCount: features.length),
+      delegate: SliverChildBuilderDelegate(
+        (context, index) {
+          final item = features[index];
+          return _FeatureCard(
+            title: item['title'] as String,
+            description: item['desc'] as String,
+            icon: item['icon'] as IconData,
+            index: index,
+          );
+        },
+        childCount: features.length,
+      ),
     );
   }
 }
