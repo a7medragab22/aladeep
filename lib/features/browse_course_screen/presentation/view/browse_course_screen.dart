@@ -57,7 +57,7 @@ class BrowseCoursesScreen extends StatelessWidget {
                         style: TextStyle(
                           fontSize: 18.sp,
                           fontWeight: FontWeight.bold,
-                          color: AppColor.textDark,
+                          color: AppColor.primaryDarker,
                           fontFamily: 'Cairo',
                         ),
                       ),

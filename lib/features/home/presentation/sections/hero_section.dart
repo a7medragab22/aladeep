@@ -33,10 +33,10 @@ class HeroSection extends StatelessWidget {
           Container(
             padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
             decoration: BoxDecoration(
-              color: AppColor.secondaryColor.withValues(alpha: 0.15),
+              color: AppColor.primaryGold.withValues(alpha: 0.15),
               borderRadius: BorderRadius.circular(30),
               border: Border.all(
-                color: AppColor.secondaryColor.withValues(alpha: 0.4),
+                color: AppColor.primaryGold.withValues(alpha: 0.4),
               ),
             ),
             child: Row(
@@ -44,14 +44,14 @@ class HeroSection extends StatelessWidget {
               children: [
                 Icon(
                   Icons.auto_awesome,
-                  color: AppColor.secondaryColor,
+                  color: AppColor.primaryGold,
                   size: 14.sp,
                 ),
                 SizedBox(width: 6.w),
                 Text(
                   'منصة تعليمية متخصصة #1',
                   style: TextStyle(
-                    color: AppColor.secondaryColor,
+                    color: AppColor.primaryGold,
                     fontSize: 12.sp,
                     fontWeight: FontWeight.w600,
                   ),
@@ -92,8 +92,8 @@ class HeroSection extends StatelessWidget {
           CustomButton(
             icon: Icons.rocket_launch,
             text: 'ابدأ التعلم الآن',
-            backgroundColor: AppColor.secondaryColor,
-            textColor: AppColor.primaryColor,
+            backgroundColor: AppColor.primaryGold,
+            textColor: AppColor.primaryDark,
           ),
           SizedBox(height: 14.h),
 
@@ -138,7 +138,7 @@ class _TrustBadge extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Icon(icon, color: AppColor.secondaryColor, size: 20.sp),
+        Icon(icon, color: AppColor.primaryGold, size: 20.sp),
         SizedBox(height: 4.h),
         Text(
           text,

@@ -64,7 +64,7 @@ class AboutInstructorScreen extends StatelessWidget {
                         style: TextStyle(
                           fontSize: 28.sp,
                           fontWeight: FontWeight.bold,
-                          color: AppColor.textDark,
+                          color: AppColor.primaryDarker,
                           fontFamily: 'Cairo',
                         ),
                       ),
@@ -164,7 +164,7 @@ class AboutInstructorScreen extends StatelessWidget {
           style: TextStyle(
             fontSize: 22.sp,
             fontWeight: FontWeight.bold,
-            color: AppColor.textDark,
+            color: AppColor.primaryDarker,
             fontFamily: 'Cairo',
           ),
         ),

@@ -7,13 +7,13 @@ class CustomTextField extends StatefulWidget {
   final String hint;
   final TextEditingController controller;
   final bool isPassword;
-final Widget? suffixIcon;
+  final Widget? suffixIcon;
   const CustomTextField({
     super.key,
     required this.label,
     required this.hint,
     required this.controller,
-     this.suffixIcon,
+    this.suffixIcon,
     this.isPassword = false,
   });
 
@@ -35,7 +35,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
           style: const TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.w500,
-            color: AppColor.primaryColor,
+            color: AppColor.primaryDark,
           ),
         ),
 
@@ -69,7 +69,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
                     },
                   )
                 : null,
-            prefixIconColor: Colors.grey  ,
+            prefixIconColor: Colors.grey,
             filled: true,
             fillColor: const Color(0xffF3F4F6),
 

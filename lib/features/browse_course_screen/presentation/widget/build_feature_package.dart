@@ -51,7 +51,7 @@ class BuildFeaturePackage extends StatelessWidget {
                     vertical: 4.h,
                   ),
                   decoration: BoxDecoration(
-                    color: AppColor.lightGold,
+                    color: AppColor.primaryLightGold,
                     borderRadius: BorderRadius.circular(20.r),
                   ),
                   child: Text(
@@ -101,7 +101,7 @@ class BuildFeaturePackage extends StatelessWidget {
                           style: TextStyle(
                             fontSize: 22.sp,
                             fontWeight: FontWeight.bold,
-                            color: AppColor.lightGold,
+                            color: AppColor.primaryLightGold,
                             fontFamily: 'Cairo',
                           ),
                         ),
@@ -110,7 +110,7 @@ class BuildFeaturePackage extends StatelessWidget {
                     ElevatedButton(
                       onPressed: () {},
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColor.lightGold,
+                        backgroundColor: AppColor.primaryLightGold,
                         foregroundColor: AppColor.primaryGreen,
                         padding: EdgeInsets.symmetric(
                           horizontal: 20.w,

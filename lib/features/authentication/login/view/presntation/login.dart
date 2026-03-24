@@ -59,7 +59,7 @@ class _LoginViewState extends State<LoginView> {
                     Text(
                       'مرحباً بعودتك',
                       style: TextStyle(
-                        color: AppColor.primaryColor, // نص كحلي واضح
+                        color: AppColor.primaryDark, // نص كحلي واضح
                         fontSize: 26.sp,
                         fontWeight: FontWeight.bold,
                       ),
@@ -69,7 +69,7 @@ class _LoginViewState extends State<LoginView> {
                       'قم بتسجيل الدخول لمواصلة رحلة التفوق',
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                        color: AppColor.primaryColor.withValues(alpha: 0.6),
+                        color: AppColor.primaryDark.withValues(alpha: 0.6),
                         fontSize: 13.sp,
                         height: 1.6,
                       ),
@@ -113,7 +113,7 @@ class _LoginViewState extends State<LoginView> {
         border: Border.all(color: Colors.grey.shade100),
         boxShadow: [
           BoxShadow(
-            color: AppColor.primaryColor.withValues(alpha: 0.05),
+            color: AppColor.primaryDark.withValues(alpha: 0.05),
             blurRadius: 30,
             offset: const Offset(0, 10),
           ),
@@ -153,8 +153,8 @@ class _LoginViewState extends State<LoginView> {
 
           CustomButton(
             text: 'دخول للمنصه',
-            backgroundColor: AppColor.primaryColor,
-            textColor: AppColor.secondaryColor,
+            backgroundColor: AppColor.primaryDark,
+            textColor: AppColor.primaryGold,
           ),
           SizedBox(height: 16.h),
           Row(
@@ -167,14 +167,14 @@ class _LoginViewState extends State<LoginView> {
                 child: Text(
                   'قم بانشاء حساب الان',
                   style: TextStyle(
-                    color: AppColor.secondaryColor,
+                    color: AppColor.primaryGold,
                     fontSize: 12.sp,
                   ),
                 ),
               ),
               Text(
                 'طالب جديد معنا؟',
-                style: TextStyle(color: AppColor.primaryColor, fontSize: 12.sp),
+                style: TextStyle(color: AppColor.primaryDark, fontSize: 12.sp),
               ),
             ],
           ),
@@ -188,17 +188,15 @@ class _LoginViewState extends State<LoginView> {
       width: 72.w,
       height: 72.h,
       decoration: BoxDecoration(
-        color: AppColor.secondaryColor.withValues(alpha: 0.1),
+        color: AppColor.primaryGold.withValues(alpha: 0.1),
         shape: BoxShape.circle,
-        border: Border.all(
-          color: AppColor.secondaryColor.withValues(alpha: 0.2),
-        ),
+        border: Border.all(color: AppColor.primaryGold.withValues(alpha: 0.2)),
       ),
       child: Center(
         child: Text(
           'أ',
           style: TextStyle(
-            color: AppColor.secondaryColor,
+            color: AppColor.primaryGold,
             fontSize: 28.sp,
             fontWeight: FontWeight.bold,
           ),

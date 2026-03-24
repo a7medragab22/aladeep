@@ -11,7 +11,7 @@ class FieldLabel extends StatelessWidget {
     return Text(
       label,
       style: TextStyle(
-        color: AppColor.primaryColor,
+        color: AppColor.primaryDark,
         fontSize: 13.sp,
         fontWeight: FontWeight.w600,
       ),

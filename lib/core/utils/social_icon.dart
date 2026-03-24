@@ -11,13 +11,13 @@ class SocialIcon extends StatelessWidget {
     return Container(
       padding: EdgeInsets.all(9.r),
       decoration: BoxDecoration(
-        color: AppColor.primaryColor.withValues(alpha: 0.05),
+        color: AppColor.primaryDark.withValues(alpha: 0.05),
         borderRadius: BorderRadius.circular(10),
-        border: Border.all(color: AppColor.primaryColor.withValues(alpha: 0.1)),
+        border: Border.all(color: AppColor.primaryDark.withValues(alpha: 0.1)),
       ),
       child: Icon(
         icon,
-        color: AppColor.primaryColor.withValues(alpha: 0.6),
+        color: AppColor.primaryDark.withValues(alpha: 0.6),
         size: 18.sp,
       ),
     );

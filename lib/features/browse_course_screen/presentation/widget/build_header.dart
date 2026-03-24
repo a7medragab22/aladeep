@@ -35,7 +35,7 @@ class BuildHeader extends StatelessWidget {
                         width: 36.w,
                         height: 36.h,
                         decoration: BoxDecoration(
-                          color: AppColor.lightGold,
+                          color: AppColor.primaryLightGold,
                           borderRadius: BorderRadius.circular(8.r),
                         ),
                         child: Icon(

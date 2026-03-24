@@ -17,7 +17,7 @@ class TestYourSelfSection extends StatelessWidget {
           radius: const Radius.circular(24),
           dashPattern: const [8, 4],
           strokeWidth: 2,
-          color: AppColor.secondaryColor.withValues(alpha: 0.6),
+          color: AppColor.primaryGold.withValues(alpha: 0.6),
           padding: EdgeInsets.zero,
         ),
         child: Container(
@@ -26,8 +26,8 @@ class TestYourSelfSection extends StatelessWidget {
           decoration: BoxDecoration(
             gradient: LinearGradient(
               colors: [
-                AppColor.secondaryColor.withValues(alpha: 0.06),
-                AppColor.primaryColor.withValues(alpha: 0.03),
+                AppColor.primaryGold.withValues(alpha: 0.06),
+                AppColor.primaryDark.withValues(alpha: 0.03),
               ],
               begin: Alignment.topRight,
               end: Alignment.bottomLeft,
@@ -40,13 +40,13 @@ class TestYourSelfSection extends StatelessWidget {
               Container(
                 padding: EdgeInsets.all(20.r),
                 decoration: BoxDecoration(
-                  color: AppColor.secondaryColor.withValues(alpha: 0.12),
+                  color: AppColor.primaryGold.withValues(alpha: 0.12),
                   shape: BoxShape.circle,
                 ),
                 child: Icon(
                   Icons.assignment_turned_in_rounded,
                   size: 52.sp,
-                  color: AppColor.secondaryColor,
+                  color: AppColor.primaryGold,
                 ),
               ),
 
@@ -77,7 +77,7 @@ class TestYourSelfSection extends StatelessWidget {
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   height: 1.5,
-                  color: AppColor.primaryColor,
+                  color: AppColor.primaryDark,
                   fontSize: 22.sp,
                 ),
               ),
@@ -89,7 +89,7 @@ class TestYourSelfSection extends StatelessWidget {
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   height: 1.7,
-                  color: AppColor.primaryColor.withValues(alpha: 0.65),
+                  color: AppColor.primaryDark.withValues(alpha: 0.65),
                   fontSize: 13.sp,
                 ),
               ),
@@ -99,8 +99,8 @@ class TestYourSelfSection extends StatelessWidget {
               CustomButton(
                 icon: Icons.play_arrow_rounded,
                 text: 'ابدأ الاختبار التشخيصي',
-                backgroundColor: AppColor.secondaryColor,
-                textColor: AppColor.primaryColor,
+                backgroundColor: AppColor.primaryGold,
+                textColor: AppColor.primaryDark,
               ),
             ],
           ),

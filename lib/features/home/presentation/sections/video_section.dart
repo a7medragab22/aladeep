@@ -24,7 +24,7 @@ class VideoSection extends StatelessWidget {
             style: TextStyle(
               fontSize: 24.sp,
               fontWeight: FontWeight.bold,
-              color: AppColor.secondaryColor,
+              color: AppColor.primaryGold,
             ),
           ),
 
@@ -49,12 +49,12 @@ class VideoSection extends StatelessWidget {
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),
               border: Border.all(
-                color: AppColor.secondaryColor.withValues(alpha: 0.3),
+                color: AppColor.primaryGold.withValues(alpha: 0.3),
                 width: 1.5,
               ),
               gradient: LinearGradient(
                 colors: [
-                  AppColor.primaryColor.withValues(alpha: 0.8),
+                  AppColor.primaryDark.withValues(alpha: 0.8),
                   const Color(0xFF0A1F2E),
                 ],
               ),
@@ -71,7 +71,7 @@ class VideoSection extends StatelessWidget {
                     height: 100,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      color: AppColor.secondaryColor.withValues(alpha: 0.06),
+                      color: AppColor.primaryGold.withValues(alpha: 0.06),
                     ),
                   ),
                 ),
@@ -80,11 +80,11 @@ class VideoSection extends StatelessWidget {
                 Container(
                   padding: EdgeInsets.all(18.r),
                   decoration: BoxDecoration(
-                    color: AppColor.secondaryColor,
+                    color: AppColor.primaryGold,
                     shape: BoxShape.circle,
                     boxShadow: [
                       BoxShadow(
-                        color: AppColor.secondaryColor.withValues(alpha: 0.4),
+                        color: AppColor.primaryGold.withValues(alpha: 0.4),
                         blurRadius: 20,
                         spreadRadius: 2,
                       ),
@@ -92,7 +92,7 @@ class VideoSection extends StatelessWidget {
                   ),
                   child: Icon(
                     Icons.play_arrow_rounded,
-                    color: AppColor.primaryColor,
+                    color: AppColor.primaryDark,
                     size: 36.sp,
                   ),
                 ),

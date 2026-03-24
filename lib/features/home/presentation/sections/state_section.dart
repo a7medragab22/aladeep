@@ -43,7 +43,7 @@ class _StatItem extends StatelessWidget {
           style: const TextStyle(
             fontSize: 42,
             fontWeight: FontWeight.bold,
-            color: AppColor.secondaryColor,
+            color: AppColor.primaryGold,
           ),
         ),
         const SizedBox(height: 4),
@@ -52,7 +52,7 @@ class _StatItem extends StatelessWidget {
           textAlign: TextAlign.center,
           style: const TextStyle(
             fontSize: 16,
-            color: AppColor.primaryColor,
+            color: AppColor.primaryDark,
             fontWeight: FontWeight.bold,
           ),
         ),

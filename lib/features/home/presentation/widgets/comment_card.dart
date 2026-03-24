@@ -19,7 +19,7 @@ class CommentCard extends StatelessWidget {
         border: Border.all(color: Colors.grey.shade100),
         boxShadow: [
           BoxShadow(
-            color: AppColor.primaryColor.withValues(alpha: 0.05),
+            color: AppColor.primaryDark.withValues(alpha: 0.05),
             blurRadius: 16,
             offset: const Offset(0, 4),
           ),
@@ -32,13 +32,19 @@ class CommentCard extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Icon(Icons.format_quote_rounded, size: 32, color: Colors.black12),
+              const Icon(
+                Icons.format_quote_rounded,
+                size: 32,
+                color: Colors.black12,
+              ),
               Row(
                 children: List.generate(
                   5,
                   (index) => Icon(
                     Icons.star_rounded,
-                    color: index < comment.rating ? Colors.amber : Colors.grey.shade200,
+                    color: index < comment.rating
+                        ? Colors.amber
+                        : Colors.grey.shade200,
                     size: 16.sp,
                   ),
                 ),
@@ -56,7 +62,7 @@ class CommentCard extends StatelessWidget {
             style: TextStyle(
               fontSize: 13.sp,
               height: 1.7,
-              color: AppColor.primaryColor.withValues(alpha: 0.75),
+              color: AppColor.primaryDark.withValues(alpha: 0.75),
               fontWeight: FontWeight.w500,
             ),
           ),
@@ -93,7 +99,7 @@ class CommentCard extends StatelessWidget {
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 14.sp,
-                      color: AppColor.primaryColor,
+                      color: AppColor.primaryDark,
                     ),
                   ),
                   SizedBox(height: 4.h),
@@ -108,8 +114,11 @@ class CommentCard extends StatelessWidget {
                         ),
                       ),
                       SizedBox(width: 4.w),
-                      Icon(Icons.trending_up_rounded,
-                          color: Colors.green, size: 14.sp),
+                      Icon(
+                        Icons.trending_up_rounded,
+                        color: Colors.green,
+                        size: 14.sp,
+                      ),
                     ],
                   ),
                 ],

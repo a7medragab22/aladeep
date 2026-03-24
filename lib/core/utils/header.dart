@@ -19,7 +19,7 @@ class Header extends StatelessWidget {
             height: 42.h,
             decoration: BoxDecoration(
               border: Border.all(
-                color: AppColor.secondaryColor.withValues(alpha: 0.5),
+                color: AppColor.primaryGold.withValues(alpha: 0.5),
               ),
               borderRadius: BorderRadius.circular(12.r),
             ),
@@ -39,7 +39,7 @@ class Header extends StatelessWidget {
                 TextSpan(
                   text: 'الأديب ',
                   style: TextStyle(
-                    color: AppColor.secondaryColor,
+                    color: AppColor.primaryGold,
                     fontSize: 20.sp,
                     fontWeight: FontWeight.bold,
                   ),
