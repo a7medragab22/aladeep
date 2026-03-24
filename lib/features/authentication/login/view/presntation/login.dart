@@ -1,5 +1,7 @@
+import 'package:aladeep/core/routes/app_routs_name.dart';
 import 'package:aladeep/core/themes/app_color.dart';
 import 'package:aladeep/core/utils/app_drawer.dart';
+import 'package:aladeep/core/utils/custom_button.dart';
 import 'package:aladeep/core/utils/header.dart';
 import 'package:aladeep/features/authentication/login/view/widgts/field_label.dart';
 import 'package:aladeep/features/authentication/login/view/widgts/input_field.dart';
@@ -149,25 +151,32 @@ class _LoginViewState extends State<LoginView> {
           ),
           SizedBox(height: 30.h),
 
-          // زر الدخول باللون البرتقالي/الأصفر (Secondary)
-          SizedBox(
-            width: double.infinity,
-            height: 52.h,
-            child: ElevatedButton(
-              onPressed: () {},
-              style: ElevatedButton.styleFrom(
-                backgroundColor: AppColor.secondaryColor,
-                foregroundColor: AppColor.primaryColor,
-                elevation: 0,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
+          CustomButton(
+            text: 'دخول للمنصه',
+            backgroundColor: AppColor.primaryColor,
+            textColor: AppColor.secondaryColor,
+          ),
+          SizedBox(height: 16.h),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              TextButton(
+                onPressed: () {
+                  Navigator.pushNamed(context, AppRoutsName.registerView);
+                },
+                child: Text(
+                  'قم بانشاء حساب الان',
+                  style: TextStyle(
+                    color: AppColor.secondaryColor,
+                    fontSize: 12.sp,
+                  ),
                 ),
               ),
-              child: Text(
-                'تسجيل الدخول',
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.sp),
+              Text(
+                'طالب جديد معنا؟',
+                style: TextStyle(color: AppColor.primaryColor, fontSize: 12.sp),
               ),
-            ),
+            ],
           ),
         ],
       ),
