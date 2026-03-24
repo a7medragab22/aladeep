@@ -1,4 +1,7 @@
+import 'package:aladeep/core/routes/app_routs_name.dart';
 import 'package:aladeep/core/themes/app_color.dart';
+import 'package:aladeep/core/utils/drawer_item.dart';
+import 'package:aladeep/core/utils/social_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -9,11 +12,11 @@ class AppDrawer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Drawer(
       width: 0.82.sw,
-      backgroundColor: const Color(0xFF0A1F2E),
+      backgroundColor: AppColor.white,
       child: SafeArea(
         child: Column(
           children: [
-            // Header with logo + close
+            // Header
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
               child: Row(
@@ -25,15 +28,17 @@ class AppDrawer extends StatelessWidget {
                     child: Container(
                       padding: EdgeInsets.all(8.r),
                       decoration: BoxDecoration(
-                        color: Colors.white.withValues(alpha: 0.07),
+                        color: AppColor.primaryColor.withValues(
+                          alpha: 0.05,
+                        ), // خلفية خفيفة جداً
                         borderRadius: BorderRadius.circular(10),
                         border: Border.all(
-                          color: Colors.white.withValues(alpha: 0.1),
+                          color: AppColor.primaryColor.withValues(alpha: 0.1),
                         ),
                       ),
                       child: Icon(
                         Icons.close,
-                        color: Colors.white,
+                        color: AppColor.primaryColor, // لون الغلق كحلي
                         size: 20.sp,
                       ),
                     ),
@@ -65,7 +70,7 @@ class AppDrawer extends StatelessWidget {
               ),
             ),
 
-            Divider(color: Colors.white.withValues(alpha: 0.08)),
+            Divider(color: Colors.grey.shade200), // ديزاين أنظف للديوايدر
             SizedBox(height: 8.h),
 
             // Nav links
@@ -73,34 +78,63 @@ class AppDrawer extends StatelessWidget {
               child: ListView(
                 padding: EdgeInsets.symmetric(horizontal: 16.w),
                 children: [
-                  _DrawerItem(
+                  DrawerItem(
                     icon: Icons.home_rounded,
                     title: 'الرئيسية',
-                    onTap: () => Navigator.pop(context),
+                    onTap: () {
+                      // بيرجع للهوم ويشيل أي صفحات تانية كانت مفتوحة
+                      Navigator.of(context).pushNamedAndRemoveUntil(
+                        AppRoutsName.homeView,
+                        (route) => false,
+                      );
+                    },
                   ),
-                  _DrawerItem(
+                  DrawerItem(
                     icon: Icons.menu_book_rounded,
                     title: 'الدورات التدريبية',
-                    onTap: () => Navigator.pop(context),
+                    onTap: () => Navigator.pushNamed(
+                      context,
+                      AppRoutsName.browsecourseView,
+                    ),
                   ),
-                  _DrawerItem(
+                  DrawerItem(
                     icon: Icons.person_rounded,
                     title: 'عن المدرب',
-                    onTap: () => Navigator.pop(context),
+                    onTap: () => Navigator.pushNamed(
+                      context,
+                      AppRoutsName.aboutInstructorView,
+                    ),
                   ),
-                  _DrawerItem(
-                    icon: Icons.star_rounded,
+                  DrawerItem(
+                    icon: Icons.star_rounded, // أيقونة النجمة زي الصورة
                     title: 'آراء الطلاب',
-                    onTap: () => Navigator.pop(context),
+                    onTap: () {
+                      Navigator.pop(context);
+                      // هنبعت argument مختلف عشان الهوم تعرف إننا عايزين سكشن التعليقات
+                      Navigator.pushNamedAndRemoveUntil(
+                        context,
+                        AppRoutsName.homeView,
+                        (route) => false,
+                        arguments: {'scrollToComments': true},
+                      );
+                    },
                   ),
-                  _DrawerItem(
+                  DrawerItem(
                     icon: Icons.phone_rounded,
                     title: 'تواصل معنا',
-                    onTap: () => Navigator.pop(context),
+                    onTap: () {
+                      Navigator.pop(context);
+                      Navigator.pushNamedAndRemoveUntil(
+                        context,
+                        AppRoutsName.homeView,
+                        (route) => false,
+                        arguments: {'scrollToFooter': true},
+                      );
+                    },
                   ),
 
                   SizedBox(height: 16.h),
-                  Divider(color: Colors.white.withValues(alpha: 0.08)),
+                  Divider(color: Colors.grey.shade100),
                   SizedBox(height: 16.h),
 
                   // CTA Buttons
@@ -144,9 +178,10 @@ class AppDrawer extends StatelessWidget {
                         ),
                       ),
                       style: OutlinedButton.styleFrom(
-                        foregroundColor: Colors.white,
+                        foregroundColor:
+                            AppColor.primaryColor, // نص كحلي على خلفية بيضاء
                         side: BorderSide(
-                          color: Colors.white.withValues(alpha: 0.25),
+                          color: AppColor.primaryColor.withValues(alpha: 0.2),
                         ),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(14),
@@ -156,20 +191,20 @@ class AppDrawer extends StatelessWidget {
                   ),
 
                   SizedBox(height: 24.h),
-                  Divider(color: Colors.white.withValues(alpha: 0.08)),
+                  Divider(color: Colors.grey.shade100),
                   SizedBox(height: 16.h),
 
                   // Social icons row
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      _SocialIcon(icon: Icons.telegram),
+                      SocialIcon(icon: Icons.telegram),
                       SizedBox(width: 10.w),
-                      _SocialIcon(icon: Icons.tiktok),
+                      SocialIcon(icon: Icons.tiktok),
                       SizedBox(width: 10.w),
-                      _SocialIcon(icon: Icons.facebook),
+                      SocialIcon(icon: Icons.facebook),
                       SizedBox(width: 10.w),
-                      _SocialIcon(icon: Icons.youtube_searched_for_sharp),
+                      SocialIcon(icon: Icons.youtube_searched_for_sharp),
                     ],
                   ),
 
@@ -179,7 +214,7 @@ class AppDrawer extends StatelessWidget {
                     'جميع الحقوق محفوظة © 2026\nمنصة الأديب',
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      color: Colors.white.withValues(alpha: 0.3),
+                      color: Colors.grey.shade500, // رمادي هادي للحقوق
                       fontSize: 11.sp,
                       height: 1.6,
                     ),
@@ -189,70 +224,6 @@ class AppDrawer extends StatelessWidget {
             ),
           ],
         ),
-      ),
-    );
-  }
-}
-
-class _DrawerItem extends StatelessWidget {
-  final IconData icon;
-  final String title;
-  final VoidCallback onTap;
-
-  const _DrawerItem({
-    required this.icon,
-    required this.title,
-    required this.onTap,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return ListTile(
-      onTap: onTap,
-      contentPadding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 2.h),
-      leading: Container(
-        padding: EdgeInsets.all(8.r),
-        decoration: BoxDecoration(
-          color: AppColor.secondaryColor.withValues(alpha: 0.1),
-          borderRadius: BorderRadius.circular(10),
-        ),
-        child: Icon(icon, color: AppColor.secondaryColor, size: 18.sp),
-      ),
-      title: Text(
-        title,
-        textAlign: TextAlign.right,
-        style: TextStyle(
-          color: Colors.white.withValues(alpha: 0.85),
-          fontSize: 15.sp,
-          fontWeight: FontWeight.w500,
-        ),
-      ),
-      trailing: Icon(
-        Icons.arrow_back_ios_rounded,
-        color: Colors.white.withValues(alpha: 0.25),
-        size: 14.sp,
-      ),
-    );
-  }
-}
-
-class _SocialIcon extends StatelessWidget {
-  final IconData icon;
-  const _SocialIcon({required this.icon});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.all(9.r),
-      decoration: BoxDecoration(
-        color: Colors.white.withValues(alpha: 0.06),
-        borderRadius: BorderRadius.circular(10),
-        border: Border.all(color: Colors.white.withValues(alpha: 0.1)),
-      ),
-      child: Icon(
-        icon,
-        color: Colors.white.withValues(alpha: 0.7),
-        size: 18.sp,
       ),
     );
   }

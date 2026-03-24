@@ -9,12 +9,14 @@ class CustomButton extends StatelessWidget {
     required this.backgroundColor,
     this.textColor = Colors.white,
     this.borderColor,
+    this.onTap,
   });
   final IconData icon;
   final String text;
   final Color backgroundColor;
   final Color textColor;
   final Color? borderColor;
+  final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {

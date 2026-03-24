@@ -1,3 +1,4 @@
+import 'package:aladeep/core/scroll_helper/scroll_helper.dart';
 import 'package:aladeep/core/utils/app_drawer.dart';
 import 'package:aladeep/core/utils/header.dart';
 import 'package:aladeep/features/home/data/models/footer_link_model.dart';
@@ -12,8 +13,26 @@ import 'package:aladeep/features/home/presentation/sections/video_section.dart';
 import 'package:aladeep/features/home/presentation/sections/why_section.dart';
 import 'package:flutter/material.dart';
 
-class HomeView extends StatelessWidget {
+class HomeView extends StatefulWidget {
   const HomeView({super.key});
+
+  @override
+  State<HomeView> createState() => _HomeViewState();
+}
+
+class _HomeViewState extends State<HomeView> with HomeScrollMixin {
+  @override
+  void initState() {
+    super.initState();
+    // تشغيل فحص الـ Scroll Arguments
+    handleScroll(context);
+  }
+
+  @override
+  void dispose() {
+    disposeScroll();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,16 +40,23 @@ class HomeView extends StatelessWidget {
       endDrawer: const AppDrawer(),
       body: SafeArea(
         child: CustomScrollView(
+          controller: scrollController, // Controller من الـ Mixin
           slivers: [
             SliverToBoxAdapter(child: Header()),
             SliverToBoxAdapter(child: HeroSection()),
             SliverToBoxAdapter(child: StatsSection()),
             SliverToBoxAdapter(child: TestYourSelfSection()),
             SliverToBoxAdapter(child: VideoSection()),
-            SliverToBoxAdapter(child: WhySection()),
+
+            // مثال لإضافة Key لسكشن "لماذا نحن"
+            SliverToBoxAdapter(child: WhySection(key: whyUsKey)),
+
             FeaturesListSection(),
             SliverToBoxAdapter(child: SuccefullStorysSection()),
-            CommentsSection(),
+
+            // سكشن الكومنتات مع الـ Key بتاعه
+            CommentsSection(key: commentsKey),
+
             FooterSection(
               quickLinks: const [
                 FooterLink(title: "الرئيسية", url: "https://example.com/home"),
