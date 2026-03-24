@@ -32,11 +32,7 @@ class RegisterCubit extends Cubit<RegisterState> {
     emit(RegisterLoading());
 
     try {
-      user = await repo.register(
-        name: name,
-        phone: phone,
-        password: password,
-      );
+      user = await repo.register(name: name, phone: phone, password: password);
 
       emit(RegisterSuccess(user!.name));
     } catch (e) {

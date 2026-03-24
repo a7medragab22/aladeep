@@ -1,8 +1,8 @@
+import 'package:aladeep/core/routes/app_routs_name.dart';
 import 'package:aladeep/core/utils/custom_button.dart';
 import 'package:aladeep/core/utils/custom_text_feild.dart';
 import 'package:aladeep/features/authentication/register/logic/register_cubit/register_cubit.dart';
 import 'package:aladeep/features/authentication/register/logic/register_cubit/register_state.dart';
-import 'package:aladeep/features/authentication/register/presentation/view/register_result.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -24,16 +24,18 @@ class RegisterView extends StatelessWidget {
       body: SafeArea(
         child: BlocConsumer<RegisterCubit, RegisterState>(
           listener: (context, state) {
+            print(state);
             if (state is RegisterSuccess) {
-              Navigator.push(
+              print("SUCCESS 🔥");
+              Navigator.pushNamed(
                 context,
-                MaterialPageRoute(
-                  builder: (_) => RegisterResult(name: state.name),
-                ),
+                AppRoutsName.registerResultView,
+                arguments: state.name,
               );
             }
 
             if (state is RegisterFailure) {
+              print("FAIL ❌");
               ScaffoldMessenger.of(
                 context,
               ).showSnackBar(SnackBar(content: Text(state.message)));
@@ -92,6 +94,7 @@ class RegisterView extends StatelessWidget {
                         CustomButton(
                           text: "إنشاء الحساب مجاناً",
                           onTap: () {
+                            print("BUTTON CLICKED 🔥");
                             cubit.register(
                               name: nameController.text,
                               phone: phoneController.text,
