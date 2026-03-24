@@ -1,19 +1,20 @@
+import 'package:aladeep/core/themes/app_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CustomButton extends StatelessWidget {
   const CustomButton({
     super.key,
-    required this.icon,
+     this.icon,
     required this.text,
-    required this.backgroundColor,
+     this.backgroundColor = AppColor.secondaryColor,
     this.textColor = Colors.white,
     this.borderColor,
     this.onTap,
   });
-  final IconData icon;
+  final IconData? icon;
   final String text;
-  final Color backgroundColor;
+  final Color? backgroundColor;
   final Color textColor;
   final Color? borderColor;
   final VoidCallback? onTap;
