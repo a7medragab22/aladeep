@@ -1,5 +1,8 @@
+import 'dart:developer';
+
 import 'package:aladeep/core/themes/app_color.dart';
 import 'package:aladeep/core/utils/custom_button.dart';
+import 'package:aladeep/features/authentication/login/view/presntation/login.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -39,7 +42,11 @@ class HeroSection extends StatelessWidget {
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Icon(Icons.auto_awesome, color: AppColor.secondaryColor, size: 14.sp),
+                Icon(
+                  Icons.auto_awesome,
+                  color: AppColor.secondaryColor,
+                  size: 14.sp,
+                ),
                 SizedBox(width: 6.w),
                 Text(
                   'منصة تعليمية متخصصة #1',
@@ -89,12 +96,19 @@ class HeroSection extends StatelessWidget {
             textColor: AppColor.primaryColor,
           ),
           SizedBox(height: 14.h),
-          CustomButton(
-            icon: Icons.lock_outline,
-            text: 'تسجيل الدخول',
-            backgroundColor: Colors.white.withValues(alpha: 0.08),
-            textColor: Colors.white,
-            borderColor: Colors.white.withValues(alpha: 0.2),
+
+          TextButton(
+            onPressed: () {
+              log("Navigator to login");
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const LoginView()),
+              );
+            },
+            child: Text(
+              'تسجيل الدخول',
+              style: TextStyle(color: Colors.white, fontSize: 14.sp),
+            ),
           ),
 
           SizedBox(height: 48.h),
