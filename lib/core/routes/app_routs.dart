@@ -9,6 +9,7 @@ import '../../core/routes/app_routs_name.dart';
 import '../../features/home/presentation/views/home_view.dart';
 import '../../features/authentication/login/view/presntation/login.dart';
 import '../../features/browse_course_screen/presentation/view/browse_course_screen.dart';
+import '../../features/subscriptions/presentation/view/subscriptions_view.dart';
 
 class AppRouts {
   static Map<String, WidgetBuilder> routes = {
@@ -24,5 +25,6 @@ class AppRouts {
       final name = ModalRoute.of(context)!.settings.arguments as String;
       return RegisterResultView(name: name);
     },
+    AppRoutsName.subscriptionsView: (_) => const SubscriptionsView(),
   };
 }

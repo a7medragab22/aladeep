@@ -1,3 +1,4 @@
+import 'package:aladeep/features/home/presentation/sections/brouse_courses_section.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:aladeep/core/scroll_helper/scroll_helper.dart';
 import 'package:aladeep/core/utils/app_drawer.dart';
@@ -57,7 +58,7 @@ class _HomeViewState extends State<HomeView> with HomeScrollMixin {
 
             // سكشن الكومنتات مع الـ Key بتاعه
             CommentsSection(key: commentsKey),
-
+            SliverToBoxAdapter(child: BrouseCoursesSection()),
             FooterSection(
               quickLinks: [
                 FooterLink(
