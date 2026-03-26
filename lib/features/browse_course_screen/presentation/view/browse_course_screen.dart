@@ -1,3 +1,6 @@
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:aladeep/core/routes/app_routs_name.dart';
+import 'package:aladeep/core/scroll_helper/scroll_helper.dart';
 import 'package:aladeep/core/themes/app_color.dart';
 import 'package:aladeep/core/utils/app_drawer.dart'; // الـ Drawer الموحد
 import 'package:aladeep/core/utils/header.dart'; // الهيدر الموحد
@@ -9,8 +12,26 @@ import 'package:aladeep/features/home/presentation/sections/footer_section.dart'
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class BrowseCoursesScreen extends StatelessWidget {
+class BrowseCoursesScreen extends StatefulWidget {
   const BrowseCoursesScreen({super.key});
+
+  @override
+  State<BrowseCoursesScreen> createState() => _BrowseCoursesScreenState();
+}
+
+class _BrowseCoursesScreenState extends State<BrowseCoursesScreen>
+    with HomeScrollMixin {
+  @override
+  void initState() {
+    super.initState();
+    handleScroll(context);
+  }
+
+  @override
+  void dispose() {
+    disposeScroll();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -22,6 +43,7 @@ class BrowseCoursesScreen extends StatelessWidget {
         child: Directionality(
           textDirection: TextDirection.rtl,
           child: CustomScrollView(
+            controller: scrollController,
             slivers: [
               // ── Header الموحد ──
               const SliverToBoxAdapter(child: Header()),
@@ -82,34 +104,59 @@ class BrowseCoursesScreen extends StatelessWidget {
 
               // ── Footer الموحد ──
               FooterSection(
-                quickLinks: const [
+                quickLinks: [
                   FooterLink(
                     title: "الرئيسية",
-                    url: "https://example.com/home",
+                    onTap: () {
+                      Navigator.pushNamed(context, AppRoutsName.homeView);
+                    },
                   ),
                   FooterLink(
                     title: "عن المدرب",
-                    url: "https://example.com/about",
+                    onTap: () {
+                      Navigator.pushNamed(
+                        context,
+                        AppRoutsName.aboutInstructorView,
+                      );
+                    },
                   ),
                   FooterLink(
                     title: "الدورات",
-                    url: "https://example.com/courses",
+                    onTap: () {
+                      animateTo(0);
+                    },
                   ),
                   FooterLink(
                     title: "آراء الطلاب",
-                    url: "https://example.com/reviews",
+                    onTap: () {
+                      Navigator.pushNamed(
+                        context,
+                        AppRoutsName.homeView,
+                        arguments: {'scrollToComments': true},
+                      );
+                    },
                   ),
                   FooterLink(
-                    title: "سياسة الخصوصية",
-                    url: "https://example.com/privacy",
+                    title: "لماذا نحن",
+                    onTap: () {
+                      Navigator.pushNamed(
+                        context,
+                        AppRoutsName.homeView,
+                        arguments: {'scrollToWhyUs': true},
+                      );
+                    },
                   ),
                 ],
-                socialLinks: {
-                  Icons.telegram: "https://t.me/your_channel",
-                  Icons.tiktok: "https://tiktok.com",
-                  Icons.youtube_searched_for_sharp: "https://youtube.com",
-                  Icons.install_desktop: "https://instagram.com",
-                  Icons.facebook: "https://facebook.com",
+                socialLinks: <FaIconData, String>{
+                  FontAwesomeIcons.telegram: "https://t.me/+ilC41xR1A0xjZjU0",
+                  FontAwesomeIcons.tiktok:
+                      "https://www.tiktok.com/@salahabdelaal100?_r=1&_t=ZS-950VqY9n0iX",
+                  FontAwesomeIcons.youtube:
+                      "https://youtube.com/@salahabdel-aal6246?si=QNu4FQYF0Oqovw3c",
+                  FontAwesomeIcons.facebook:
+                      "https://www.facebook.com/share/18UrxXvobe/?mibextid=wwXIfr",
+                  FontAwesomeIcons.instagram:
+                      "https://www.instagram.com/aladib100?igsh=a2RuaXEwazF5bmpk",
                 },
               ),
             ],

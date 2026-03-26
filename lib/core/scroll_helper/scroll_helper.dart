@@ -13,16 +13,16 @@ mixin HomeScrollMixin {
       if (args == null) return;
 
       if (args['scrollToFooter'] == true) {
-        _animateTo(scrollController.position.maxScrollExtent);
+        animateTo(scrollController.position.maxScrollExtent);
       } else if (args['scrollToComments'] == true) {
-        _scrollToWidget(commentsKey);
+        scrollToWidget(commentsKey);
       } else if (args['scrollToWhyUs'] == true) {
-        _scrollToWidget(whyUsKey);
+        scrollToWidget(whyUsKey);
       }
     });
   }
 
-  void _scrollToWidget(GlobalKey key) {
+  void scrollToWidget(GlobalKey key) {
     final context = key.currentContext;
     if (context != null) {
       Scrollable.ensureVisible(
@@ -33,7 +33,7 @@ mixin HomeScrollMixin {
     }
   }
 
-  void _animateTo(double offset) {
+  void animateTo(double offset) {
     scrollController.animateTo(
       offset,
       duration: const Duration(milliseconds: 800),
