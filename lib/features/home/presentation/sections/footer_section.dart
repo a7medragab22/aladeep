@@ -7,7 +7,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class FooterSection extends StatelessWidget {
   final List<FooterLink> quickLinks;
-  final Map<IconData, String> socialLinks;
+  final Map<FaIconData, String> socialLinks;
 
   const FooterSection({
     super.key,
@@ -65,8 +65,9 @@ class FooterSection extends StatelessWidget {
                   ),
                   SizedBox(height: 8.h),
                   Text(
-                    'لا تضيع المزيد من الوقت في المذاكرة العشوائية، انضم لكتيبة الأديب الآن.',
+                    'لا تضيع المزيد من الوقت في المذاكرة العشوائية\n انضم لكتيبة الأديب الآن وابدأ رحلتك المضمونة نحو\n العلامة الكاملة.',
                     textAlign: TextAlign.center,
+                    textDirection: TextDirection.rtl,
                     style: TextStyle(
                       color: Colors.white.withValues(alpha: 0.6),
                       fontSize: 12.sp,
@@ -111,25 +112,13 @@ class FooterSection extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Container(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: 16.w,
-                          vertical: 10.h,
-                        ),
-                        decoration: BoxDecoration(
-                          color: AppColor.primaryGold.withValues(alpha: 0.12),
-                          borderRadius: BorderRadius.circular(12),
-                          border: Border.all(
-                            color: AppColor.primaryGold.withValues(alpha: 0.3),
-                          ),
-                        ),
-                        child: Text(
-                          'الأديب',
-                          style: TextStyle(
-                            color: AppColor.primaryGold,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 18.sp,
-                          ),
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(8),
+
+                        child: Image.asset(
+                          'assets/images/logo.jpeg',
+                          height: 80,
+                          fit: BoxFit.cover,
                         ),
                       ),
                     ],
@@ -138,8 +127,9 @@ class FooterSection extends StatelessWidget {
                   SizedBox(height: 14.h),
 
                   Text(
-                    'منصة الأديب التعليمية، خيارك الأول للوصول للدرجة النهائية في اختبارات القدرات اللفظي.',
+                    'منصة الأديب التعليمية، خيارك الأول للوصول للدرجة النهائية في اختبارات القدرات اللفظي بأحدث الأساليب وتأسيس قوي يضمن لك التفوق.',
                     textAlign: TextAlign.center,
+                    textDirection: TextDirection.rtl,
                     style: TextStyle(
                       color: Colors.white.withValues(alpha: 0.55),
                       fontSize: 12.sp,
@@ -161,14 +151,12 @@ class FooterSection extends StatelessWidget {
                           child: Container(
                             padding: EdgeInsets.all(10.r),
                             decoration: BoxDecoration(
-                              border: Border.all(
-                                color: Colors.white.withValues(alpha: 0.15),
-                              ),
+                              border: Border.all(color: Colors.grey.shade800),
                               borderRadius: BorderRadius.circular(12),
                             ),
-                            child: Icon(
+                            child: FaIcon(
                               entry.key,
-                              color: Colors.white.withValues(alpha: 0.8),
+                              color: AppColor.primaryGold,
                               size: 18.sp,
                             ),
                           ),
@@ -200,7 +188,7 @@ class FooterSection extends StatelessWidget {
                     runSpacing: 8.h,
                     children: quickLinks.map((link) {
                       return InkWell(
-                        onTap: () => UrlLauncherService.open(link.url),
+                        onTap: link.onTap,
                         child: Container(
                           padding: EdgeInsets.symmetric(
                             horizontal: 14.w,

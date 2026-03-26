@@ -33,7 +33,14 @@ class Header extends StatelessWidget {
           ),
 
           // Logo
-          Image.asset('assets/images/logo.jpeg', height: 40.sp),
+          ClipRRect(
+            borderRadius: BorderRadius.circular(8),
+            child: Image.asset(
+              'assets/images/logo.jpeg',
+              height: 40.sp,
+              fit: BoxFit.cover,
+            ),
+          ),
         ],
       ),
     );

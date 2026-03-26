@@ -1,9 +1,8 @@
+import 'dart:ui';
+
 class FooterLink {
   final String title;
-  final String url;
+  final VoidCallback? onTap;
 
-  const FooterLink({
-    required this.title,
-    required this.url,
-  });
+  const FooterLink({required this.title, this.onTap});
 }

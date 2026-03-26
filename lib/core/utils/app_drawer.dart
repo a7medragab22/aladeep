@@ -4,6 +4,7 @@ import 'package:aladeep/core/utils/drawer_item.dart';
 import 'package:aladeep/core/utils/social_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class AppDrawer extends StatelessWidget {
   const AppDrawer({super.key});
@@ -198,13 +199,13 @@ class AppDrawer extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      SocialIcon(icon: Icons.telegram),
+                      SocialIcon(icon: FontAwesomeIcons.telegram),
                       SizedBox(width: 10.w),
-                      SocialIcon(icon: Icons.tiktok),
+                      SocialIcon(icon: FontAwesomeIcons.tiktok),
                       SizedBox(width: 10.w),
-                      SocialIcon(icon: Icons.facebook),
+                      SocialIcon(icon: FontAwesomeIcons.facebook),
                       SizedBox(width: 10.w),
-                      SocialIcon(icon: Icons.youtube_searched_for_sharp),
+                      SocialIcon(icon: FontAwesomeIcons.youtube),
                     ],
                   ),
 

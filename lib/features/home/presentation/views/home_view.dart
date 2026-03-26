@@ -1,3 +1,4 @@
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:aladeep/core/scroll_helper/scroll_helper.dart';
 import 'package:aladeep/core/utils/app_drawer.dart';
 import 'package:aladeep/core/utils/header.dart';
@@ -58,31 +59,48 @@ class _HomeViewState extends State<HomeView> with HomeScrollMixin {
             CommentsSection(key: commentsKey),
 
             FooterSection(
-              quickLinks: const [
-                FooterLink(title: "الرئيسية", url: "https://example.com/home"),
+              quickLinks: [
+                FooterLink(
+                  title: "الرئيسية",
+                  onTap: () {
+                    animateTo(0);
+                  },
+                ),
                 FooterLink(
                   title: "عن المدرب",
-                  url: "https://example.com/about",
+                  onTap: () {
+                    Navigator.pushNamed(context, '/aboutInstructorView');
+                  },
                 ),
                 FooterLink(
                   title: "الدورات",
-                  url: "https://example.com/courses",
+                  onTap: () {
+                    Navigator.pushNamed(context, '/browsecourseView');
+                  },
                 ),
                 FooterLink(
                   title: "آراء الطلاب",
-                  url: "https://example.com/reviews",
+                  onTap: () {
+                    scrollToWidget(commentsKey);
+                  },
                 ),
                 FooterLink(
-                  title: "سياسة الخصوصية",
-                  url: "https://example.com/privacy",
+                  title: "لماذا نحن",
+                  onTap: () {
+                    scrollToWidget(whyUsKey);
+                  },
                 ),
               ],
-              socialLinks: {
-                Icons.telegram: "https://t.me/your_channel",
-                Icons.tiktok: "https://tiktok.com",
-                Icons.youtube_searched_for_sharp: "https://youtube.com",
-                Icons.install_desktop: "https://instagram.com",
-                Icons.facebook: "https://facebook.com",
+              socialLinks: <FaIconData, String>{
+                FontAwesomeIcons.telegram: "https://t.me/+ilC41xR1A0xjZjU0",
+                FontAwesomeIcons.tiktok:
+                    "https://www.tiktok.com/@salahabdelaal100?_r=1&_t=ZS-950VqY9n0iX",
+                FontAwesomeIcons.youtube:
+                    "https://youtube.com/@salahabdel-aal6246?si=QNu4FQYF0Oqovw3c",
+                FontAwesomeIcons.facebook:
+                    "https://www.facebook.com/share/18UrxXvobe/?mibextid=wwXIfr",
+                FontAwesomeIcons.instagram:
+                    "https://www.instagram.com/aladib100?igsh=a2RuaXEwazF5bmpk",
               },
             ),
           ],

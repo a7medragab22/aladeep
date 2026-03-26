@@ -1,9 +1,10 @@
 import 'package:aladeep/core/themes/app_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class SocialIcon extends StatelessWidget {
-  final IconData icon;
+  final FaIconData icon;
   const SocialIcon({required this.icon});
 
   @override
@@ -15,7 +16,7 @@ class SocialIcon extends StatelessWidget {
         borderRadius: BorderRadius.circular(10),
         border: Border.all(color: AppColor.primaryDark.withValues(alpha: 0.1)),
       ),
-      child: Icon(
+      child: FaIcon(
         icon,
         color: AppColor.primaryDark.withValues(alpha: 0.6),
         size: 18.sp,
