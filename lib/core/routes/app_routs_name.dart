@@ -7,4 +7,5 @@ class AppRoutsName {
   static const String resetPasswordView = '/reset-password';
   static const String browsecourseView = '/browsecourseView';
   static const String aboutInstructorView = '/aboutInstructorView';
+  static const String subscriptionsView = '/subscriptionsView';
 }
