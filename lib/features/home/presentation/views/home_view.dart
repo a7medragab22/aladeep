@@ -1,3 +1,4 @@
+import 'package:aladeep/core/routes/app_routs_name.dart';
 import 'package:aladeep/features/home/presentation/sections/brouse_courses_section.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:aladeep/core/scroll_helper/scroll_helper.dart';
@@ -89,6 +90,15 @@ class _HomeViewState extends State<HomeView> with HomeScrollMixin {
                   title: "لماذا نحن",
                   onTap: () {
                     scrollToWidget(whyUsKey);
+                  },
+                ),
+                FooterLink(
+                  title: "سياسة الخصوصية",
+                  onTap: () {
+                    Navigator.pushNamed(
+                      context,
+                      AppRoutsName.privacyPolicyView,
+                    );
                   },
                 ),
               ],

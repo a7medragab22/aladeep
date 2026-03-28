@@ -2,8 +2,10 @@ import 'package:aladeep/features/about_instuctor_screen/presentation/view/about_
 import 'package:aladeep/features/authentication/register/data/register_repo/register_repo_impl.dart';
 import 'package:aladeep/features/authentication/register/logic/register_cubit/register_cubit.dart';
 import 'package:aladeep/features/authentication/login/view/presntation/login_result_view.dart';
+import 'package:aladeep/features/authentication/login/view/presntation/login_result_view.dart';
 import 'package:aladeep/features/authentication/register/presentation/view/register_result_view.dart';
 import 'package:aladeep/features/authentication/register/presentation/view/register_view.dart';
+import 'package:aladeep/features/privacy_policy/presentation/views/privacy_policy_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../core/routes/app_routs_name.dart';
@@ -32,6 +34,7 @@ class AppRouts {
       final name = args is String ? args : '';
       return RegisterResultView(name: name);
     },
+    AppRoutsName.privacyPolicyView: (_) => const PrivacyPolicyPage(),
     AppRoutsName.subscriptionsView: (_) => const SubscriptionsView(),
   };
 }
