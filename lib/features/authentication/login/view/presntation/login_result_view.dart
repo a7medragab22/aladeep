@@ -9,8 +9,8 @@ import 'package:aladeep/features/home/presentation/sections/footer_section.dart'
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class RegisterResultView extends StatelessWidget {
-  const RegisterResultView({super.key, required this.name});
+class LoginResultView extends StatelessWidget {
+  const LoginResultView({super.key, required this.name});
   final String name;
 
   @override
@@ -33,10 +33,7 @@ class RegisterResultView extends StatelessWidget {
                     ),
                     const SizedBox(height: 24),
                     const Padding(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 24,
-                        vertical: 8,
-                      ),
+                      padding: EdgeInsets.symmetric(horizontal: 16),
                       child: SectionTitle(title: "دوراتي التعليمية"),
                     ),
                     const SizedBox(height: 16),
