@@ -1,5 +1,8 @@
-
+import 'package:aladeep/core/themes/app_color.dart';
+import 'package:aladeep/core/utils/custom_button.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class EmptyCoursesCard extends StatelessWidget {
   const EmptyCoursesCard({super.key});
@@ -7,42 +10,50 @@ class EmptyCoursesCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(24),
+      padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 120.h),
+      margin: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(24),
         border: Border.all(color: Colors.grey.shade300),
       ),
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          const Icon(Icons.inventory_2_outlined, size: 60),
+          CircleAvatar(
+            radius: 55.r,
+            backgroundColor: AppColor.primaryLightGold.withValues(alpha: 0.6),
+            child: FaIcon(
+              FontAwesomeIcons.gift,
+              size: 42.sp,
+              color: AppColor.primaryGold,
+            ),
+          ),
 
           const SizedBox(height: 16),
 
-          const Text(
+          Text(
             "لا توجد دورات مفعلة بعد",
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            style: TextStyle(
+              fontSize: 22.sp,
+              fontWeight: FontWeight.bold,
+              color: AppColor.primaryDark,
+            ),
           ),
 
-          const SizedBox(height: 8),
+          SizedBox(height: 16.h),
 
           const Text(
+            textDirection: TextDirection.rtl,
             "لم تقم بالاشتراك في أي دورة حتى الآن، أو أن طلبك لا يزال قيد المراجعة من الإدارة.",
             textAlign: TextAlign.center,
           ),
 
           const SizedBox(height: 20),
 
-          Container(
-            padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 20),
-            decoration: BoxDecoration(
-              color: const Color(0xffC8A75D),
-              borderRadius: BorderRadius.circular(16),
-            ),
-            child: const Text(
-              "تصفح الدورات المتاحة الآن",
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
+          CustomButton(
+            text: "تصفح الدورات المتاحة الآن",
+            textColor: AppColor.primaryDarker,
           ),
         ],
       ),

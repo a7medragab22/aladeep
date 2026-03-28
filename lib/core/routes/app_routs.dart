@@ -1,6 +1,7 @@
 import 'package:aladeep/features/about_instuctor_screen/presentation/view/about_instructor.dart';
 import 'package:aladeep/features/authentication/register/data/register_repo/register_repo_impl.dart';
 import 'package:aladeep/features/authentication/register/logic/register_cubit/register_cubit.dart';
+import 'package:aladeep/features/authentication/login/view/presntation/login_result_view.dart';
 import 'package:aladeep/features/authentication/register/presentation/view/register_result_view.dart';
 import 'package:aladeep/features/authentication/register/presentation/view/register_view.dart';
 import 'package:flutter/material.dart';
@@ -21,8 +22,14 @@ class AppRouts {
       create: (_) => RegisterCubit(RegisterRepoImpl()),
       child: RegisterView(),
     ),
+    AppRoutsName.loginResultView: (context) {
+      final args = ModalRoute.of(context)?.settings.arguments;
+      final name = args is String ? args : 'طالب';
+      return LoginResultView(name: name);
+    },
     AppRoutsName.registerResultView: (context) {
-      final name = ModalRoute.of(context)!.settings.arguments as String;
+      final args = ModalRoute.of(context)?.settings.arguments;
+      final name = args is String ? args : '';
       return RegisterResultView(name: name);
     },
     AppRoutsName.subscriptionsView: (_) => const SubscriptionsView(),

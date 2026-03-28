@@ -52,7 +52,11 @@ class CustomButton extends StatelessWidget {
           children: [
             isFaicon ? FaIcon(faIcon) : Icon(icon, size: 18.sp),
             SizedBox(width: 16), // 👈 المسافة اللي انت عايزها
-            Text(text, textAlign: TextAlign.center),
+            Text(
+              text,
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.bold),
+            ),
           ],
         ),
       ),

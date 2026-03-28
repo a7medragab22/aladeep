@@ -207,6 +207,16 @@ class _LoginViewState extends State<LoginView> with HomeScrollMixin {
             text: 'دخول للمنصه',
             backgroundColor: AppColor.primaryDark,
             textColor: AppColor.primaryGold,
+            onPressed: () {
+              final userName = _phoneController.text.trim().isEmpty
+                  ? 'طالب'
+                  : _phoneController.text.trim();
+              Navigator.pushNamed(
+                context,
+                AppRoutsName.loginResultView,
+                arguments: userName,
+              );
+            },
           ),
           SizedBox(height: 16.h),
           Row(
