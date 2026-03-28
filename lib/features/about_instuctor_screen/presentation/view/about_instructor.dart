@@ -333,6 +333,15 @@ class _AboutInstructorScreenState extends State<AboutInstructorScreen>
                     );
                   },
                 ),
+                FooterLink(
+                  title: "سياسة الخصوصية",
+                  onTap: () {
+                    Navigator.pushNamed(
+                      context,
+                      AppRoutsName.privacyPolicyView,
+                    );
+                  },
+                ),
               ],
               socialLinks: {
                 FontAwesomeIcons.telegram: "https://t.me/+ilC41xR1A0xjZjU0",

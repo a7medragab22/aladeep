@@ -152,6 +152,15 @@ class _BrowseCoursesScreenState extends State<BrowseCoursesScreen>
                     );
                   },
                 ),
+                FooterLink(
+                  title: "سياسة الخصوصية",
+                  onTap: () {
+                    Navigator.pushNamed(
+                      context,
+                      AppRoutsName.privacyPolicyView,
+                    );
+                  },
+                ),
               ],
               socialLinks: <FaIconData, String>{
                 FontAwesomeIcons.telegram: "https://t.me/+ilC41xR1A0xjZjU0",
