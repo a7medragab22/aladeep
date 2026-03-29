@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 class AppColor {
-  // ألوان الموقع
   static const Color primaryGreen = Color(0xFF1B4332);
   static const Color lightGreen = Color(0xFF2D6A4F);
   static const Color gold = Color(0xFFB8960C);
