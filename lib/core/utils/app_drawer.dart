@@ -4,6 +4,7 @@ import 'package:aladeep/core/utils/drawer_item.dart';
 import 'package:aladeep/core/utils/social_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class AppDrawer extends StatelessWidget {
   const AppDrawer({super.key});
@@ -28,17 +29,17 @@ class AppDrawer extends StatelessWidget {
                     child: Container(
                       padding: EdgeInsets.all(8.r),
                       decoration: BoxDecoration(
-                        color: AppColor.primaryColor.withValues(
+                        color: AppColor.primaryDark.withValues(
                           alpha: 0.05,
                         ), // خلفية خفيفة جداً
                         borderRadius: BorderRadius.circular(10),
                         border: Border.all(
-                          color: AppColor.primaryColor.withValues(alpha: 0.1),
+                          color: AppColor.primaryDark.withValues(alpha: 0.1),
                         ),
                       ),
                       child: Icon(
                         Icons.close,
-                        color: AppColor.primaryColor, // لون الغلق كحلي
+                        color: AppColor.primaryDark, // لون الغلق كحلي
                         size: 20.sp,
                       ),
                     ),
@@ -51,16 +52,16 @@ class AppDrawer extends StatelessWidget {
                       vertical: 10.h,
                     ),
                     decoration: BoxDecoration(
-                      color: AppColor.secondaryColor.withValues(alpha: 0.12),
+                      color: AppColor.primaryGold.withValues(alpha: 0.12),
                       borderRadius: BorderRadius.circular(12),
                       border: Border.all(
-                        color: AppColor.secondaryColor.withValues(alpha: 0.35),
+                        color: AppColor.primaryGold.withValues(alpha: 0.35),
                       ),
                     ),
                     child: Text(
                       'الأديب',
                       style: TextStyle(
-                        color: AppColor.secondaryColor,
+                        color: AppColor.primaryGold,
                         fontWeight: FontWeight.bold,
                         fontSize: 18.sp,
                       ),
@@ -152,8 +153,8 @@ class AppDrawer extends StatelessWidget {
                         ),
                       ),
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColor.secondaryColor,
-                        foregroundColor: AppColor.primaryColor,
+                        backgroundColor: AppColor.primaryGold,
+                        foregroundColor: AppColor.primaryDark,
                         elevation: 0,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(14),
@@ -179,9 +180,9 @@ class AppDrawer extends StatelessWidget {
                       ),
                       style: OutlinedButton.styleFrom(
                         foregroundColor:
-                            AppColor.primaryColor, // نص كحلي على خلفية بيضاء
+                            AppColor.primaryDark, // نص كحلي على خلفية بيضاء
                         side: BorderSide(
-                          color: AppColor.primaryColor.withValues(alpha: 0.2),
+                          color: AppColor.primaryDark.withValues(alpha: 0.2),
                         ),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(14),
@@ -198,13 +199,13 @@ class AppDrawer extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      SocialIcon(icon: Icons.telegram),
+                      SocialIcon(icon: FontAwesomeIcons.telegram),
                       SizedBox(width: 10.w),
-                      SocialIcon(icon: Icons.tiktok),
+                      SocialIcon(icon: FontAwesomeIcons.tiktok),
                       SizedBox(width: 10.w),
-                      SocialIcon(icon: Icons.facebook),
+                      SocialIcon(icon: FontAwesomeIcons.facebook),
                       SizedBox(width: 10.w),
-                      SocialIcon(icon: Icons.youtube_searched_for_sharp),
+                      SocialIcon(icon: FontAwesomeIcons.youtube),
                     ],
                   ),
 

@@ -7,7 +7,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class FooterSection extends StatelessWidget {
   final List<FooterLink> quickLinks;
-  final Map<IconData, String> socialLinks;
+  final Map<FaIconData, String> socialLinks;
 
   const FooterSection({
     super.key,
@@ -29,80 +29,7 @@ class FooterSection extends StatelessWidget {
         ),
         child: Column(
           children: [
-            // CTA section
-            Container(
-              margin: EdgeInsets.all(20.r),
-              padding: EdgeInsets.all(28.r),
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [
-                    AppColor.secondaryColor.withValues(alpha: 0.15),
-                    AppColor.secondaryColor.withValues(alpha: 0.05),
-                  ],
-                ),
-                borderRadius: BorderRadius.circular(24),
-                border: Border.all(
-                  color: AppColor.secondaryColor.withValues(alpha: 0.25),
-                ),
-              ),
-              child: Column(
-                children: [
-                  Icon(
-                    Icons.rocket_launch_rounded,
-                    color: AppColor.secondaryColor,
-                    size: 36.sp,
-                  ),
-                  SizedBox(height: 12.h),
-                  Text(
-                    'هل أنت مستعد للوصول للقمة؟',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18.sp,
-                      height: 1.4,
-                    ),
-                  ),
-                  SizedBox(height: 8.h),
-                  Text(
-                    'لا تضيع المزيد من الوقت في المذاكرة العشوائية، انضم لكتيبة الأديب الآن.',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: Colors.white.withValues(alpha: 0.6),
-                      fontSize: 12.sp,
-                      height: 1.6,
-                    ),
-                  ),
-                  SizedBox(height: 20.h),
-                  SizedBox(
-                    width: double.infinity,
-                    height: 50,
-                    child: ElevatedButton(
-                      onPressed: () {},
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColor.secondaryColor,
-                        foregroundColor: AppColor.primaryColor,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30),
-                        ),
-                        elevation: 0,
-                      ),
-                      child: Text(
-                        'تصفح باقات الاشتراك',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 15.sp,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-
-            // Divider
             Divider(color: Colors.white.withValues(alpha: 0.08), height: 1),
-
             Padding(
               padding: EdgeInsets.all(24.r),
               child: Column(
@@ -111,29 +38,13 @@ class FooterSection extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Container(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: 16.w,
-                          vertical: 10.h,
-                        ),
-                        decoration: BoxDecoration(
-                          color: AppColor.secondaryColor.withValues(
-                            alpha: 0.12,
-                          ),
-                          borderRadius: BorderRadius.circular(12),
-                          border: Border.all(
-                            color: AppColor.secondaryColor.withValues(
-                              alpha: 0.3,
-                            ),
-                          ),
-                        ),
-                        child: Text(
-                          'الأديب',
-                          style: TextStyle(
-                            color: AppColor.secondaryColor,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 18.sp,
-                          ),
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(8),
+
+                        child: Image.asset(
+                          'assets/images/logo.jpeg',
+                          height: 80,
+                          fit: BoxFit.cover,
                         ),
                       ),
                     ],
@@ -142,8 +53,9 @@ class FooterSection extends StatelessWidget {
                   SizedBox(height: 14.h),
 
                   Text(
-                    'منصة الأديب التعليمية، خيارك الأول للوصول للدرجة النهائية في اختبارات القدرات اللفظي.',
+                    'منصة الأديب التعليمية، خيارك الأول للوصول للدرجة النهائية في اختبارات القدرات اللفظي بأحدث الأساليب وتأسيس قوي يضمن لك التفوق.',
                     textAlign: TextAlign.center,
+                    textDirection: TextDirection.rtl,
                     style: TextStyle(
                       color: Colors.white.withValues(alpha: 0.55),
                       fontSize: 12.sp,
@@ -165,14 +77,12 @@ class FooterSection extends StatelessWidget {
                           child: Container(
                             padding: EdgeInsets.all(10.r),
                             decoration: BoxDecoration(
-                              border: Border.all(
-                                color: Colors.white.withValues(alpha: 0.15),
-                              ),
+                              border: Border.all(color: Colors.grey.shade800),
                               borderRadius: BorderRadius.circular(12),
                             ),
-                            child: Icon(
+                            child: FaIcon(
                               entry.key,
-                              color: Colors.white.withValues(alpha: 0.8),
+                              color: AppColor.primaryGold,
                               size: 18.sp,
                             ),
                           ),
@@ -189,7 +99,7 @@ class FooterSection extends StatelessWidget {
                   Text(
                     'روابط سريعة',
                     style: TextStyle(
-                      color: AppColor.secondaryColor,
+                      color: AppColor.primaryGold,
                       fontWeight: FontWeight.bold,
                       fontSize: 15.sp,
                     ),
@@ -204,7 +114,7 @@ class FooterSection extends StatelessWidget {
                     runSpacing: 8.h,
                     children: quickLinks.map((link) {
                       return InkWell(
-                        onTap: () => UrlLauncherService.open(link.url),
+                        onTap: link.onTap,
                         child: Container(
                           padding: EdgeInsets.symmetric(
                             horizontal: 14.w,
@@ -237,7 +147,7 @@ class FooterSection extends StatelessWidget {
                   Text(
                     'الدعم الفني والاشتراكات',
                     style: TextStyle(
-                      color: AppColor.secondaryColor,
+                      color: AppColor.primaryGold,
                       fontWeight: FontWeight.bold,
                       fontSize: 15.sp,
                     ),
@@ -280,7 +190,7 @@ class FooterSection extends StatelessWidget {
                       Text(
                         'GMTWEB',
                         style: TextStyle(
-                          color: AppColor.secondaryColor.withValues(alpha: 0.7),
+                          color: AppColor.primaryGold.withValues(alpha: 0.7),
                           fontSize: 11.sp,
                           fontWeight: FontWeight.bold,
                         ),

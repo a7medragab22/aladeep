@@ -21,16 +21,16 @@ class DrawerItem extends StatelessWidget {
       leading: Container(
         padding: EdgeInsets.all(8.r),
         decoration: BoxDecoration(
-          color: AppColor.secondaryColor.withValues(alpha: 0.1),
+          color: AppColor.primaryGold.withValues(alpha: 0.1),
           borderRadius: BorderRadius.circular(10),
         ),
-        child: Icon(icon, color: AppColor.secondaryColor, size: 18.sp),
+        child: Icon(icon, color: AppColor.primaryGold, size: 18.sp),
       ),
       title: Text(
         title,
         textAlign: TextAlign.right,
         style: TextStyle(
-          color: AppColor.primaryColor.withValues(alpha: 0.9), // نص كحلي واضح
+          color: AppColor.primaryDark.withValues(alpha: 0.9), // نص كحلي واضح
           fontSize: 15.sp,
           fontWeight: FontWeight.w600,
         ),

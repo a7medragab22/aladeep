@@ -23,7 +23,7 @@ class CommentsSection extends StatelessWidget {
                 padding: EdgeInsets.all(40.r),
                 child: Center(
                   child: CircularProgressIndicator(
-                    color: AppColor.secondaryColor,
+                    color: AppColor.primaryGold,
                     strokeWidth: 2,
                   ),
                 ),
@@ -39,7 +39,9 @@ class CommentsSection extends StatelessWidget {
                 child: Center(
                   child: Text(
                     state.message,
-                    style: TextStyle(color: AppColor.primaryColor.withValues(alpha: 0.5)),
+                    style: TextStyle(
+                      color: AppColor.primaryDark.withValues(alpha: 0.5),
+                    ),
                   ),
                 ),
               ),
@@ -54,20 +56,26 @@ class CommentsSection extends StatelessWidget {
                   child: Container(
                     color: Colors.white,
                     padding: EdgeInsets.only(
-                        top: 32.h, bottom: 20.h, left: 20.w, right: 20.w),
+                      top: 32.h,
+                      bottom: 20.h,
+                      left: 20.w,
+                      right: 20.w,
+                    ),
                     child: Column(
                       children: [
                         Container(
                           padding: EdgeInsets.symmetric(
-                              horizontal: 14.w, vertical: 6.h),
+                            horizontal: 14.w,
+                            vertical: 6.h,
+                          ),
                           decoration: BoxDecoration(
-                            color: AppColor.primaryColor.withValues(alpha: 0.06),
+                            color: AppColor.primaryDark.withValues(alpha: 0.06),
                             borderRadius: BorderRadius.circular(20),
                           ),
                           child: Text(
                             'آراء الطلاب',
                             style: TextStyle(
-                              color: AppColor.primaryColor,
+                              color: AppColor.primaryDark,
                               fontSize: 12.sp,
                               fontWeight: FontWeight.w600,
                             ),
@@ -80,7 +88,7 @@ class CommentsSection extends StatelessWidget {
                           style: TextStyle(
                             fontSize: 22.sp,
                             fontWeight: FontWeight.bold,
-                            color: AppColor.primaryColor,
+                            color: AppColor.primaryDark,
                           ),
                         ),
                       ],
@@ -90,15 +98,17 @@ class CommentsSection extends StatelessWidget {
 
                 // Comments list
                 SliverList(
-                  delegate: SliverChildBuilderDelegate(
-                    (context, index) {
-                      return CommentCard(comment: state.comments[index]);
-                    },
-                    childCount: state.comments.length,
-                  ),
+                  delegate: SliverChildBuilderDelegate((context, index) {
+                    return CommentCard(comment: state.comments[index]);
+                  }, childCount: state.comments.length),
                 ),
 
-                SliverToBoxAdapter(child: SizedBox(height: 24.h, child: Container(color: Colors.white))),
+                SliverToBoxAdapter(
+                  child: SizedBox(
+                    height: 24.h,
+                    child: Container(color: Colors.white),
+                  ),
+                ),
               ],
             );
           }

@@ -16,14 +16,16 @@ class WhySection extends StatelessWidget {
           Container(
             padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 6.h),
             decoration: BoxDecoration(
-              color: AppColor.secondaryColor.withValues(alpha: 0.1),
+              color: AppColor.primaryGold.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(20),
-              border: Border.all(color: AppColor.secondaryColor.withValues(alpha: 0.3)),
+              border: Border.all(
+                color: AppColor.primaryGold.withValues(alpha: 0.3),
+              ),
             ),
             child: Text(
               'لماذا نحن؟',
               style: TextStyle(
-                color: AppColor.secondaryColor,
+                color: AppColor.primaryGold,
                 fontSize: 12.sp,
                 fontWeight: FontWeight.w600,
               ),
@@ -38,7 +40,7 @@ class WhySection extends StatelessWidget {
             style: TextStyle(
               fontSize: 24.sp,
               fontWeight: FontWeight.bold,
-              color: AppColor.primaryColor,
+              color: AppColor.primaryDark,
               height: 1.4,
             ),
           ),
@@ -49,7 +51,7 @@ class WhySection extends StatelessWidget {
             'نحن لا نقدم مجرد فيديوهات مسجلة، بل نصنع تجربة تعليمية تفاعلية متكاملة تقودك نحو الـ 100%.',
             textAlign: TextAlign.center,
             style: TextStyle(
-              color: AppColor.primaryColor.withValues(alpha: 0.6),
+              color: AppColor.primaryDark.withValues(alpha: 0.6),
               fontSize: 13.sp,
               height: 1.7,
             ),
