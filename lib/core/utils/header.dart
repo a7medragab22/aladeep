@@ -7,22 +7,38 @@ class Header extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
+      decoration: const BoxDecoration(color: Color(0xFF0A1F2E)),
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
+          // Menu button
           Container(
-            width: 45.w,
-            height: 45.h,
+            width: 42.w,
+            height: 50.h,
             decoration: BoxDecoration(
-              border: Border.all(color: AppColor.secondaryColor),
+              border: Border.all(
+                color: AppColor.primaryGold.withValues(alpha: 0.5),
+              ),
               borderRadius: BorderRadius.circular(12.r),
             ),
-            child: Center(
-              child: IconButton(
-                onPressed: () {},
-                icon: Icon(Icons.menu, size: 24.sp),
-              ),
+            child: IconButton(
+              onPressed: () {
+                Scaffold.of(context).openEndDrawer();
+              },
+              icon: Icon(Icons.menu, size: 22.sp, color: Colors.white),
+              padding: EdgeInsets.zero,
+            ),
+          ),
+
+          // Logo
+          ClipRRect(
+            borderRadius: BorderRadius.circular(8),
+            child: Image.asset(
+              'assets/images/logo.jpeg',
+              height: 40.sp,
+              fit: BoxFit.cover,
             ),
           ),
         ],

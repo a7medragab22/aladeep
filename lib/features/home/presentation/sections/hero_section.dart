@@ -1,3 +1,4 @@
+import 'package:aladeep/core/routes/app_routs_name.dart';
 import 'package:aladeep/core/themes/app_color.dart';
 import 'package:aladeep/core/utils/custom_button.dart';
 import 'package:flutter/material.dart';
@@ -10,10 +11,15 @@ class HeroSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 100.h),
+      padding: EdgeInsets.only(
+        top: 60.h,
+        bottom: 60.h,
+        left: 24.w,
+        right: 24.w,
+      ),
       decoration: const BoxDecoration(
         gradient: LinearGradient(
-          colors: [Color(0xFF0E2A3B), Color(0xFF0B1F2B)],
+          colors: [Color(0xFF0A1F2E), Color(0xFF0E2A3B), Color(0xFF0B1F2B)],
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
         ),
@@ -21,35 +27,80 @@ class HeroSection extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Text(
-            'منصة الأديب للقدرات اللفظي',
-            textDirection: TextDirection.rtl,
+          // Badge
+          Container(
+            padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+            decoration: BoxDecoration(
+              color: AppColor.primaryGold.withValues(alpha: 0.15),
+              borderRadius: BorderRadius.circular(30),
+              border: Border.all(
+                color: AppColor.primaryGold.withValues(alpha: 0.4),
+              ),
+            ),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(
+                  Icons.auto_awesome,
+                  color: AppColor.primaryGold,
+                  size: 14.sp,
+                ),
+                SizedBox(width: 6.w),
+                Text(
+                  'منصة تعليمية متخصصة #1',
+                  style: TextStyle(
+                    color: AppColor.primaryGold,
+                    fontSize: 12.sp,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ],
+            ),
+          ),
 
+          SizedBox(height: 24.h),
+
+          Text(
+            'منصة الأديب\nللقدرات اللفظي',
+            textDirection: TextDirection.rtl,
+            textAlign: TextAlign.center,
             style: TextStyle(
               color: Colors.white,
-              fontSize: 24.sp,
+              fontSize: 32.sp,
               height: 1.4,
               fontWeight: FontWeight.bold,
             ),
           ),
-          SizedBox(height: 12.h),
+
+          SizedBox(height: 16.h),
+
           Text(
             'الوجهة الأولى لتأسيس وتدريب قدراتك، مع أقوى محاكي اختبارات ذكي يضمن لك الوصول للعلامة الكاملة 100% بإذن الله.',
             textDirection: TextDirection.rtl,
-            style: TextStyle(color: Colors.white, fontSize: 12.sp, height: 1.7),
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: Colors.white.withValues(alpha: 0.75),
+              fontSize: 14.sp,
+              height: 1.8,
+            ),
           ),
-          SizedBox(height: 64.h),
+
+          SizedBox(height: 40.h),
+
           CustomButton(
-            icon: Icons.rocket_launch,
             text: 'ابدأ التعلم الآن',
-            backgroundColor: AppColor.secondaryColor,
-            textColor: AppColor.primaryColor,
+            textColor: AppColor.primaryDarker,
+            icon: Icons.rocket_launch_sharp,
+            backgroundColor: AppColor.primaryGold,
+            onPressed: () =>
+                Navigator.pushNamed(context, AppRoutsName.loginView),
           ),
-          SizedBox(height: 24.h),
+          SizedBox(height: 16.h),
           CustomButton(
-            icon: Icons.lock_outline,
             text: 'تسجيل الدخول',
-            backgroundColor: AppColor.primaryColor,
+            backgroundColor: AppColor.primaryDark,
+            onPressed: () =>
+                Navigator.pushNamed(context, AppRoutsName.loginView),
           ),
         ],
       ),

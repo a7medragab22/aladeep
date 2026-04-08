@@ -1,4 +1,5 @@
 import 'package:aladeep/core/routes/app_routs.dart';
+import 'package:aladeep/core/themes/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -18,6 +19,7 @@ class AlAdeepApp extends StatelessWidget {
 
       builder: (context, child) => MaterialApp(
         routes: AppRouts.routes,
+        theme: AppTheme.lightTheme,
         debugShowCheckedModeBanner: false,
       ),
     );
