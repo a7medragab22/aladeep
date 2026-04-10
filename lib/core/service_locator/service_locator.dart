@@ -1,3 +1,5 @@
+import 'package:aladeep/core/service_locator/shared_service_locator/shared_service_locator.dart';
+
 import '../../features/auth/auth.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
@@ -12,4 +14,5 @@ import '../http/http.dart';
 
 part 'init/init.dart';
 part 'auth_service_locator/auth_service_locator.dart';
-part 'shared_service_locator/shared_service_locator.dart';
+
+// part 'shared_service_locator/shared_service_locator.dart';

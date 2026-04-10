@@ -3,7 +3,13 @@ import 'package:aladeep/core/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-void main() {
+import 'package:aladeep/core/helpers/cache_helper.dart';
+import 'package:aladeep/core/service_locator/service_locator.dart';
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await CacheHelper.init();
+  await DI.execute();
   runApp(const AlAdeepApp());
 }
 

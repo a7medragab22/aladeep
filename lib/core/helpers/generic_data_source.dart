@@ -117,6 +117,33 @@ class GenericDataSource {
     );
   }
 
+  Future<Either<Failure, T>> postResult<T>({
+    required String endpoint,
+    Map<String, dynamic>? data,
+    Map<String, dynamic>? queryParameters,
+    Map<String, dynamic>? headers,
+    required T Function(Map<String, dynamic>) fromJson,
+  }) async {
+    final result = await _apiConsumer.post(
+      endpoint,
+      data: data,
+      queryParameters: queryParameters,
+      headers: headers,
+    );
+    return result.fold(
+          (left) => Left(left),
+          (right) {
+        try {
+          return Right(fromJson(right)); // Parse the whole response
+        } catch (e, stackTrace) {
+          loggerError(stackTrace);
+          loggerWarn(e.toString());
+          return Left(ParsingFailure(message: e.toString()));
+        }
+      },
+    );
+  }
+
   Future<Either<Failure, T>> postFormData<T>({
     required String endpoint,
     Map<String, dynamic>? data,

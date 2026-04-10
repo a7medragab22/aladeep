@@ -1,20 +1,28 @@
 part of "../../auth.dart";
 
-class RegisterBloc extends Bloc<RegisterEvent, BaseState<void>> {
-  final RegisterDataSource _loginDataSource;
-  RegisterBloc(this._loginDataSource) : super(const BaseState<void>()) {
-    on<RegisterEvent>(_onForgetPassword);
+class RegisterBloc extends Bloc<RegisterEvent, BaseState<CustomerModel>> {
+  final RegisterDataSource _registerDataSource;
+  RegisterBloc(this._registerDataSource) : super(const BaseState<CustomerModel>()) {
+    on<RegisterEvent>(_onRegister);
   }
-  FutureOr<void> _onForgetPassword(
-      RegisterEvent event, Emitter<BaseState<void>> emit) async {
+  FutureOr<void> _onRegister(
+      RegisterEvent event, Emitter<BaseState<CustomerModel>> emit) async {
     emit(state.copyWith(status: Status.loading));
-    final result = await _loginDataSource.register(event.email);
-    emit(result.fold(
-      (failure) => state.copyWith(
+    final result = await _registerDataSource.register(
+      fullName: event.fullName,
+      phoneNumber: event.phoneNumber,
+      password: event.password,
+    );
+    result.fold(
+      (failure) => emit(state.copyWith(
           status: Status.failure,
           errorMessage: failure.message,
-          failure: failure),
-      (data) => state.copyWith(status: Status.success),
-    ));
+          failure: failure)),
+      (user) {
+        CacheHelper.saveData(key: 'token', value: user.token);
+        CacheHelper.saveData(key: 'user', value: jsonEncode(user.toJson()));
+        emit(state.copyWith(status: Status.success, data: user));
+      },
+    );
   }
 }

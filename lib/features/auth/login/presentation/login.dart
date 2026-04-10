@@ -1,3 +1,8 @@
+import 'package:aladeep/core/bloc/paginated_bloc/exports.dart';
+import 'package:aladeep/core/enum/status.dart';
+import 'package:aladeep/features/auth/auth.dart';
+import 'package:aladeep/features/auth/models/customer_model.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:aladeep/core/routes/app_routs_name.dart';
 import 'package:aladeep/core/scroll_helper/scroll_helper.dart';
@@ -79,7 +84,7 @@ class _LoginViewState extends State<LoginView> with HomeScrollMixin {
                       'قم بتسجيل الدخول لمواصلة رحلة التفوق',
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                        color: AppColors.primaryDark.withValues(alpha: 0.6),
+                        color: AppColors.primaryDark.withOpacity(0.6),
                         fontSize: 13.sp,
                         height: 1.6,
                       ),
@@ -180,76 +185,105 @@ class _LoginViewState extends State<LoginView> with HomeScrollMixin {
           ),
         ],
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.end,
-        children: [
-          const FieldLabel(label: 'رقم الجوال'),
-          SizedBox(height: 8.h),
-          InputField(
-            controller: _phoneController,
-            hint: '05xxxxxxxx',
-            icon: Icons.phone_android_rounded,
-            keyboardType: TextInputType.phone,
-          ),
-          SizedBox(height: 18.h),
-          const FieldLabel(label: 'كلمة المرور'),
-          SizedBox(height: 8.h),
-          InputField(
-            controller: _passController,
-            hint: '••••••••',
-            icon: Icons.lock_outline_rounded,
-            obscure: _obscurePass,
-            suffixIcon: IconButton(
-              onPressed: () => setState(() => _obscurePass = !_obscurePass),
-              icon: Icon(
-                _obscurePass
-                    ? Icons.visibility_outlined
-                    : Icons.visibility_off_outlined,
-                color: Colors.grey,
-                size: 20.sp,
+      child: BlocConsumer<LoginBloc, BaseState<CustomerModel>>(
+        listener: (context, state) {
+          if (state.status == Status.success) {
+            Navigator.pushNamed(
+              context,
+              AppRoutsName
+                  .homeView, // Navigate to home or result as per project flow
+              arguments: state.data?.fullName ?? 'طالب',
+            );
+          } else if (state.status == Status.failure) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(state.errorMessage ?? 'حدث خطأ ما'),
+                backgroundColor: AppColors.primaryDark,
               ),
-            ),
-          ),
-          SizedBox(height: 30.h),
-
-          CustomButton(
-            text: 'دخول للمنصه',
-            backgroundColor: AppColors.primaryDark,
-            textColor: AppColors.primaryGold,
-            onPressed: () {
-              final userName = _phoneController.text.trim().isEmpty
-                  ? 'طالب'
-                  : _phoneController.text.trim();
-              Navigator.pushNamed(
-                context,
-                AppRoutsName.loginResultView,
-                arguments: userName,
-              );
-            },
-          ),
-          SizedBox(height: 16.h),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+            );
+          }
+        },
+        builder: (context, state) {
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              TextButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, AppRoutsName.registerView);
-                },
-                child: Text(
-                  'قم بانشاء حساب الان',
-                  style: TextStyle(
-                    color: AppColors.primaryGold,
-                    fontSize: 12.sp,
+              const FieldLabel(label: 'رقم الجوال'),
+              SizedBox(height: 8.h),
+              InputField(
+                controller: _phoneController,
+                hint: '05xxxxxxxx',
+                icon: Icons.phone_android_rounded,
+                keyboardType: TextInputType.phone,
+              ),
+              SizedBox(height: 18.h),
+              const FieldLabel(label: 'كلمة المرور'),
+              SizedBox(height: 8.h),
+              InputField(
+                controller: _passController,
+                hint: '••••••••',
+                icon: Icons.lock_outline_rounded,
+                obscure: _obscurePass,
+                suffixIcon: IconButton(
+                  onPressed: () => setState(() => _obscurePass = !_obscurePass),
+                  icon: Icon(
+                    _obscurePass
+                        ? Icons.visibility_outlined
+                        : Icons.visibility_off_outlined,
+                    color: Colors.grey,
+                    size: 20.sp,
                   ),
                 ),
               ),
-              Text(
-                'طالب جديد معنا؟',
-                style: TextStyle(color: AppColors.primaryDark, fontSize: 12.sp),
+              SizedBox(height: 30.h),
+              CustomButton(
+                text: 'دخول للمنصه',
+                backgroundColor: AppColors.primaryDark,
+                textColor: AppColors.primaryGold,
+                isLoading: state.status == Status.loading,
+                onPressed: () {
+                  if (_phoneController.text.isNotEmpty &&
+                      _passController.text.isNotEmpty) {
+                    context.read<LoginBloc>().add(
+                      LoginEvent(
+                        phoneNumber: _phoneController.text,
+                        password: _passController.text,
+                      ),
+                    );
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('يرجى ملء جميع الحقول')),
+                    );
+                  }
+                },
+              ),
+              SizedBox(height: 16.h),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  TextButton(
+                    onPressed: () {
+                      Navigator.pushNamed(context, AppRoutsName.registerView);
+                    },
+                    child: Text(
+                      'قم بانشاء حساب الان',
+                      style: TextStyle(
+                        color: AppColors.primaryGold,
+                        fontSize: 12.sp,
+                      ),
+                    ),
+                  ),
+                  Text(
+                    'طالب جديد معنا؟',
+                    style: TextStyle(
+                      color: AppColors.primaryDark,
+                      fontSize: 12.sp,
+                    ),
+                  ),
+                ],
               ),
             ],
-          ),
-        ],
+          );
+        },
       ),
     );
   }

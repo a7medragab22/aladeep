@@ -1,8 +1,17 @@
-part of '../service_locator.dart';
+import 'package:aladeep/core/extensions/extensions.dart';
+import 'package:aladeep/core/helpers/cache_helper.dart';
+import 'package:aladeep/core/helpers/helpers.dart';
+import 'package:aladeep/core/http/http.dart';
+
+import 'package:aladeep/main.dart';
+import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
+import 'package:get_it/get_it.dart';
+import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
 class SharedServiceLocator {
   static Future<void> execute({required GetIt getIt}) async {
-    final token = 'HiveServiceImpl.instance.getAccessToken()';
+    final token = CacheHelper.getData(key: 'token') ?? '';
 
     loggerWarn("token in sl $token");
     loggerWarn(
@@ -54,3 +63,9 @@ class SharedServiceLocator {
     // getIt.registerLazySingleton<SyncBloc>(() => SyncBloc(syncManager: getIt<SyncManager>(), connectivityService: getIt<ConnectivityService>()));
   }
 }
+
+class SyncManager {} // Placeholder if missing, or import if exists
+
+class ConnectivityService {
+  static ConnectivityService get instance => ConnectivityService();
+} // Placeholder if missing

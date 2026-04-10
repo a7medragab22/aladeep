@@ -1,6 +1,6 @@
 part of 'http.dart';
 abstract interface class Endpoints {
-  static const String baseUrl = 'https://api.example.com';
+  static const String baseUrl = 'https://al-adeep.com';
   static const String auth = '/auth';
   static const String user = '/user';
   static const String product = '/product';
@@ -13,6 +13,8 @@ abstract interface class Endpoints {
   static const String about = '/about';
   static const String contact = '/contact';
   static const String forgetPassword = "/forget-password";
-  static const String login = "/login";
+  static const String login = "/api/mobile/login";
   static const String logout = "/logout";
+  static const String register = "/api/mobile/register";
+  static const String profileUpdate = "/api/mobile/profile/update";
 }

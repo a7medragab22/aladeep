@@ -1,7 +1,10 @@
 part of "../auth.dart";
 
 abstract interface class LoginDataSource {
-  Future<Either<Failure, void>> login(String email);
+  Future<Either<Failure, CustomerModel>> login(
+    String phoneNumber,
+    String password,
+  );
 }
 
 class LoginDataSourceImpl implements LoginDataSource {
@@ -9,10 +12,14 @@ class LoginDataSourceImpl implements LoginDataSource {
   const LoginDataSourceImpl(this._genericDataSource);
 
   @override
-  Future<Either<Failure, void>> login(String email) {
-    return _genericDataSource.postData(
+  Future<Either<Failure, CustomerModel>> login(
+    String phoneNumber,
+    String password,
+  ) {
+    return _genericDataSource.postResult(
       endpoint: Endpoints.login,
-      data: {"email": email},
+      data: {"phoneNumber": phoneNumber, "password": password},
+      fromJson: (json) => CustomerModel.fromJson(json),
     );
   }
 }

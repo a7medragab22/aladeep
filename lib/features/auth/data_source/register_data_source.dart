@@ -1,7 +1,11 @@
 part of "../auth.dart";
 
 abstract interface class RegisterDataSource {
-  Future<Either<Failure, void>> register(String email);
+  Future<Either<Failure, CustomerModel>> register({
+    required String fullName,
+    required String phoneNumber,
+    required String password,
+  });
 }
 
 class RegisterDataSourceImpl implements RegisterDataSource {
@@ -9,10 +13,19 @@ class RegisterDataSourceImpl implements RegisterDataSource {
   const RegisterDataSourceImpl(this._genericDataSource);
 
   @override
-  Future<Either<Failure, void>> register(String email) {
-    return _genericDataSource.postData(
-      endpoint: Endpoints.login,
-      data: {"email": email},
+  Future<Either<Failure, CustomerModel>> register({
+    required String fullName,
+    required String phoneNumber,
+    required String password,
+  }) {
+    return _genericDataSource.postResult(
+      endpoint: Endpoints.register,
+      data: {
+        "fullName": fullName,
+        "phoneNumber": phoneNumber,
+        "password": password,
+      },
+      fromJson: (json) => CustomerModel.fromJson(json),
     );
   }
 }
