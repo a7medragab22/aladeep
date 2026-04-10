@@ -9,8 +9,8 @@ mixin HomeScrollMixin {
 
   void handleScroll(BuildContext context) {
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      final args = ModalRoute.of(context)?.settings.arguments as Map?;
-      if (args == null) return;
+      final args = ModalRoute.of(context)?.settings.arguments;
+      if (args is! Map<String, dynamic>) return;
 
       if (args['scrollToFooter'] == true) {
         animateTo(scrollController.position.maxScrollExtent);

@@ -1,4 +1,4 @@
-import 'package:aladeep/core/themes/app_color.dart';
+import 'package:aladeep/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -12,13 +12,13 @@ class SocialIcon extends StatelessWidget {
     return Container(
       padding: EdgeInsets.all(9.r),
       decoration: BoxDecoration(
-        color: AppColor.primaryDark.withValues(alpha: 0.05),
+        color: AppColors.primaryDark.withValues(alpha: 0.05),
         borderRadius: BorderRadius.circular(10),
-        border: Border.all(color: AppColor.primaryDark.withValues(alpha: 0.1)),
+        border: Border.all(color: AppColors.primaryDark.withValues(alpha: 0.1)),
       ),
       child: FaIcon(
         icon,
-        color: AppColor.primaryDark.withValues(alpha: 0.6),
+        color: AppColors.primaryDark.withValues(alpha: 0.6),
         size: 18.sp,
       ),
     );

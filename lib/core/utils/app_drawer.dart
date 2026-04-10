@@ -1,19 +1,45 @@
+import 'dart:convert';
+import 'package:aladeep/core/helpers/cache_helper.dart';
 import 'package:aladeep/core/routes/app_routs_name.dart';
-import 'package:aladeep/core/themes/app_color.dart';
+import 'package:aladeep/core/theme/app_colors.dart';
 import 'package:aladeep/core/utils/drawer_item.dart';
 import 'package:aladeep/core/utils/social_icon.dart';
+import 'package:aladeep/features/auth/models/customer_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class AppDrawer extends StatelessWidget {
+class AppDrawer extends StatefulWidget {
   const AppDrawer({super.key});
+
+  @override
+  State<AppDrawer> createState() => _AppDrawerState();
+}
+
+class _AppDrawerState extends State<AppDrawer> {
+  String userName = 'طالب';
+
+  @override
+  void initState() {
+    super.initState();
+    _loadUserInfo();
+  }
+
+  void _loadUserInfo() {
+    final userJson = CacheHelper.getData(key: 'user');
+    if (userJson != null) {
+      final user = CustomerModel.fromJson(jsonDecode(userJson));
+      setState(() {
+        userName = user.fullName ?? 'طالب';
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Drawer(
       width: 0.82.sw,
-      backgroundColor: AppColor.white,
+      backgroundColor: AppColors.white,
       child: SafeArea(
         child: Column(
           children: [
@@ -29,41 +55,39 @@ class AppDrawer extends StatelessWidget {
                     child: Container(
                       padding: EdgeInsets.all(8.r),
                       decoration: BoxDecoration(
-                        color: AppColor.primaryDark.withValues(
-                          alpha: 0.05,
-                        ), // خلفية خفيفة جداً
+                        color: AppColors.primaryDark.withOpacity(0.05),
                         borderRadius: BorderRadius.circular(10),
                         border: Border.all(
-                          color: AppColor.primaryDark.withValues(alpha: 0.1),
+                          color: AppColors.primaryDark.withOpacity(0.1),
                         ),
                       ),
                       child: Icon(
                         Icons.close,
-                        color: AppColor.primaryDark, // لون الغلق كحلي
+                        color: AppColors.primaryDark,
                         size: 20.sp,
                       ),
                     ),
                   ),
 
-                  // Logo
+                  // User Welcome
                   Container(
                     padding: EdgeInsets.symmetric(
                       horizontal: 16.w,
                       vertical: 10.h,
                     ),
                     decoration: BoxDecoration(
-                      color: AppColor.primaryGold.withValues(alpha: 0.12),
+                      color: AppColors.primaryGold.withOpacity(0.12),
                       borderRadius: BorderRadius.circular(12),
                       border: Border.all(
-                        color: AppColor.primaryGold.withValues(alpha: 0.35),
+                        color: AppColors.primaryGold.withOpacity(0.35),
                       ),
                     ),
                     child: Text(
-                      'الأديب',
+                      'أهلاً، $userName',
                       style: TextStyle(
-                        color: AppColor.primaryGold,
+                        color: AppColors.primaryGold,
                         fontWeight: FontWeight.bold,
-                        fontSize: 18.sp,
+                        fontSize: 14.sp,
                       ),
                     ),
                   ),
@@ -71,7 +95,7 @@ class AppDrawer extends StatelessWidget {
               ),
             ),
 
-            Divider(color: Colors.grey.shade200), // ديزاين أنظف للديوايدر
+            Divider(color: Colors.grey.shade200),
             SizedBox(height: 8.h),
 
             // Nav links
@@ -83,7 +107,6 @@ class AppDrawer extends StatelessWidget {
                     icon: Icons.home_rounded,
                     title: 'الرئيسية',
                     onTap: () {
-                      // بيرجع للهوم ويشيل أي صفحات تانية كانت مفتوحة
                       Navigator.of(context).pushNamedAndRemoveUntil(
                         AppRoutsName.homeView,
                         (route) => false,
@@ -107,11 +130,10 @@ class AppDrawer extends StatelessWidget {
                     ),
                   ),
                   DrawerItem(
-                    icon: Icons.star_rounded, // أيقونة النجمة زي الصورة
+                    icon: Icons.star_rounded,
                     title: 'آراء الطلاب',
                     onTap: () {
                       Navigator.pop(context);
-                      // هنبعت argument مختلف عشان الهوم تعرف إننا عايزين سكشن التعليقات
                       Navigator.pushNamedAndRemoveUntil(
                         context,
                         AppRoutsName.homeView,
@@ -133,6 +155,17 @@ class AppDrawer extends StatelessWidget {
                       );
                     },
                   ),
+                  DrawerItem(
+                    icon: Icons.manage_accounts_rounded,
+                    title: 'الملف الشخصي',
+                    onTap: () {
+                      Navigator.pop(context); // Close drawer first
+                      Navigator.pushNamed(
+                        context,
+                        AppRoutsName.profileView,
+                      );
+                    },
+                  ),
 
                   SizedBox(height: 16.h),
                   Divider(color: Colors.grey.shade100),
@@ -141,7 +174,7 @@ class AppDrawer extends StatelessWidget {
                   // CTA Buttons
                   SizedBox(
                     width: double.infinity,
-                    height: 50,
+                    height: 50.h,
                     child: ElevatedButton.icon(
                       onPressed: () => Navigator.pop(context),
                       icon: Icon(Icons.rocket_launch_rounded, size: 18.sp),
@@ -153,8 +186,8 @@ class AppDrawer extends StatelessWidget {
                         ),
                       ),
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColor.primaryGold,
-                        foregroundColor: AppColor.primaryDark,
+                        backgroundColor: AppColors.primaryGold,
+                        foregroundColor: AppColors.primaryDark,
                         elevation: 0,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(14),
@@ -167,22 +200,28 @@ class AppDrawer extends StatelessWidget {
 
                   SizedBox(
                     width: double.infinity,
-                    height: 50,
+                    height: 50.h,
                     child: OutlinedButton.icon(
-                      onPressed: () => Navigator.pop(context),
-                      icon: Icon(Icons.lock_outline_rounded, size: 18.sp),
+                      onPressed: () {
+                        CacheHelper.clear();
+                        Navigator.pushNamedAndRemoveUntil(
+                          context,
+                          AppRoutsName.loginView,
+                          (route) => false,
+                        );
+                      },
+                      icon: Icon(Icons.logout_rounded, size: 18.sp),
                       label: Text(
-                        'دخول الطلاب',
+                        'تسجيل الخروج',
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 15.sp,
                         ),
                       ),
                       style: OutlinedButton.styleFrom(
-                        foregroundColor:
-                            AppColor.primaryDark, // نص كحلي على خلفية بيضاء
+                        foregroundColor: AppColors.primaryDark,
                         side: BorderSide(
-                          color: AppColor.primaryDark.withValues(alpha: 0.2),
+                          color: AppColors.primaryDark.withOpacity(0.2),
                         ),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(14),
@@ -215,7 +254,7 @@ class AppDrawer extends StatelessWidget {
                     'جميع الحقوق محفوظة © 2026\nمنصة الأديب',
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      color: Colors.grey.shade500, // رمادي هادي للحقوق
+                      color: Colors.grey.shade500,
                       fontSize: 11.sp,
                       height: 1.6,
                     ),

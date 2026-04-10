@@ -1,4 +1,4 @@
-import 'package:aladeep/core/themes/app_color.dart';
+import 'package:aladeep/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -21,16 +21,16 @@ class DrawerItem extends StatelessWidget {
       leading: Container(
         padding: EdgeInsets.all(8.r),
         decoration: BoxDecoration(
-          color: AppColor.primaryGold.withValues(alpha: 0.1),
+          color: AppColors.primaryGold.withValues(alpha: 0.1),
           borderRadius: BorderRadius.circular(10),
         ),
-        child: Icon(icon, color: AppColor.primaryGold, size: 18.sp),
+        child: Icon(icon, color: AppColors.primaryGold, size: 18.sp),
       ),
       title: Text(
         title,
         textAlign: TextAlign.right,
         style: TextStyle(
-          color: AppColor.primaryDark.withValues(alpha: 0.9), // نص كحلي واضح
+          color: AppColors.primaryDark.withValues(alpha: 0.9), // نص كحلي واضح
           fontSize: 15.sp,
           fontWeight: FontWeight.w600,
         ),

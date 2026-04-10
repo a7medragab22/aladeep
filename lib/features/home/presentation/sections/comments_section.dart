@@ -1,4 +1,4 @@
-import 'package:aladeep/core/themes/app_color.dart';
+import 'package:aladeep/core/theme/app_colors.dart';
 import 'package:aladeep/features/home/data/repo/comments_repository_impl.dart';
 import 'package:aladeep/features/home/presentation/cubits/commentscubit/comments_cubit.dart';
 import 'package:aladeep/features/home/presentation/cubits/commentscubit/comments_state.dart';
@@ -23,7 +23,7 @@ class CommentsSection extends StatelessWidget {
                 padding: EdgeInsets.all(40.r),
                 child: Center(
                   child: CircularProgressIndicator(
-                    color: AppColor.primaryGold,
+                    color: AppColors.primaryGold,
                     strokeWidth: 2,
                   ),
                 ),
@@ -40,7 +40,7 @@ class CommentsSection extends StatelessWidget {
                   child: Text(
                     state.message,
                     style: TextStyle(
-                      color: AppColor.primaryDark.withValues(alpha: 0.5),
+                      color: AppColors.primaryDark.withValues(alpha: 0.5),
                     ),
                   ),
                 ),
@@ -69,13 +69,15 @@ class CommentsSection extends StatelessWidget {
                             vertical: 6.h,
                           ),
                           decoration: BoxDecoration(
-                            color: AppColor.primaryDark.withValues(alpha: 0.06),
+                            color: AppColors.primaryDark.withValues(
+                              alpha: 0.06,
+                            ),
                             borderRadius: BorderRadius.circular(20),
                           ),
                           child: Text(
                             'آراء الطلاب',
                             style: TextStyle(
-                              color: AppColor.primaryDark,
+                              color: AppColors.primaryDark,
                               fontSize: 12.sp,
                               fontWeight: FontWeight.w600,
                             ),
@@ -88,7 +90,7 @@ class CommentsSection extends StatelessWidget {
                           style: TextStyle(
                             fontSize: 22.sp,
                             fontWeight: FontWeight.bold,
-                            color: AppColor.primaryDark,
+                            color: AppColors.primaryDark,
                           ),
                         ),
                       ],

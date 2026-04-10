@@ -4,7 +4,7 @@ import 'package:aladeep/features/browse_course_screen/presentation/widget/premiu
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:aladeep/core/routes/app_routs_name.dart';
 import 'package:aladeep/core/scroll_helper/scroll_helper.dart';
-import 'package:aladeep/core/themes/app_color.dart';
+import 'package:aladeep/core/theme/app_colors.dart';
 import 'package:aladeep/core/utils/app_drawer.dart'; // الـ Drawer الموحد
 import 'package:aladeep/core/utils/header.dart'; // الهيدر الموحد
 import 'package:aladeep/features/browse_course_screen/presentation/widget/custom_course_card.dart';
@@ -76,7 +76,7 @@ class _BrowseCoursesScreenState extends State<BrowseCoursesScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColor.bgColor,
+      backgroundColor: AppColors.bgColor,
       // إضافة الـ Drawer عشان يكون ثابت في كل التطبيق
       endDrawer: const AppDrawer(),
       body: SafeArea(

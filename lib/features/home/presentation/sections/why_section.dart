@@ -1,4 +1,4 @@
-import 'package:aladeep/core/themes/app_color.dart';
+import 'package:aladeep/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -16,16 +16,16 @@ class WhySection extends StatelessWidget {
           Container(
             padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 6.h),
             decoration: BoxDecoration(
-              color: AppColor.primaryGold.withValues(alpha: 0.1),
+              color: AppColors.primaryGold.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(20),
               border: Border.all(
-                color: AppColor.primaryGold.withValues(alpha: 0.3),
+                color: AppColors.primaryGold.withValues(alpha: 0.3),
               ),
             ),
             child: Text(
               'لماذا نحن؟',
               style: TextStyle(
-                color: AppColor.primaryGold,
+                color: AppColors.primaryGold,
                 fontSize: 12.sp,
                 fontWeight: FontWeight.w600,
               ),
@@ -40,7 +40,7 @@ class WhySection extends StatelessWidget {
             style: TextStyle(
               fontSize: 24.sp,
               fontWeight: FontWeight.bold,
-              color: AppColor.primaryDark,
+              color: AppColors.primaryDark,
               height: 1.4,
             ),
           ),
@@ -51,7 +51,7 @@ class WhySection extends StatelessWidget {
             'نحن لا نقدم مجرد فيديوهات مسجلة، بل نصنع تجربة تعليمية تفاعلية متكاملة تقودك نحو الـ 100%.',
             textAlign: TextAlign.center,
             style: TextStyle(
-              color: AppColor.primaryDark.withValues(alpha: 0.6),
+              color: AppColors.primaryDark.withValues(alpha: 0.6),
               fontSize: 13.sp,
               height: 1.7,
             ),

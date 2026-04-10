@@ -1,4 +1,4 @@
-import 'package:aladeep/core/themes/app_color.dart';
+import 'package:aladeep/core/theme/app_colors.dart';
 import 'package:aladeep/features/home/domain/entities/comment_entity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -19,7 +19,7 @@ class CommentCard extends StatelessWidget {
         border: Border.all(color: Colors.grey.shade100),
         boxShadow: [
           BoxShadow(
-            color: AppColor.primaryDark.withValues(alpha: 0.05),
+            color: AppColors.primaryDark.withValues(alpha: 0.05),
             blurRadius: 16,
             offset: const Offset(0, 4),
           ),
@@ -62,7 +62,7 @@ class CommentCard extends StatelessWidget {
             style: TextStyle(
               fontSize: 13.sp,
               height: 1.7,
-              color: AppColor.primaryDark.withValues(alpha: 0.75),
+              color: AppColors.primaryDark.withValues(alpha: 0.75),
               fontWeight: FontWeight.w500,
             ),
           ),
@@ -99,7 +99,7 @@ class CommentCard extends StatelessWidget {
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 14.sp,
-                      color: AppColor.primaryDark,
+                      color: AppColors.primaryDark,
                     ),
                   ),
                   SizedBox(height: 4.h),
