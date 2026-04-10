@@ -1,4 +1,4 @@
-import 'package:aladeep/core/themes/app_color.dart';
+import 'package:aladeep/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -20,12 +20,12 @@ class HeaderSection extends StatelessWidget {
                 ),
                 decoration: BoxDecoration(
                   border: Border.all(
-                    color: AppColor.primaryGold.withValues(alpha: 0.5),
+                    color: AppColors.primaryGold.withValues(alpha: 0.5),
                   ),
                   borderRadius: BorderRadius.circular(16),
                   boxShadow: [
                     BoxShadow(
-                      color: AppColor.primaryLightGold.withValues(alpha: 0.2),
+                      color: AppColors.primaryLightGold.withValues(alpha: 0.2),
                       blurRadius: 8,
                       offset: const Offset(0, 4),
                     ),
@@ -36,7 +36,7 @@ class HeaderSection extends StatelessWidget {
                   'الشفافيه والامان',
                   style: TextStyle(
                     fontSize: 10.sp,
-                    color: AppColor.primaryGold,
+                    color: AppColors.primaryGold,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -47,7 +47,7 @@ class HeaderSection extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 22.sp,
                   fontWeight: FontWeight.bold,
-                  color: AppColor.primaryDarker,
+                  color: AppColors.primaryDarker,
                 ),
               ),
               Text(
@@ -55,7 +55,7 @@ class HeaderSection extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 22.sp,
                   fontWeight: FontWeight.bold,
-                  color: AppColor.primaryGold,
+                  color: AppColors.primaryGold,
                 ),
               ),
             ],
@@ -65,7 +65,7 @@ class HeaderSection extends StatelessWidget {
             textDirection: TextDirection.rtl,
             'نلتزم بحماية بياناتك وتقديم بيئة تعليمية آمنة وموثوقة.',
             textAlign: TextAlign.center,
-            style: TextStyle(color: AppColor.primaryDark),
+            style: TextStyle(color: AppColors.primaryDark),
           ),
         ],
       ),

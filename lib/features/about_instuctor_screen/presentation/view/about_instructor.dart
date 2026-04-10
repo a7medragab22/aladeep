@@ -1,6 +1,6 @@
 import 'package:aladeep/core/routes/app_routs_name.dart';
 import 'package:aladeep/core/scroll_helper/scroll_helper.dart';
-import 'package:aladeep/core/themes/app_color.dart';
+import 'package:aladeep/core/theme/app_colors.dart';
 import 'package:aladeep/core/utils/app_drawer.dart';
 import 'package:aladeep/core/utils/header.dart';
 import 'package:aladeep/features/about_instuctor_screen/presentation/widgets/custom_info_card.dart';
@@ -70,7 +70,7 @@ class _AboutInstructorScreenState extends State<AboutInstructorScreen>
                             vertical: 8.h,
                           ),
                           decoration: BoxDecoration(
-                            color: AppColor.primaryGold.withOpacity(0.2),
+                            color: AppColors.primaryGold.withOpacity(0.2),
                             borderRadius: BorderRadius.circular(20.r),
                           ),
                           child: Row(
@@ -78,7 +78,7 @@ class _AboutInstructorScreenState extends State<AboutInstructorScreen>
                             children: [
                               Icon(
                                 Icons.emoji_events,
-                                color: AppColor.primaryGold,
+                                color: AppColors.primaryGold,
                                 size: 16.sp,
                               ),
                               SizedBox(width: 6.w),
@@ -86,7 +86,7 @@ class _AboutInstructorScreenState extends State<AboutInstructorScreen>
                                 "ريادة في التدريب",
                                 style: TextStyle(
                                   fontSize: 12.sp,
-                                  color: AppColor.primaryGold,
+                                  color: AppColors.primaryGold,
                                 ),
                               ),
                             ],
@@ -104,7 +104,7 @@ class _AboutInstructorScreenState extends State<AboutInstructorScreen>
                                 text: "من هو ",
                                 style: TextStyle(
                                   fontSize: 18.sp,
-                                  color: AppColor.primaryDarker,
+                                  color: AppColors.primaryDarker,
                                 ),
                               ),
                               TextSpan(
@@ -112,14 +112,14 @@ class _AboutInstructorScreenState extends State<AboutInstructorScreen>
                                 style: TextStyle(
                                   fontSize: 20.sp,
                                   fontWeight: FontWeight.bold,
-                                  color: AppColor.primaryGold,
+                                  color: AppColors.primaryGold,
                                 ),
                               ),
                               TextSpan(
                                 text: "؟",
                                 style: TextStyle(
                                   fontSize: 20.sp,
-                                  color: AppColor.primaryDarker,
+                                  color: AppColors.primaryDarker,
                                 ),
                               ),
                             ],
@@ -138,7 +138,7 @@ class _AboutInstructorScreenState extends State<AboutInstructorScreen>
                               ),
                               decoration: BoxDecoration(
                                 border: Border.all(
-                                  color: AppColor.primaryGold,
+                                  color: AppColors.primaryGold,
                                   width: 2.w,
                                 ),
                                 borderRadius: BorderRadius.circular(24.r),
@@ -181,7 +181,7 @@ class _AboutInstructorScreenState extends State<AboutInstructorScreen>
                                           style: TextStyle(
                                             fontSize: 16.sp,
                                             fontWeight: FontWeight.bold,
-                                            color: AppColor.primaryDarker,
+                                            color: AppColors.primaryDarker,
                                           ),
                                         ),
                                         SizedBox(width: 6.w),
@@ -189,7 +189,7 @@ class _AboutInstructorScreenState extends State<AboutInstructorScreen>
                                           "نسبة نجاح وتفوق",
                                           style: TextStyle(
                                             fontSize: 12.sp,
-                                            color: AppColor.primaryGold,
+                                            color: AppColors.primaryGold,
                                           ),
                                         ),
                                       ],
@@ -199,7 +199,7 @@ class _AboutInstructorScreenState extends State<AboutInstructorScreen>
                                     Container(
                                       padding: EdgeInsets.all(8.w),
                                       decoration: BoxDecoration(
-                                        color: AppColor.primaryGold,
+                                        color: AppColors.primaryGold,
                                         borderRadius: BorderRadius.circular(
                                           12.r,
                                         ),
@@ -230,7 +230,7 @@ class _AboutInstructorScreenState extends State<AboutInstructorScreen>
                       decoration: BoxDecoration(
                         border: Border(
                           right: BorderSide(
-                            color: AppColor.primaryGold,
+                            color: AppColors.primaryGold,
                             width: 3.w,
                           ),
                         ),
@@ -241,7 +241,7 @@ class _AboutInstructorScreenState extends State<AboutInstructorScreen>
                         style: TextStyle(
                           fontSize: 13.sp,
                           height: 1.6,
-                          color: AppColor.primaryDark,
+                          color: AppColors.primaryDark,
                           fontFamily: 'Cairo',
                         ),
                       ),

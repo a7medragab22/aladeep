@@ -1,4 +1,4 @@
-import 'package:aladeep/core/themes/app_color.dart';
+import 'package:aladeep/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -24,14 +24,14 @@ class _FeatureCard extends StatelessWidget {
       margin: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
       padding: EdgeInsets.all(24.r),
       decoration: BoxDecoration(
-        color: isDark ? AppColor.primaryDark : Colors.white,
+        color: isDark ? AppColors.primaryDark : Colors.white,
         borderRadius: BorderRadius.circular(24),
         border: isDark
             ? null
-            : Border.all(color: AppColor.primaryDark.withValues(alpha: 0.08)),
+            : Border.all(color: AppColors.primaryDark.withValues(alpha: 0.08)),
         boxShadow: [
           BoxShadow(
-            color: AppColor.primaryDark.withValues(alpha: isDark ? 0.2 : 0.06),
+            color: AppColors.primaryDark.withValues(alpha: isDark ? 0.2 : 0.06),
             blurRadius: 20,
             offset: const Offset(0, 6),
           ),
@@ -44,12 +44,12 @@ class _FeatureCard extends StatelessWidget {
           Container(
             padding: EdgeInsets.all(14.r),
             decoration: BoxDecoration(
-              color: AppColor.primaryGold.withValues(
+              color: AppColors.primaryGold.withValues(
                 alpha: isDark ? 0.15 : 0.1,
               ),
               borderRadius: BorderRadius.circular(16),
             ),
-            child: FaIcon(icon, size: 28.sp, color: AppColor.primaryGold),
+            child: FaIcon(icon, size: 28.sp, color: AppColors.primaryGold),
           ),
 
           SizedBox(width: 16.w),
@@ -64,7 +64,7 @@ class _FeatureCard extends StatelessWidget {
                   textAlign: TextAlign.right,
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
-                    color: isDark ? Colors.white : AppColor.primaryDark,
+                    color: isDark ? Colors.white : AppColors.primaryDark,
                     fontSize: 16.sp,
                   ),
                 ),
@@ -76,7 +76,7 @@ class _FeatureCard extends StatelessWidget {
                   style: TextStyle(
                     color: isDark
                         ? Colors.white.withValues(alpha: 0.65)
-                        : AppColor.primaryDark.withValues(alpha: 0.6),
+                        : AppColors.primaryDark.withValues(alpha: 0.6),
                     fontSize: 12.sp,
                     height: 1.7,
                   ),

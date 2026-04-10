@@ -1,4 +1,4 @@
-import 'package:aladeep/core/themes/app_color.dart';
+import 'package:aladeep/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -8,7 +8,7 @@ class CustomButton extends StatelessWidget {
     super.key,
     this.icon,
     required this.text,
-    this.backgroundColor = AppColor.primaryGold,
+    this.backgroundColor = AppColors.primaryGold,
     this.textColor = Colors.white,
     this.borderColor,
     this.onPressed,

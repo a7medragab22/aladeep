@@ -1,4 +1,4 @@
-import 'package:aladeep/core/themes/app_color.dart';
+import 'package:aladeep/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 
 class ActionButtons extends StatelessWidget {
@@ -10,7 +10,7 @@ class ActionButtons extends StatelessWidget {
       children: [
         ElevatedButton(
           style: ElevatedButton.styleFrom(
-            backgroundColor: AppColor.primaryDark,
+            backgroundColor: AppColors.primaryDark,
             minimumSize: const Size(double.infinity, 45),
           ),
           onPressed: () {},

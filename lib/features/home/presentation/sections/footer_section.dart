@@ -1,5 +1,5 @@
 import 'package:aladeep/core/services/url_launcher_service.dart';
-import 'package:aladeep/core/themes/app_color.dart';
+import 'package:aladeep/core/theme/app_colors.dart';
 import 'package:aladeep/features/home/data/models/footer_link_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -82,7 +82,7 @@ class FooterSection extends StatelessWidget {
                             ),
                             child: FaIcon(
                               entry.key,
-                              color: AppColor.primaryGold,
+                              color: AppColors.primaryGold,
                               size: 18.sp,
                             ),
                           ),
@@ -99,7 +99,7 @@ class FooterSection extends StatelessWidget {
                   Text(
                     'روابط سريعة',
                     style: TextStyle(
-                      color: AppColor.primaryGold,
+                      color: AppColors.primaryGold,
                       fontWeight: FontWeight.bold,
                       fontSize: 15.sp,
                     ),
@@ -147,7 +147,7 @@ class FooterSection extends StatelessWidget {
                   Text(
                     'الدعم الفني والاشتراكات',
                     style: TextStyle(
-                      color: AppColor.primaryGold,
+                      color: AppColors.primaryGold,
                       fontWeight: FontWeight.bold,
                       fontSize: 15.sp,
                     ),
@@ -190,7 +190,7 @@ class FooterSection extends StatelessWidget {
                       Text(
                         'GMTWEB',
                         style: TextStyle(
-                          color: AppColor.primaryGold.withValues(alpha: 0.7),
+                          color: AppColors.primaryGold.withValues(alpha: 0.7),
                           fontSize: 11.sp,
                           fontWeight: FontWeight.bold,
                         ),

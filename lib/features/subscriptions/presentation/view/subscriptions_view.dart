@@ -1,6 +1,6 @@
+import 'package:aladeep/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:aladeep/core/themes/app_color.dart';
 
 class SubscriptionsView extends StatelessWidget {
   const SubscriptionsView({super.key});
@@ -9,7 +9,7 @@ class SubscriptionsView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: AppColor.primaryDark,
+        backgroundColor: AppColors.primaryDark,
         title: const Text('باقات الاشتراك'),
       ),
       body: Padding(
@@ -22,7 +22,7 @@ class SubscriptionsView extends StatelessWidget {
               style: TextStyle(
                 fontSize: 20.sp,
                 fontWeight: FontWeight.bold,
-                color: AppColor.primaryDarker,
+                color: AppColors.primaryDarker,
               ),
             ),
             SizedBox(height: 16.h),

@@ -1,5 +1,5 @@
 import 'package:aladeep/core/routes/app_routs_name.dart';
-import 'package:aladeep/core/themes/app_color.dart';
+import 'package:aladeep/core/theme/app_colors.dart';
 import 'package:aladeep/core/utils/drawer_item.dart';
 import 'package:aladeep/core/utils/social_icon.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +13,7 @@ class AppDrawer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Drawer(
       width: 0.82.sw,
-      backgroundColor: AppColor.white,
+      backgroundColor: AppColors.white,
       child: SafeArea(
         child: Column(
           children: [
@@ -29,17 +29,17 @@ class AppDrawer extends StatelessWidget {
                     child: Container(
                       padding: EdgeInsets.all(8.r),
                       decoration: BoxDecoration(
-                        color: AppColor.primaryDark.withValues(
+                        color: AppColors.primaryDark.withValues(
                           alpha: 0.05,
                         ), // خلفية خفيفة جداً
                         borderRadius: BorderRadius.circular(10),
                         border: Border.all(
-                          color: AppColor.primaryDark.withValues(alpha: 0.1),
+                          color: AppColors.primaryDark.withValues(alpha: 0.1),
                         ),
                       ),
                       child: Icon(
                         Icons.close,
-                        color: AppColor.primaryDark, // لون الغلق كحلي
+                        color: AppColors.primaryDark, // لون الغلق كحلي
                         size: 20.sp,
                       ),
                     ),
@@ -52,16 +52,16 @@ class AppDrawer extends StatelessWidget {
                       vertical: 10.h,
                     ),
                     decoration: BoxDecoration(
-                      color: AppColor.primaryGold.withValues(alpha: 0.12),
+                      color: AppColors.primaryGold.withValues(alpha: 0.12),
                       borderRadius: BorderRadius.circular(12),
                       border: Border.all(
-                        color: AppColor.primaryGold.withValues(alpha: 0.35),
+                        color: AppColors.primaryGold.withValues(alpha: 0.35),
                       ),
                     ),
                     child: Text(
                       'الأديب',
                       style: TextStyle(
-                        color: AppColor.primaryGold,
+                        color: AppColors.primaryGold,
                         fontWeight: FontWeight.bold,
                         fontSize: 18.sp,
                       ),
@@ -153,8 +153,8 @@ class AppDrawer extends StatelessWidget {
                         ),
                       ),
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColor.primaryGold,
-                        foregroundColor: AppColor.primaryDark,
+                        backgroundColor: AppColors.primaryGold,
+                        foregroundColor: AppColors.primaryDark,
                         elevation: 0,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(14),
@@ -180,9 +180,9 @@ class AppDrawer extends StatelessWidget {
                       ),
                       style: OutlinedButton.styleFrom(
                         foregroundColor:
-                            AppColor.primaryDark, // نص كحلي على خلفية بيضاء
+                            AppColors.primaryDark, // نص كحلي على خلفية بيضاء
                         side: BorderSide(
-                          color: AppColor.primaryDark.withValues(alpha: 0.2),
+                          color: AppColors.primaryDark.withValues(alpha: 0.2),
                         ),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(14),

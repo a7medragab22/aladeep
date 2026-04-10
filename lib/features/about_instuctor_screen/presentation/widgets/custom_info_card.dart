@@ -1,4 +1,4 @@
-import 'package:aladeep/core/themes/app_color.dart';
+import 'package:aladeep/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -37,10 +37,10 @@ class CustomInfoCard extends StatelessWidget {
           Container(
             padding: EdgeInsets.all(12.w),
             decoration: BoxDecoration(
-              color: AppColor.primaryDark,
+              color: AppColors.primaryDark,
               borderRadius: BorderRadius.circular(12.r),
             ),
-            child: FaIcon(icon, size: 22.sp, color: AppColor.primaryGold),
+            child: FaIcon(icon, size: 22.sp, color: AppColors.primaryGold),
           ),
           SizedBox(height: 16.h),
           Text(
@@ -49,7 +49,7 @@ class CustomInfoCard extends StatelessWidget {
             style: TextStyle(
               fontSize: 16.sp,
               fontWeight: FontWeight.bold,
-              color: AppColor.primaryDark,
+              color: AppColors.primaryDark,
             ),
           ),
           SizedBox(height: 8.h),
@@ -58,7 +58,7 @@ class CustomInfoCard extends StatelessWidget {
             description,
             style: TextStyle(
               fontSize: 13.sp,
-              color: AppColor.primaryDark,
+              color: AppColors.primaryDark,
               height: 1.5,
             ),
           ),

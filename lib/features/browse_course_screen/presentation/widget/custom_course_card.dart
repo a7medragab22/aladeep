@@ -1,4 +1,4 @@
-import 'package:aladeep/core/themes/app_color.dart';
+import 'package:aladeep/core/theme/app_colors.dart';
 import 'package:aladeep/core/utils/custom_button.dart';
 import 'package:aladeep/features/browse_course_screen/data/course_model/course_model.dart';
 import 'package:flutter/material.dart';
@@ -91,7 +91,7 @@ class CustomCourseCard extends StatelessWidget {
                     children: [
                       Text(
                         course.instructorName,
-                        style: const TextStyle(color: AppColor.primaryDarker),
+                        style: const TextStyle(color: AppColors.primaryDarker),
                       ),
                       const SizedBox(width: 8),
                       Container(
@@ -207,8 +207,8 @@ class CustomCourseCard extends StatelessWidget {
                 /// BUTTON 1
                 CustomButton(
                   text: "اشترك في الدورة",
-                  backgroundColor: AppColor.primaryDarker,
-                  textColor: AppColor.primaryGold,
+                  backgroundColor: AppColors.primaryDarker,
+                  textColor: AppColors.primaryGold,
                   faIcon: FontAwesomeIcons.cartShopping,
                   isFaicon: true,
                 ),
@@ -218,10 +218,10 @@ class CustomCourseCard extends StatelessWidget {
                 CustomButton(
                   text: "شاهد العينة المجانية",
                   backgroundColor: Colors.white,
-                  textColor: AppColor.primaryDarker,
+                  textColor: AppColors.primaryDarker,
                   faIcon: FontAwesomeIcons.eye,
                   isFaicon: true,
-                  borderColor: AppColor.primaryDarker,
+                  borderColor: AppColors.primaryDarker,
                 ),
               ],
             ),

@@ -1,4 +1,4 @@
-import 'package:aladeep/core/themes/app_color.dart';
+import 'package:aladeep/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -45,7 +45,7 @@ class SuccefullStorysSection extends StatelessWidget {
             style: TextStyle(
               fontSize: 24.sp,
               fontWeight: FontWeight.bold,
-              color: AppColor.primaryDark,
+              color: AppColors.primaryDark,
             ),
           ),
 
@@ -55,7 +55,7 @@ class SuccefullStorysSection extends StatelessWidget {
             'آراء بعض الطلاب الذين حققوا طموحاتهم وتفوقوا في القدرات مع منصة الأديب.',
             textAlign: TextAlign.center,
             style: TextStyle(
-              color: AppColor.primaryDark.withValues(alpha: 0.6),
+              color: AppColors.primaryDark.withValues(alpha: 0.6),
               fontSize: 13.sp,
               height: 1.7,
             ),
@@ -126,7 +126,7 @@ class _StoryCard extends StatelessWidget {
         border: Border.all(color: Colors.grey.shade100),
         boxShadow: [
           BoxShadow(
-            color: AppColor.primaryDark.withValues(alpha: 0.06),
+            color: AppColors.primaryDark.withValues(alpha: 0.06),
             blurRadius: 16,
             offset: const Offset(0, 4),
           ),
@@ -166,7 +166,7 @@ class _StoryCard extends StatelessWidget {
             style: TextStyle(
               fontSize: 13.sp,
               height: 1.7,
-              color: AppColor.primaryDark.withValues(alpha: 0.75),
+              color: AppColors.primaryDark.withValues(alpha: 0.75),
             ),
           ),
 
@@ -197,7 +197,7 @@ class _StoryCard extends StatelessWidget {
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 14.sp,
-                      color: AppColor.primaryDark,
+                      color: AppColors.primaryDark,
                     ),
                   ),
                   SizedBox(height: 4.h),

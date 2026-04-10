@@ -1,5 +1,5 @@
 import 'package:aladeep/core/routes/app_routs_name.dart';
-import 'package:aladeep/core/themes/app_color.dart';
+import 'package:aladeep/core/theme/app_colors.dart';
 import 'package:aladeep/core/utils/custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -31,10 +31,10 @@ class HeroSection extends StatelessWidget {
           Container(
             padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
             decoration: BoxDecoration(
-              color: AppColor.primaryGold.withValues(alpha: 0.15),
+              color: AppColors.primaryGold.withValues(alpha: 0.15),
               borderRadius: BorderRadius.circular(30),
               border: Border.all(
-                color: AppColor.primaryGold.withValues(alpha: 0.4),
+                color: AppColors.primaryGold.withValues(alpha: 0.4),
               ),
             ),
             child: Row(
@@ -42,14 +42,14 @@ class HeroSection extends StatelessWidget {
               children: [
                 Icon(
                   Icons.auto_awesome,
-                  color: AppColor.primaryGold,
+                  color: AppColors.primaryGold,
                   size: 14.sp,
                 ),
                 SizedBox(width: 6.w),
                 Text(
                   'منصة تعليمية متخصصة #1',
                   style: TextStyle(
-                    color: AppColor.primaryGold,
+                    color: AppColors.primaryGold,
                     fontSize: 12.sp,
                     fontWeight: FontWeight.w600,
                   ),
@@ -89,16 +89,16 @@ class HeroSection extends StatelessWidget {
 
           CustomButton(
             text: 'ابدأ التعلم الآن',
-            textColor: AppColor.primaryDarker,
+            textColor: AppColors.primaryDarker,
             icon: Icons.rocket_launch_sharp,
-            backgroundColor: AppColor.primaryGold,
+            backgroundColor: AppColors.primaryGold,
             onPressed: () =>
                 Navigator.pushNamed(context, AppRoutsName.loginView),
           ),
           SizedBox(height: 16.h),
           CustomButton(
             text: 'تسجيل الدخول',
-            backgroundColor: AppColor.primaryDark,
+            backgroundColor: AppColors.primaryDark,
             onPressed: () =>
                 Navigator.pushNamed(context, AppRoutsName.loginView),
           ),

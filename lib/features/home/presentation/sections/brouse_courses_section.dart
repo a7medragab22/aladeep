@@ -1,5 +1,5 @@
 import 'package:aladeep/core/routes/app_routs_name.dart';
-import 'package:aladeep/core/themes/app_color.dart';
+import 'package:aladeep/core/theme/app_colors.dart';
 import 'package:aladeep/core/utils/custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -15,13 +15,13 @@ class BrouseCoursesSection extends StatelessWidget {
         Container(
           padding: EdgeInsets.symmetric(horizontal: 28.r, vertical: 80.h),
           decoration: BoxDecoration(
-            color: AppColor.primaryDark,
+            color: AppColors.primaryDark,
             gradient: LinearGradient(
-              colors: [AppColor.primaryGold, AppColor.primaryGold],
+              colors: [AppColors.primaryGold, AppColors.primaryGold],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
             ),
-            border: Border.all(color: AppColor.primaryGold.withOpacity(0.35)),
+            border: Border.all(color: AppColors.primaryGold.withOpacity(0.35)),
           ),
           child: Column(
             children: [
@@ -49,7 +49,7 @@ class BrouseCoursesSection extends StatelessWidget {
               SizedBox(height: 44.h),
               CustomButton(
                 text: 'تصفح باقات الاشتراك',
-                backgroundColor: AppColor.primaryDarker,
+                backgroundColor: AppColors.primaryDarker,
                 faIcon: FontAwesomeIcons.crown,
                 isFaicon: true,
                 onPressed: () {

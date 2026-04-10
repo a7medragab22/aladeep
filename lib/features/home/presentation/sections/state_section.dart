@@ -1,4 +1,4 @@
-import 'package:aladeep/core/themes/app_color.dart';
+import 'package:aladeep/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 
 class StatsSection extends StatelessWidget {
@@ -43,7 +43,7 @@ class _StatItem extends StatelessWidget {
           style: const TextStyle(
             fontSize: 42,
             fontWeight: FontWeight.bold,
-            color: AppColor.primaryGold,
+            color: AppColors.primaryGold,
           ),
         ),
         const SizedBox(height: 4),
@@ -52,7 +52,7 @@ class _StatItem extends StatelessWidget {
           textAlign: TextAlign.center,
           style: const TextStyle(
             fontSize: 16,
-            color: AppColor.primaryDarker,
+            color: AppColors.primaryDarker,
             fontWeight: FontWeight.bold,
           ),
         ),
