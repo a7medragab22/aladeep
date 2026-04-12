@@ -17,4 +17,8 @@ abstract interface class Endpoints {
   static const String logout = "/logout";
   static const String register = "/api/mobile/register";
   static const String profileUpdate = "/api/mobile/profile/update";
+  static const String home = "/api/mobile/home";
+  static const String courseDetails = "/api/mobile/course/";
+  static const String subscribe = "/api/mobile/subscribe";
+  static const String subscribeBundle = '/api/mobile/subscribe-bundle';
 }

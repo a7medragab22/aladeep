@@ -5,8 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+import 'package:aladeep/features/home/data/models/home_model.dart';
+import 'package:aladeep/features/home/presentation/widgets/course_card.dart';
+
 class BrouseCoursesSection extends StatelessWidget {
-  const BrouseCoursesSection({super.key});
+  final List<CourseSummaryModel> courses;
+  const BrouseCoursesSection({super.key, this.courses = const []});
 
   @override
   Widget build(BuildContext context) {
@@ -59,6 +63,39 @@ class BrouseCoursesSection extends StatelessWidget {
             ],
           ),
         ),
+        if (courses.isNotEmpty) ...[
+          SizedBox(height: 40.h),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 20.w),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Text(
+                  'الدورات المتاحة',
+                  style: TextStyle(
+                    fontSize: 20.sp,
+                    fontWeight: FontWeight.bold,
+                    color: AppColors.primaryDark,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          SizedBox(height: 20.h),
+          SizedBox(
+            height: 320.h,
+            child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              reverse: true, // For RTL feel
+              itemCount: courses.length,
+              padding: EdgeInsets.symmetric(horizontal: 10.w),
+              itemBuilder: (context, index) {
+                return CourseCard(course: courses[index]);
+              },
+            ),
+          ),
+          SizedBox(height: 60.h),
+        ],
       ],
     );
   }
