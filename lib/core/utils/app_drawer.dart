@@ -155,6 +155,18 @@ class _AppDrawerState extends State<AppDrawer> {
                       );
                     },
                   ),
+                  if (CacheHelper.getData(key: 'user') != null)
+                    DrawerItem(
+                      icon: Icons.school_rounded,
+                      title: 'منصتى التعليمية',
+                      onTap: () {
+                        Navigator.pop(context);
+                        Navigator.pushNamed(
+                          context,
+                          AppRoutsName.myPlatformDashboard,
+                        );
+                      },
+                    ),
                   DrawerItem(
                     icon: Icons.manage_accounts_rounded,
                     title: 'الملف الشخصي',

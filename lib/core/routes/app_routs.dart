@@ -18,6 +18,9 @@ import '../../features/browse_course_screen/presentation/view/browse_course_scre
 import '../../features/subscriptions/presentation/view/subscriptions_view.dart';
 import '../../features/course/presentation/views/course_details_view.dart';
 import '../../features/subscriptions/presentation/view/confirm_subscription_view.dart';
+import '../../features/my_platform/presentation/view/my_platform_dashboard_view.dart';
+import '../../features/my_platform/presentation/view/my_results_view.dart';
+import '../../features/my_platform/presentation/bloc/my_platform_bloc.dart';
 
 class AppRouts {
   static Map<String, WidgetBuilder> routes = {
@@ -69,5 +72,10 @@ class AppRouts {
       }
       return const Scaffold(body: Center(child: Text('Invalid Arguments')));
     },
+    AppRoutsName.myPlatformDashboard: (_) => BlocProvider(
+          create: (context) => getIt<MyPlatformBloc>()..add(const FetchMyCourses()),
+          child: const MyPlatformDashboardView(),
+        ),
+    AppRoutsName.myResults: (_) => const MyResultsView(),
   };
 }

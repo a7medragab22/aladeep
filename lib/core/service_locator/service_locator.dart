@@ -5,6 +5,8 @@ import 'package:aladeep/features/home/data/home_data_source.dart';
 import 'package:aladeep/features/home/presentation/bloc/home_bloc.dart';
 import 'package:aladeep/features/subscriptions/data/datasource/subscription_data_source.dart';
 import 'package:aladeep/features/subscriptions/presentation/bloc/subscribe_bloc.dart';
+import 'package:aladeep/features/my_platform/data/datasource/my_platform_data_source.dart';
+import 'package:aladeep/features/my_platform/presentation/bloc/my_platform_bloc.dart';
 
 import '../../features/auth/auth.dart';
 import 'package:dio/dio.dart';
@@ -23,3 +25,4 @@ part 'auth_service_locator/auth_service_locator.dart';
 part 'home_service_locator/home_service_locator.dart';
 part 'course_service_locator/course_service_locator.dart';
 part 'subscription_service_locator/subscription_service_locator.dart';
+part 'my_platform_service_locator/my_platform_service_locator.dart';
