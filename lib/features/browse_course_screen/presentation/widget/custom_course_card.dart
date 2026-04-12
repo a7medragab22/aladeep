@@ -1,13 +1,17 @@
-import 'package:aladeep/core/themes/app_color.dart';
+import 'package:aladeep/core/routes/app_routs_name.dart';
+import 'package:aladeep/core/theme/app_colors.dart';
 import 'package:aladeep/core/utils/custom_button.dart';
 import 'package:aladeep/features/browse_course_screen/data/course_model/course_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+import 'package:aladeep/features/home/data/models/home_model.dart';
+
 class CustomCourseCard extends StatelessWidget {
-  final CourseModel course;
-  const CustomCourseCard({super.key, required this.course});
+  final CourseModel? course;
+  final CourseSummaryModel? courseSummary;
+  const CustomCourseCard({super.key, this.course, this.courseSummary});
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +39,11 @@ class CustomCourseCard extends StatelessWidget {
                   top: Radius.circular(24),
                 ),
                 child: Image.network(
-                  course.imageUrl,
+                  (() {
+                    final img = courseSummary?.imageUrl ?? course?.imageUrl ?? '';
+                    if (img.isEmpty) return '';
+                    return img.startsWith('http') ? img : "https://al-adeep.com$img";
+                  })(),
                   height: 250.h,
                   width: double.infinity,
                   fit: BoxFit.cover,
@@ -49,26 +57,28 @@ class CustomCourseCard extends StatelessWidget {
               ),
 
               /// 🔴 Ribbon (عرض خاص)
-              Positioned(
-                top: 10,
-                left: 20,
-                child: Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 20,
-                    vertical: 8,
-                  ),
-                  decoration: const BoxDecoration(
-                    color: Color(0xFFE53935),
-                    borderRadius: BorderRadius.only(
-                      bottomRight: Radius.circular(20),
+              if (courseSummary?.oldPrice != null ||
+                  course?.isSpecialOffer == true)
+                Positioned(
+                  top: 10,
+                  left: 20,
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 20,
+                      vertical: 8,
+                    ),
+                    decoration: const BoxDecoration(
+                      color: Color(0xFFE53935),
+                      borderRadius: BorderRadius.only(
+                        bottomRight: Radius.circular(20),
+                      ),
+                    ),
+                    child: const Text(
+                      "عرض خاص",
+                      style: TextStyle(color: Colors.white),
                     ),
                   ),
-                  child: const Text(
-                    "عرض خاص",
-                    style: TextStyle(color: Colors.white),
-                  ),
                 ),
-              ),
 
               /// 🧑‍🏫 Badge
               Positioned(
@@ -90,8 +100,10 @@ class CustomCourseCard extends StatelessWidget {
                   child: Row(
                     children: [
                       Text(
-                        course.instructorName,
-                        style: const TextStyle(color: AppColor.primaryDarker),
+                        courseSummary?.trainerName ??
+                            course?.instructorName ??
+                            '',
+                        style: const TextStyle(color: AppColors.primaryDarker),
                       ),
                       const SizedBox(width: 8),
                       Container(
@@ -123,7 +135,7 @@ class CustomCourseCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 Text(
-                  course.title,
+                  courseSummary?.title ?? course?.title ?? '',
                   textDirection: TextDirection.rtl,
                   style: const TextStyle(
                     fontSize: 20,
@@ -133,8 +145,10 @@ class CustomCourseCard extends StatelessWidget {
                 ),
                 const SizedBox(height: 5),
                 Text(
-                  course.description,
+                  courseSummary?.description ?? course?.description ?? '',
                   textDirection: TextDirection.rtl,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
                   style: TextStyle(color: Colors.grey, fontSize: 16.sp),
                 ),
 
@@ -163,10 +177,11 @@ class CustomCourseCard extends StatelessWidget {
                             color: Colors.grey,
                           ),
                           const SizedBox(width: 5),
-                          Text(
-                            "${course.durationMonths} شهر",
-                            style: const TextStyle(color: Colors.grey),
-                          ),
+                          if (courseSummary != null || course?.durationMonths != null)
+                            Text(
+                              "${course?.durationMonths ?? ''} شهر",
+                              style: const TextStyle(color: Colors.grey),
+                            ),
                         ],
                       ),
 
@@ -174,15 +189,17 @@ class CustomCourseCard extends StatelessWidget {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
-                          Text(
-                            "${course.originalPrice.toStringAsFixed(2)} ريال",
-                            style: const TextStyle(
-                              color: Colors.red,
-                              decoration: TextDecoration.lineThrough,
+                          if (courseSummary?.oldPrice != null ||
+                              course?.originalPrice != null)
+                            Text(
+                              "${courseSummary?.oldPrice ?? course?.originalPrice ?? 0} ريال",
+                              style: const TextStyle(
+                                color: Colors.red,
+                                decoration: TextDecoration.lineThrough,
+                              ),
                             ),
-                          ),
                           Text(
-                            "${course.discountedPrice.toStringAsFixed(2)}",
+                            "${courseSummary?.price ?? course?.discountedPrice ?? 0}",
                             style: const TextStyle(
                               fontSize: 26,
                               fontWeight: FontWeight.bold,
@@ -207,8 +224,8 @@ class CustomCourseCard extends StatelessWidget {
                 /// BUTTON 1
                 CustomButton(
                   text: "اشترك في الدورة",
-                  backgroundColor: AppColor.primaryDarker,
-                  textColor: AppColor.primaryGold,
+                  backgroundColor: AppColors.primaryDarker,
+                  textColor: AppColors.primaryGold,
                   faIcon: FontAwesomeIcons.cartShopping,
                   isFaicon: true,
                 ),
@@ -218,10 +235,21 @@ class CustomCourseCard extends StatelessWidget {
                 CustomButton(
                   text: "شاهد العينة المجانية",
                   backgroundColor: Colors.white,
-                  textColor: AppColor.primaryDarker,
+                  textColor: AppColors.primaryDarker,
                   faIcon: FontAwesomeIcons.eye,
                   isFaicon: true,
-                  borderColor: AppColor.primaryDarker,
+                  borderColor: AppColors.primaryDarker,
+                  onPressed: () {
+                    final id =
+                        courseSummary?.id ??
+                        int.tryParse(course?.id ?? '0') ??
+                        0;
+                    Navigator.pushNamed(
+                      context,
+                      AppRoutsName.courseDetailsView,
+                      arguments: id,
+                    );
+                  },
                 ),
               ],
             ),

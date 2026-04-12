@@ -10,4 +10,6 @@ class AppRoutsName {
   static const String browsecourseView = '/browsecourseView';
   static const String aboutInstructorView = '/aboutInstructorView';
   static const String subscriptionsView = '/subscriptionsView';
+  static const String courseDetailsView = '/courseDetails';
+  static const String confirmSubscription = '/confirmSubscription';
 }

@@ -1,9 +1,10 @@
 import 'package:aladeep/core/services/url_launcher_service.dart';
-import 'package:aladeep/core/themes/app_color.dart';
+import 'package:aladeep/core/theme/app_colors.dart';
 import 'package:aladeep/features/home/data/models/footer_link_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class FooterSection extends StatelessWidget {
   final List<FooterLink> quickLinks;
@@ -82,7 +83,7 @@ class FooterSection extends StatelessWidget {
                             ),
                             child: FaIcon(
                               entry.key,
-                              color: AppColor.primaryGold,
+                              color: AppColors.primaryGold,
                               size: 18.sp,
                             ),
                           ),
@@ -99,7 +100,7 @@ class FooterSection extends StatelessWidget {
                   Text(
                     'روابط سريعة',
                     style: TextStyle(
-                      color: AppColor.primaryGold,
+                      color: AppColors.primaryGold,
                       fontWeight: FontWeight.bold,
                       fontSize: 15.sp,
                     ),
@@ -147,7 +148,7 @@ class FooterSection extends StatelessWidget {
                   Text(
                     'الدعم الفني والاشتراكات',
                     style: TextStyle(
-                      color: AppColor.primaryGold,
+                      color: AppColors.primaryGold,
                       fontWeight: FontWeight.bold,
                       fontSize: 15.sp,
                     ),
@@ -190,7 +191,7 @@ class FooterSection extends StatelessWidget {
                       Text(
                         'GMTWEB',
                         style: TextStyle(
-                          color: AppColor.primaryGold.withValues(alpha: 0.7),
+                          color: AppColors.primaryGold.withValues(alpha: 0.7),
                           fontSize: 11.sp,
                           fontWeight: FontWeight.bold,
                         ),
@@ -213,29 +214,44 @@ class _PhoneRow extends StatelessWidget {
   final String number;
   const _PhoneRow({required this.number});
 
+  Future<void> _openWhatsApp() async {
+    final phone = number.replaceAll(' ', '').replaceAll('+', '');
+    final url = Uri.parse('https://wa.me/$phone');
+
+    if (await canLaunchUrl(url)) {
+      await launchUrl(url, mode: LaunchMode.externalApplication);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 10.h),
-      decoration: BoxDecoration(
-        color: Colors.white.withValues(alpha: 0.05),
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: Colors.white.withValues(alpha: 0.08)),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          FaIcon(FontAwesomeIcons.whatsapp, color: Colors.green, size: 16.sp),
-          SizedBox(width: 8.w),
-          Text(
-            number,
-            style: TextStyle(
-              color: Colors.white.withValues(alpha: 0.75),
-              fontSize: 13.sp,
-              fontWeight: FontWeight.w500,
+    return InkWell(
+      onTap: _openWhatsApp, // 👈 هنا الضغط
+      borderRadius: BorderRadius.circular(12),
+      child: Container(
+        padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 10.h),
+        decoration: BoxDecoration(
+          color: Colors.white.withValues(alpha: 0.05),
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(color: Colors.white.withValues(alpha: 0.08)),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            FaIcon(FontAwesomeIcons.whatsapp, color: Colors.green, size: 16.sp),
+            SizedBox(width: 8.w),
+            Text(
+              number,
+              style: TextStyle(
+                color: Colors.white.withValues(alpha: 0.75),
+                fontSize: 13.sp,
+                fontWeight: FontWeight.w500,
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

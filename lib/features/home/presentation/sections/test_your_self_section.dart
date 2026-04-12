@@ -1,11 +1,14 @@
-import 'package:aladeep/core/themes/app_color.dart';
+import 'package:aladeep/core/theme/app_colors.dart';
 import 'package:aladeep/core/utils/custom_button.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import 'package:aladeep/features/home/data/models/home_model.dart';
+
 class TestYourSelfSection extends StatelessWidget {
-  const TestYourSelfSection({super.key});
+  final SettingsModel? settings;
+  const TestYourSelfSection({super.key, this.settings});
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +20,7 @@ class TestYourSelfSection extends StatelessWidget {
           radius: const Radius.circular(24),
           dashPattern: const [8, 4],
           strokeWidth: 2,
-          color: AppColor.primaryGold.withValues(alpha: 0.6),
+          color: AppColors.primaryGold.withValues(alpha: 0.6),
           padding: EdgeInsets.zero,
         ),
         child: Container(
@@ -26,8 +29,8 @@ class TestYourSelfSection extends StatelessWidget {
           decoration: BoxDecoration(
             gradient: LinearGradient(
               colors: [
-                AppColor.primaryGold.withValues(alpha: 0.06),
-                AppColor.primaryDark.withValues(alpha: 0.03),
+                AppColors.primaryGold.withValues(alpha: 0.06),
+                AppColors.primaryDark.withValues(alpha: 0.03),
               ],
               begin: Alignment.topRight,
               end: Alignment.bottomLeft,
@@ -40,7 +43,7 @@ class TestYourSelfSection extends StatelessWidget {
               Icon(
                 Icons.assignment_turned_in_rounded,
                 size: 52.sp,
-                color: AppColor.primaryGold,
+                color: AppColors.primaryGold,
               ),
 
               SizedBox(height: 20.h),
@@ -70,7 +73,7 @@ class TestYourSelfSection extends StatelessWidget {
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   height: 1.5,
-                  color: AppColor.primaryDark,
+                  color: AppColors.primaryDark,
                   fontSize: 22.sp,
                 ),
               ),
@@ -82,7 +85,7 @@ class TestYourSelfSection extends StatelessWidget {
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   height: 1.7,
-                  color: AppColor.primaryDark.withValues(alpha: 0.65),
+                  color: AppColors.primaryDark.withValues(alpha: 0.65),
                   fontSize: 13.sp,
                 ),
               ),
@@ -92,8 +95,16 @@ class TestYourSelfSection extends StatelessWidget {
               CustomButton(
                 icon: Icons.arrow_back,
                 text: 'ابدأ الاختبار التشخيصي',
-                backgroundColor: AppColor.primaryGold,
-                textColor: AppColor.primaryDark,
+                backgroundColor: AppColors.primaryGold,
+                textColor: AppColors.primaryDark,
+                onPressed: () {
+                  if (settings?.placementTestQuizId != null) {
+                    // Navigate to quiz view with ID
+                    debugPrint(
+                      'Starting quiz: ${settings?.placementTestQuizId}',
+                    );
+                  }
+                },
               ),
             ],
           ),

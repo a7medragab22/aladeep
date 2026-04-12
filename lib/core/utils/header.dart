@@ -1,4 +1,4 @@
-import 'package:aladeep/core/themes/app_color.dart';
+import 'package:aladeep/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -19,7 +19,7 @@ class Header extends StatelessWidget {
             height: 50.h,
             decoration: BoxDecoration(
               border: Border.all(
-                color: AppColor.primaryGold.withValues(alpha: 0.5),
+                color: AppColors.primaryGold.withOpacity(0.12),
               ),
               borderRadius: BorderRadius.circular(12.r),
             ),

@@ -1,9 +1,12 @@
-import 'package:aladeep/core/themes/app_color.dart';
+import 'package:aladeep/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import 'package:aladeep/features/home/data/models/home_model.dart';
+
 class VideoSection extends StatelessWidget {
-  const VideoSection({super.key});
+  final SettingsModel? settings;
+  const VideoSection({super.key, this.settings});
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +27,7 @@ class VideoSection extends StatelessWidget {
             style: TextStyle(
               fontSize: 24.sp,
               fontWeight: FontWeight.bold,
-              color: AppColor.primaryGold,
+              color: AppColors.primaryGold,
             ),
           ),
 
@@ -49,12 +52,12 @@ class VideoSection extends StatelessWidget {
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),
               border: Border.all(
-                color: AppColor.primaryGold.withValues(alpha: 0.3),
+                color: AppColors.primaryGold.withValues(alpha: 0.3),
                 width: 1.5,
               ),
               gradient: LinearGradient(
                 colors: [
-                  AppColor.primaryDark.withValues(alpha: 0.8),
+                  AppColors.primaryDark.withValues(alpha: 0.8),
                   const Color(0xFF0A1F2E),
                 ],
               ),
@@ -71,29 +74,39 @@ class VideoSection extends StatelessWidget {
                     height: 100,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      color: AppColor.primaryGold.withValues(alpha: 0.06),
+                      color: AppColors.primaryGold.withValues(alpha: 0.06),
                     ),
                   ),
                 ),
 
                 // Play button
-                Container(
-                  padding: EdgeInsets.all(18.r),
-                  decoration: BoxDecoration(
-                    color: AppColor.primaryGold,
-                    shape: BoxShape.circle,
-                    boxShadow: [
-                      BoxShadow(
-                        color: AppColor.primaryGold.withValues(alpha: 0.4),
-                        blurRadius: 20,
-                        spreadRadius: 2,
-                      ),
-                    ],
-                  ),
-                  child: Icon(
-                    Icons.play_arrow_rounded,
-                    color: AppColor.primaryDark,
-                    size: 36.sp,
+                GestureDetector(
+                  onTap: () {
+                    if (settings?.promoVideoUrl != null) {
+                      // Navigate or play video
+                      debugPrint(
+                        'Playing promo video: ${settings?.promoVideoUrl}',
+                      );
+                    }
+                  },
+                  child: Container(
+                    padding: EdgeInsets.all(18.r),
+                    decoration: BoxDecoration(
+                      color: AppColors.primaryGold,
+                      shape: BoxShape.circle,
+                      boxShadow: [
+                        BoxShadow(
+                          color: AppColors.primaryGold.withValues(alpha: 0.4),
+                          blurRadius: 20,
+                          spreadRadius: 2,
+                        ),
+                      ],
+                    ),
+                    child: Icon(
+                      Icons.play_arrow_rounded,
+                      color: AppColors.primaryDark,
+                      size: 36.sp,
+                    ),
                   ),
                 ),
 

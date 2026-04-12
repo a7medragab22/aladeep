@@ -1,4 +1,4 @@
-import 'package:aladeep/core/themes/app_color.dart';
+import 'package:aladeep/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -29,7 +29,7 @@ class PriceWidget extends StatelessWidget {
             price,
             style: const TextStyle(
               fontSize: 32,
-              color: AppColor.primaryGold,
+              color: AppColors.primaryGold,
               fontWeight: FontWeight.bold,
             ),
           ),
