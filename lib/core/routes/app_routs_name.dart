@@ -14,4 +14,6 @@ class AppRoutsName {
   static const String confirmSubscription = '/confirmSubscription';
   static const String myPlatformDashboard = '/myPlatformDashboard';
   static const String myResults = '/myResults';
+  static const String testYourSelfView = '/testYourSelfView';
+  static const String testYourSelfResultView = '/testYourSelfResultView';
 }

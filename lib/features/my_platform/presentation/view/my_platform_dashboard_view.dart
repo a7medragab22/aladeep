@@ -8,7 +8,6 @@ import 'package:aladeep/features/my_platform/presentation/bloc/my_platform_bloc.
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'dart:convert';
 import 'package:aladeep/core/helpers/cache_helper.dart';
 import 'package:aladeep/features/auth/models/customer_model.dart';

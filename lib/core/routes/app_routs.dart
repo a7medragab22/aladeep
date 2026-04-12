@@ -1,9 +1,7 @@
-import 'package:aladeep/core/helpers/helpers.dart';
 import 'package:aladeep/core/service_locator/service_locator.dart';
 import 'package:aladeep/features/about_instuctor_screen/presentation/view/about_instructor.dart';
 import 'package:aladeep/features/auth/auth.dart';
 import 'package:aladeep/features/auth/login/presentation/login_result_view.dart';
-import 'package:aladeep/features/auth/models/customer_model.dart';
 import 'package:aladeep/features/auth/profile/presentation/profile_view.dart';
 import 'package:aladeep/features/auth/register/presentation/view/register_result_view.dart';
 import 'package:aladeep/features/auth/register/presentation/view/register_view.dart';
@@ -13,7 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../core/routes/app_routs_name.dart';
 import '../../features/home/presentation/views/home_view.dart';
-import '../../features/auth/login/presentation/login.dart';
+import '../../features/auth/login/presentation/login_view.dart';
 import '../../features/browse_course_screen/presentation/view/browse_course_screen.dart';
 import '../../features/subscriptions/presentation/view/subscriptions_view.dart';
 import '../../features/course/presentation/views/course_details_view.dart';
@@ -21,6 +19,8 @@ import '../../features/subscriptions/presentation/view/confirm_subscription_view
 import '../../features/my_platform/presentation/view/my_platform_dashboard_view.dart';
 import '../../features/my_platform/presentation/view/my_results_view.dart';
 import '../../features/my_platform/presentation/bloc/my_platform_bloc.dart';
+import '../../features/test_your_self/presentation/view/test_your_self_view.dart';
+import '../../features/test_your_self/presentation/view/test_your_self_result_view.dart';
 
 class AppRouts {
   static Map<String, WidgetBuilder> routes = {
@@ -73,9 +73,19 @@ class AppRouts {
       return const Scaffold(body: Center(child: Text('Invalid Arguments')));
     },
     AppRoutsName.myPlatformDashboard: (_) => BlocProvider(
-          create: (context) => getIt<MyPlatformBloc>()..add(const FetchMyCourses()),
-          child: const MyPlatformDashboardView(),
-        ),
+      create: (context) => getIt<MyPlatformBloc>()..add(const FetchMyCourses()),
+      child: const MyPlatformDashboardView(),
+    ),
     AppRoutsName.myResults: (_) => const MyResultsView(),
+    AppRoutsName.testYourSelfView: (context) {
+      final args = ModalRoute.of(context)?.settings.arguments;
+      final studentName = args is String ? args : 'ahmed';
+      return TestYourSelfView(studentName: studentName);
+    },
+    AppRoutsName.testYourSelfResultView: (context) {
+      final args = ModalRoute.of(context)?.settings.arguments;
+      final score = args is int ? args : 0;
+      return TestYourSelfResultView(scorePercentage: score);
+    },
   };
 }

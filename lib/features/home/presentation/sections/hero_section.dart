@@ -91,7 +91,7 @@ class HeroSection extends StatelessWidget {
 
           SizedBox(height: 40.h),
 
-          if (CacheHelper.getData(key: 'token') != null)
+          if (CacheHelper.getData(key: 'token') == null)
             CustomButton(
               text: 'ابدأ التعلم الآن',
               textColor: AppColors.primaryDarker,
@@ -100,6 +100,7 @@ class HeroSection extends StatelessWidget {
               onPressed: () =>
                   Navigator.pushNamed(context, AppRoutsName.browsecourseView),
             ),
+          SizedBox(height: 16.h),
           if (CacheHelper.getData(key: 'token') == null)
             CustomButton(
               text: 'تسجيل الدخول',

@@ -1,3 +1,4 @@
+import 'package:aladeep/core/routes/app_routs_name.dart';
 import 'package:aladeep/core/theme/app_colors.dart';
 import 'package:aladeep/core/utils/custom_button.dart';
 import 'package:dotted_border/dotted_border.dart';
@@ -98,6 +99,12 @@ class TestYourSelfSection extends StatelessWidget {
                 backgroundColor: AppColors.primaryGold,
                 textColor: AppColors.primaryDark,
                 onPressed: () {
+                  Navigator.pushNamed(
+                    context,
+                    AppRoutsName.testYourSelfView,
+                    arguments: 'Ahmed',
+                  );
+
                   if (settings?.placementTestQuizId != null) {
                     // Navigate to quiz view with ID
                     debugPrint(

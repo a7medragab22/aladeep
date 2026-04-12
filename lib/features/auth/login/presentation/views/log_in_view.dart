@@ -25,16 +25,6 @@ class _LoginViewState extends State<LoginView> {
       body: SafeArea(
         child: Column(
           children: [
-            /// 🔥 Top Gradient Line
-            Container(
-              height: 6,
-              decoration: const BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [Color(0xff0B1A2B), Color(0xffC9A227)],
-                ),
-              ),
-            ),
-
             Expanded(
               child: Center(
                 child: SingleChildScrollView(
@@ -58,34 +48,11 @@ class _LoginViewState extends State<LoginView> {
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
                         /// Logo
-                        Center(
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Container(
-                                padding: const EdgeInsets.all(4),
-                                decoration: BoxDecoration(
-                                  color: const Color(0xffC9A227),
-                                  borderRadius: BorderRadius.circular(6),
-                                ),
-                                child: const Icon(
-                                  Icons.percent,
-                                  size: 14,
-                                  color: Colors.white,
-                                ),
-                              ),
-                              const SizedBox(width: 6),
-                              const Text(
-                                "DISKA",
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.grey,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-
+                        // Image.asset(
+                        //   "assets/images/logo.png",
+                        //   height: 100.h,
+                        //   width: 100.w,
+                        // ),
                         const SizedBox(height: 25),
 
                         /// Title

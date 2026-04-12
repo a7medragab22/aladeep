@@ -50,119 +50,131 @@ class _LoginViewState extends State<LoginView> with HomeScrollMixin {
       backgroundColor: AppColors.white,
       endDrawer: const AppDrawer(),
       body: SafeArea(
-        child: CustomScrollView(
-          controller: scrollController,
-          slivers: [
-            // 2. الـ Header (تأكد أن كود ويدجت Header لا يحتوي على خلفية ملونة)
-            const SliverToBoxAdapter(
-              child: ColoredBox(
-                color: Colors.white, // ضمان أن الـ AppBar خلفيته بيضاء
-                child: Header(),
-              ),
-            ),
+        child: Column(
+          children: [
+            Header(),
+            Expanded(
+              child: CustomScrollView(
+                controller: scrollController,
+                slivers: [
+                  // 3. محتوى الصفحة
+                  SliverToBoxAdapter(
+                    child: Container(
+                      constraints: BoxConstraints(minHeight: 0.6.sh),
+                      color: AppColors.white, // تأكيد اللون الأبيض هنا أيضاً
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 24.w,
+                        vertical: 40.h,
+                      ),
+                      child: Column(
+                        children: [
+                          Image.asset(
+                            "assets/images/logo.jpeg",
+                            height: 100.h,
+                            width: 100.w,
+                          ),
+                          SizedBox(height: 20.h),
+                          Text(
+                            'مرحباً بعودتك',
+                            style: TextStyle(
+                              color: AppColors.primaryDark, // نص كحلي واضح
+                              fontSize: 26.sp,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          SizedBox(height: 8.h),
+                          Text(
+                            'قم بتسجيل الدخول لمواصلة رحلة التفوق',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: AppColors.primaryDark.withValues(
+                                alpha: 0.6,
+                              ),
+                              fontSize: 13.sp,
+                              height: 1.6,
+                            ),
+                          ),
+                          SizedBox(height: 32.h),
 
-            // 3. محتوى الصفحة
-            SliverToBoxAdapter(
-              child: Container(
-                constraints: BoxConstraints(minHeight: 0.6.sh),
-                color: AppColors.white, // تأكيد اللون الأبيض هنا أيضاً
-                padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 40.h),
-                child: Column(
-                  children: [
-                    _buildSmallLogo(),
-                    SizedBox(height: 20.h),
-                    Text(
-                      'مرحباً بعودتك',
-                      style: TextStyle(
-                        color: AppColors.primaryDark, // نص كحلي واضح
-                        fontSize: 26.sp,
-                        fontWeight: FontWeight.bold,
+                          // كارت تسجيل الدخول
+                          _buildLoginFormCard(),
+                        ],
                       ),
                     ),
-                    SizedBox(height: 8.h),
-                    Text(
-                      'قم بتسجيل الدخول لمواصلة رحلة التفوق',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: AppColors.primaryDark.withOpacity(0.6),
-                        fontSize: 13.sp,
-                        height: 1.6,
+                  ),
+
+                  // 4. الـ Footer (سيبقى في الأسفل)
+                  FooterSection(
+                    quickLinks: [
+                      FooterLink(
+                        title: "الرئيسية",
+                        onTap: () {
+                          Navigator.pushNamed(context, AppRoutsName.homeView);
+                        },
                       ),
-                    ),
-                    SizedBox(height: 32.h),
-
-                    // كارت تسجيل الدخول
-                    _buildLoginFormCard(),
-                  ],
-                ),
+                      FooterLink(
+                        title: "عن المدرب",
+                        onTap: () {
+                          Navigator.pushNamed(
+                            context,
+                            AppRoutsName.aboutInstructorView,
+                          );
+                        },
+                      ),
+                      FooterLink(
+                        title: "الدورات",
+                        onTap: () {
+                          Navigator.pushNamed(
+                            context,
+                            AppRoutsName.browsecourseView,
+                          );
+                        },
+                      ),
+                      FooterLink(
+                        title: "آراء الطلاب",
+                        onTap: () {
+                          Navigator.pushNamed(
+                            context,
+                            AppRoutsName.homeView,
+                            arguments: {'scrollToComments': true},
+                          );
+                        },
+                      ),
+                      FooterLink(
+                        title: "لماذا نحن",
+                        onTap: () {
+                          Navigator.pushNamed(
+                            context,
+                            AppRoutsName.homeView,
+                            arguments: {'scrollToWhyUs': true},
+                          );
+                        },
+                      ),
+                      FooterLink(
+                        title: "سياسة الخصوصية",
+                        onTap: () {
+                          Navigator.pushNamed(
+                            context,
+                            AppRoutsName.privacyPolicyView,
+                          );
+                        },
+                      ),
+                    ],
+                    socialLinks: <FaIconData, String>{
+                      FontAwesomeIcons.telegram:
+                          "https://t.me/+ilC41xR1A0xjZjU0",
+                      FontAwesomeIcons.tiktok:
+                          "https://www.tiktok.com/@salahabdelaal100?_r=1&_t=ZS-950VqY9n0iX",
+                      FontAwesomeIcons.youtube:
+                          "https://youtube.com/@salahabdel-aal6246?si=QNu4FQYF0Oqovw3c",
+                      FontAwesomeIcons.facebook:
+                          "https://www.facebook.com/share/18UrxXvobe/?mibextid=wwXIfr",
+                      FontAwesomeIcons.instagram:
+                          "https://www.instagram.com/aladib100?igsh=a2RuaXEwazF5bmpk",
+                    },
+                  ),
+                ],
               ),
-            ),
-
-            // 4. الـ Footer (سيبقى في الأسفل)
-            FooterSection(
-              quickLinks: [
-                FooterLink(
-                  title: "الرئيسية",
-                  onTap: () {
-                    Navigator.pushNamed(context, AppRoutsName.homeView);
-                  },
-                ),
-                FooterLink(
-                  title: "عن المدرب",
-                  onTap: () {
-                    Navigator.pushNamed(
-                      context,
-                      AppRoutsName.aboutInstructorView,
-                    );
-                  },
-                ),
-                FooterLink(
-                  title: "الدورات",
-                  onTap: () {
-                    Navigator.pushNamed(context, AppRoutsName.browsecourseView);
-                  },
-                ),
-                FooterLink(
-                  title: "آراء الطلاب",
-                  onTap: () {
-                    Navigator.pushNamed(
-                      context,
-                      AppRoutsName.homeView,
-                      arguments: {'scrollToComments': true},
-                    );
-                  },
-                ),
-                FooterLink(
-                  title: "لماذا نحن",
-                  onTap: () {
-                    Navigator.pushNamed(
-                      context,
-                      AppRoutsName.homeView,
-                      arguments: {'scrollToWhyUs': true},
-                    );
-                  },
-                ),
-                FooterLink(
-                  title: "سياسة الخصوصية",
-                  onTap: () {
-                    Navigator.pushNamed(
-                      context,
-                      AppRoutsName.privacyPolicyView,
-                    );
-                  },
-                ),
-              ],
-              socialLinks: <FaIconData, String>{
-                FontAwesomeIcons.telegram: "https://t.me/+ilC41xR1A0xjZjU0",
-                FontAwesomeIcons.tiktok:
-                    "https://www.tiktok.com/@salahabdelaal100?_r=1&_t=ZS-950VqY9n0iX",
-                FontAwesomeIcons.youtube:
-                    "https://youtube.com/@salahabdel-aal6246?si=QNu4FQYF0Oqovw3c",
-                FontAwesomeIcons.facebook:
-                    "https://www.facebook.com/share/18UrxXvobe/?mibextid=wwXIfr",
-                FontAwesomeIcons.instagram:
-                    "https://www.instagram.com/aladib100?igsh=a2RuaXEwazF5bmpk",
-              },
             ),
           ],
         ),
@@ -188,7 +200,7 @@ class _LoginViewState extends State<LoginView> with HomeScrollMixin {
       child: BlocConsumer<LoginBloc, BaseState<CustomerModel>>(
         listener: (context, state) {
           if (state.status == Status.success) {
-            Navigator.pushNamed(
+            Navigator.pushReplacementNamed(
               context,
               AppRoutsName
                   .homeView, // Navigate to home or result as per project flow
@@ -251,7 +263,18 @@ class _LoginViewState extends State<LoginView> with HomeScrollMixin {
                     );
                   } else {
                     ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('يرجى ملء جميع الحقول')),
+                      SnackBar(
+                        content: Text(
+                          'يرجى ملء جميع الحقول',
+                          style: TextStyle(color: Colors.white, fontSize: 13.sp),
+                        ),
+                        backgroundColor: Colors.red.shade600,
+                        behavior: SnackBarBehavior.floating,
+                        margin: EdgeInsets.all(20.r),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12.r),
+                        ),
+                      ),
                     );
                   }
                 },
@@ -284,28 +307,6 @@ class _LoginViewState extends State<LoginView> with HomeScrollMixin {
             ],
           );
         },
-      ),
-    );
-  }
-
-  Widget _buildSmallLogo() {
-    return Container(
-      width: 72.w,
-      height: 72.h,
-      decoration: BoxDecoration(
-        color: AppColors.primaryGold.withValues(alpha: 0.1),
-        shape: BoxShape.circle,
-        border: Border.all(color: AppColors.primaryGold.withValues(alpha: 0.2)),
-      ),
-      child: Center(
-        child: Text(
-          'أ',
-          style: TextStyle(
-            color: AppColors.primaryGold,
-            fontSize: 28.sp,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
       ),
     );
   }
