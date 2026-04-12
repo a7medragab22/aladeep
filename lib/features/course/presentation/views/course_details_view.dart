@@ -11,6 +11,11 @@ import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import 'package:aladeep/core/service_locator/service_locator.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
+import 'package:aladeep/features/course/presentation/widgets/discussions_tab.dart';
+import 'package:aladeep/features/course/presentation/bloc/discussions_cubit.dart';
+
+enum CourseTab { curriculum, discussions, competitions }
+
 class CourseDetailsView extends StatefulWidget {
   final int courseId;
   const CourseDetailsView({super.key, required this.courseId});
@@ -21,6 +26,7 @@ class CourseDetailsView extends StatefulWidget {
 
 class _CourseDetailsViewState extends State<CourseDetailsView> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  CourseTab _activeTab = CourseTab.curriculum;
 
   @override
   Widget build(BuildContext context) {
@@ -56,8 +62,22 @@ class _CourseDetailsViewState extends State<CourseDetailsView> {
                   Expanded(
                     child: Column(
                       children: [
-                        Expanded(flex: 3, child: _buildMainContent(state)),
-                        _buildContentDetails(course, state),
+                        if (_activeTab == CourseTab.curriculum) ...[
+                          Expanded(flex: 3, child: _buildMainContent(state)),
+                          _buildContentDetails(course, state),
+                        ] else if (_activeTab == CourseTab.discussions)
+                          Expanded(
+                            child: BlocProvider(
+                              create: (context) => DiscussionsCubit(),
+                              child: DiscussionsTab(courseId: widget.courseId),
+                            ),
+                          )
+                        else
+                          const Expanded(
+                            child: Center(
+                              child: Text('تبويب المسابقات قيد التطوير'),
+                            ),
+                          ),
                       ],
                     ),
                   ),
@@ -110,16 +130,27 @@ class _CourseDetailsViewState extends State<CourseDetailsView> {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 Flexible(
-                  child: _buildNavTab("المسابقات", Icons.emoji_events_outlined),
+                  child: _buildNavTab(
+                    "المسابقات",
+                    Icons.emoji_events_outlined,
+                    isActive: _activeTab == CourseTab.competitions,
+                    onTap: () => setState(() => _activeTab = CourseTab.competitions),
+                  ),
                 ),
                 Flexible(
-                  child: _buildNavTab("النقاشات", Icons.chat_bubble_outline),
+                  child: _buildNavTab(
+                    "النقاشات",
+                    Icons.chat_bubble_outline,
+                    isActive: _activeTab == CourseTab.discussions,
+                    onTap: () => setState(() => _activeTab = CourseTab.discussions),
+                  ),
                 ),
                 Flexible(
                   child: _buildNavTab(
                     "المنهج",
                     Icons.menu_book,
-                    isActive: true,
+                    isActive: _activeTab == CourseTab.curriculum,
+                    onTap: () => setState(() => _activeTab = CourseTab.curriculum),
                   ),
                 ),
                 SizedBox(width: 4.w),
@@ -141,47 +172,54 @@ class _CourseDetailsViewState extends State<CourseDetailsView> {
     );
   }
 
-  Widget _buildNavTab(String title, IconData icon, {bool isActive = false}) {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 6.w),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Flexible(
-                child: Text(
-                  title,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                    fontSize: 11.sp,
-                    fontWeight: isActive ? FontWeight.bold : FontWeight.normal,
-                    color: isActive
-                        ? AppColors.primaryDark
-                        : Colors.grey.shade600,
+  Widget _buildNavTab(String title, IconData icon,
+      {bool isActive = false, VoidCallback? onTap}) {
+    return GestureDetector(
+      onTap: onTap,
+      behavior: HitTestBehavior.opaque,
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 6.w),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Flexible(
+                  child: Text(
+                    title,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      fontSize: 11.sp,
+                      fontWeight:
+                          isActive ? FontWeight.bold : FontWeight.normal,
+                      color: isActive
+                          ? AppColors.primaryDark
+                          : Colors.grey.shade600,
+                    ),
                   ),
                 ),
-              ),
-              SizedBox(width: 2.w),
-              Icon(
-                icon,
-                size: 14.sp,
-                color: isActive ? AppColors.primaryDark : Colors.grey.shade600,
-              ),
-            ],
-          ),
-          if (isActive)
-            Container(
-              height: 2,
-              width: 24.w,
-              margin: EdgeInsets.only(top: 4.h),
-              decoration: BoxDecoration(
-                color: AppColors.primaryLightGold,
-                borderRadius: BorderRadius.circular(2),
-              ),
+                SizedBox(width: 2.w),
+                Icon(
+                  icon,
+                  size: 14.sp,
+                  color:
+                      isActive ? AppColors.primaryDark : Colors.grey.shade600,
+                ),
+              ],
             ),
-        ],
+            if (isActive)
+              Container(
+                height: 2,
+                width: 24.w,
+                margin: EdgeInsets.only(top: 4.h),
+                decoration: BoxDecoration(
+                  color: AppColors.primaryLightGold,
+                  borderRadius: BorderRadius.circular(2),
+                ),
+              ),
+          ],
+        ),
       ),
     );
   }
