@@ -12,4 +12,6 @@ class AppRoutsName {
   static const String subscriptionsView = '/subscriptionsView';
   static const String courseDetailsView = '/courseDetails';
   static const String confirmSubscription = '/confirmSubscription';
+  static const String myPlatformDashboard = '/myPlatformDashboard';
+  static const String myResults = '/myResults';
 }

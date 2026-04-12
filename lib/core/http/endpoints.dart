@@ -21,4 +21,5 @@ abstract interface class Endpoints {
   static const String courseDetails = "/api/mobile/course/";
   static const String subscribe = "/api/mobile/subscribe";
   static const String subscribeBundle = '/api/mobile/subscribe-bundle';
+  static const String myCourses = '/api/mobile/my-courses/3';
 }
