@@ -11,61 +11,20 @@ class HeaderSection extends StatelessWidget {
       padding: const EdgeInsets.all(16.0),
       child: Column(
         children: [
-          Column(
-            children: [
-              Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 12,
-                  vertical: 6,
-                ),
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    color: AppColors.primaryGold.withValues(alpha: 0.5),
-                  ),
-                  borderRadius: BorderRadius.circular(16),
-                  boxShadow: [
-                    BoxShadow(
-                      color: AppColors.primaryLightGold.withValues(alpha: 0.2),
-                      blurRadius: 8,
-                      offset: const Offset(0, 4),
-                    ),
-                  ],
-                ),
-
-                child: Text(
-                  'الشفافيه والامان',
-                  style: TextStyle(
-                    fontSize: 10.sp,
-                    color: AppColors.primaryGold,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-              SizedBox(height: 16.h),
-              Text(
-                'سياسة الخصوصية',
-                style: TextStyle(
-                  fontSize: 22.sp,
-                  fontWeight: FontWeight.bold,
-                  color: AppColors.primaryDarker,
-                ),
-              ),
-              Text(
-                'والشروط',
-                style: TextStyle(
-                  fontSize: 22.sp,
-                  fontWeight: FontWeight.bold,
-                  color: AppColors.primaryGold,
-                ),
-              ),
-            ],
+          Text(
+            'استكشف برامجنا التدريبية',
+            style: TextStyle(
+              fontSize: 22.sp,
+              fontWeight: FontWeight.bold,
+              color: AppColors.primaryDarker,
+            ),
           ),
           SizedBox(height: 24.h),
           Text(
             textDirection: TextDirection.rtl,
-            'نلتزم بحماية بياناتك وتقديم بيئة تعليمية آمنة وموثوقة.',
+            'باقات متنوعة مصممة خصيصاً لتأسيسك وتدريبك حتى تصل إلى العلامة الكاملة 100% في اختبارات القياس.',
             textAlign: TextAlign.center,
-            style: TextStyle(color: AppColors.primaryDark),
+            style: TextStyle(color: AppColors.primaryDark, fontSize: 12.sp),
           ),
         ],
       ),

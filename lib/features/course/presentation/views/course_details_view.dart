@@ -1,7 +1,6 @@
 import 'package:aladeep/core/enum/status.dart';
 import 'package:aladeep/core/routes/app_routs_name.dart';
 import 'package:aladeep/core/theme/app_colors.dart';
-import 'package:aladeep/core/utils/header.dart';
 import 'package:aladeep/features/course/presentation/bloc/course_details_bloc.dart';
 import 'package:aladeep/features/course/data/models/course_details_model.dart';
 import 'package:flutter/material.dart';
@@ -134,7 +133,8 @@ class _CourseDetailsViewState extends State<CourseDetailsView> {
                     "المسابقات",
                     Icons.emoji_events_outlined,
                     isActive: _activeTab == CourseTab.competitions,
-                    onTap: () => setState(() => _activeTab = CourseTab.competitions),
+                    onTap: () =>
+                        setState(() => _activeTab = CourseTab.competitions),
                   ),
                 ),
                 Flexible(
@@ -142,7 +142,8 @@ class _CourseDetailsViewState extends State<CourseDetailsView> {
                     "النقاشات",
                     Icons.chat_bubble_outline,
                     isActive: _activeTab == CourseTab.discussions,
-                    onTap: () => setState(() => _activeTab = CourseTab.discussions),
+                    onTap: () =>
+                        setState(() => _activeTab = CourseTab.discussions),
                   ),
                 ),
                 Flexible(
@@ -150,7 +151,8 @@ class _CourseDetailsViewState extends State<CourseDetailsView> {
                     "المنهج",
                     Icons.menu_book,
                     isActive: _activeTab == CourseTab.curriculum,
-                    onTap: () => setState(() => _activeTab = CourseTab.curriculum),
+                    onTap: () =>
+                        setState(() => _activeTab = CourseTab.curriculum),
                   ),
                 ),
                 SizedBox(width: 4.w),
@@ -172,8 +174,12 @@ class _CourseDetailsViewState extends State<CourseDetailsView> {
     );
   }
 
-  Widget _buildNavTab(String title, IconData icon,
-      {bool isActive = false, VoidCallback? onTap}) {
+  Widget _buildNavTab(
+    String title,
+    IconData icon, {
+    bool isActive = false,
+    VoidCallback? onTap,
+  }) {
     return GestureDetector(
       onTap: onTap,
       behavior: HitTestBehavior.opaque,
@@ -191,8 +197,9 @@ class _CourseDetailsViewState extends State<CourseDetailsView> {
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                       fontSize: 11.sp,
-                      fontWeight:
-                          isActive ? FontWeight.bold : FontWeight.normal,
+                      fontWeight: isActive
+                          ? FontWeight.bold
+                          : FontWeight.normal,
                       color: isActive
                           ? AppColors.primaryDark
                           : Colors.grey.shade600,
@@ -203,8 +210,9 @@ class _CourseDetailsViewState extends State<CourseDetailsView> {
                 Icon(
                   icon,
                   size: 14.sp,
-                  color:
-                      isActive ? AppColors.primaryDark : Colors.grey.shade600,
+                  color: isActive
+                      ? AppColors.primaryDark
+                      : Colors.grey.shade600,
                 ),
               ],
             ),
@@ -273,10 +281,7 @@ class _CourseDetailsViewState extends State<CourseDetailsView> {
                 Navigator.pushNamed(
                   context,
                   AppRoutsName.confirmSubscription,
-                  arguments: {
-                    'courseId': course.id,
-                    'price': course.price,
-                  },
+                  arguments: {'courseId': course.id, 'price': course.price},
                 );
               },
               child: const Text('اشترك في الدورة الآن'),

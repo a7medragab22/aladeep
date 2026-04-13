@@ -56,89 +56,103 @@ class _HomeViewState extends State<HomeView> with HomeScrollMixin {
                 return const Center(child: CircularProgressIndicator());
               }
               final homeData = state.data;
-              return CustomScrollView(
-                controller: scrollController, // Controller من الـ Mixin
-                slivers: [
-                  SliverToBoxAdapter(child: Header()),
-                  SliverToBoxAdapter(
-                    child: HeroSection(settings: homeData?.settings),
-                  ),
-                  SliverToBoxAdapter(child: StatsSection()),
-                  SliverToBoxAdapter(
-                    child: TestYourSelfSection(settings: homeData?.settings),
-                  ),
-                  SliverToBoxAdapter(
-                    child: VideoSection(settings: homeData?.settings),
-                  ),
+              return Column(
+                children: [
+                  Header(),
+                  Expanded(
+                    child: CustomScrollView(
+                      controller: scrollController, // Controller من الـ Mixin
+                      slivers: [
+                        SliverToBoxAdapter(
+                          child: HeroSection(settings: homeData?.settings),
+                        ),
+                        SliverToBoxAdapter(child: StatsSection()),
+                        SliverToBoxAdapter(
+                          child: TestYourSelfSection(
+                            settings: homeData?.settings,
+                          ),
+                        ),
+                        SliverToBoxAdapter(
+                          child: VideoSection(settings: homeData?.settings),
+                        ),
 
-                  // مثال لإضافة Key لسكشن "لماذا نحن"
-                  SliverToBoxAdapter(child: WhySection(key: whyUsKey)),
+                        // مثال لإضافة Key لسكشن "لماذا نحن"
+                        SliverToBoxAdapter(child: WhySection(key: whyUsKey)),
 
-                  FeaturesListSection(),
-                  SliverToBoxAdapter(child: SuccefullStorysSection()),
+                        FeaturesListSection(),
+                        SliverToBoxAdapter(child: SuccefullStorysSection()),
 
-                  // سكشن الكومنتات مع الـ Key بتاعه
-                  CommentsSection(key: commentsKey),
-                  SliverToBoxAdapter(
-                    child: BrouseCoursesSection(
-                      courses: homeData?.courses ?? [],
+                        // سكشن الكومنتات مع الـ Key بتاعه
+                        CommentsSection(key: commentsKey),
+                        SliverToBoxAdapter(
+                          child: BrouseCoursesSection(
+                            courses: homeData?.courses ?? [],
+                          ),
+                        ),
+
+                        FooterSection(
+                          quickLinks: [
+                            FooterLink(
+                              title: "الرئيسية",
+                              onTap: () {
+                                animateTo(0);
+                              },
+                            ),
+                            FooterLink(
+                              title: "عن المدرب",
+                              onTap: () {
+                                Navigator.pushNamed(
+                                  context,
+                                  '/aboutInstructorView',
+                                );
+                              },
+                            ),
+                            FooterLink(
+                              title: "الدورات",
+                              onTap: () {
+                                Navigator.pushNamed(
+                                  context,
+                                  '/browsecourseView',
+                                );
+                              },
+                            ),
+                            FooterLink(
+                              title: "آراء الطلاب",
+                              onTap: () {
+                                scrollToWidget(commentsKey);
+                              },
+                            ),
+                            FooterLink(
+                              title: "لماذا نحن",
+                              onTap: () {
+                                scrollToWidget(whyUsKey);
+                              },
+                            ),
+                            FooterLink(
+                              title: "سياسة الخصوصية",
+                              onTap: () {
+                                Navigator.pushNamed(
+                                  context,
+                                  AppRoutsName.privacyPolicyView,
+                                );
+                              },
+                            ),
+                          ],
+                          socialLinks: <FaIconData, String>{
+                            FontAwesomeIcons.telegram:
+                                "https://t.me/+ilC41xR1A0xjZjU0",
+                            FontAwesomeIcons.tiktok:
+                                "https://www.tiktok.com/@salahabdelaal100?_r=1&_t=ZS-950VqY9n0iX",
+                            FontAwesomeIcons.youtube:
+                                "https://youtube.com/@salahabdel-aal6246?si=QNu4FQYF0Oqovw3c",
+                            FontAwesomeIcons.facebook:
+                                "https://www.facebook.com/share/18UrxXvobe/?mibextid=wwXIfr",
+                            FontAwesomeIcons.instagram:
+                                "https://www.instagram.com/aladib100?igsh=a2RuaXEwazF5bmpk",
+                          },
+                        ),
+                      ],
                     ),
-                  ),
-
-                  FooterSection(
-                    quickLinks: [
-                      FooterLink(
-                        title: "الرئيسية",
-                        onTap: () {
-                          animateTo(0);
-                        },
-                      ),
-                      FooterLink(
-                        title: "عن المدرب",
-                        onTap: () {
-                          Navigator.pushNamed(context, '/aboutInstructorView');
-                        },
-                      ),
-                      FooterLink(
-                        title: "الدورات",
-                        onTap: () {
-                          Navigator.pushNamed(context, '/browsecourseView');
-                        },
-                      ),
-                      FooterLink(
-                        title: "آراء الطلاب",
-                        onTap: () {
-                          scrollToWidget(commentsKey);
-                        },
-                      ),
-                      FooterLink(
-                        title: "لماذا نحن",
-                        onTap: () {
-                          scrollToWidget(whyUsKey);
-                        },
-                      ),
-                      FooterLink(
-                        title: "سياسة الخصوصية",
-                        onTap: () {
-                          Navigator.pushNamed(
-                            context,
-                            AppRoutsName.privacyPolicyView,
-                          );
-                        },
-                      ),
-                    ],
-                    socialLinks: <FaIconData, String>{
-                      FontAwesomeIcons.telegram:
-                          "https://t.me/+ilC41xR1A0xjZjU0",
-                      FontAwesomeIcons.tiktok:
-                          "https://www.tiktok.com/@salahabdelaal100?_r=1&_t=ZS-950VqY9n0iX",
-                      FontAwesomeIcons.youtube:
-                          "https://youtube.com/@salahabdel-aal6246?si=QNu4FQYF0Oqovw3c",
-                      FontAwesomeIcons.facebook:
-                          "https://www.facebook.com/share/18UrxXvobe/?mibextid=wwXIfr",
-                      FontAwesomeIcons.instagram:
-                          "https://www.instagram.com/aladib100?igsh=a2RuaXEwazF5bmpk",
-                    },
                   ),
                 ],
               );
