@@ -134,9 +134,7 @@ class _LoginViewState extends State<LoginView> with HomeScrollMixin {
           if (state.status == Status.success) {
             Navigator.pushReplacementNamed(
               context,
-              AppRoutsName
-                  .homeView, // Navigate to home or result as per project flow
-              arguments: state.data?.fullName ?? 'طالب',
+              AppRoutsName.myPlatformDashboard,
             );
           } else if (state.status == Status.failure) {
             ScaffoldMessenger.of(context).showSnackBar(
