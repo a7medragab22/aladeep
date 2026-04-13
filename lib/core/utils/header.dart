@@ -19,7 +19,7 @@ class Header extends StatelessWidget {
             height: 50.h,
             decoration: BoxDecoration(
               border: Border.all(
-                color: AppColors.primaryGold.withOpacity(0.12),
+                color: AppColors.primaryGold.withValues(alpha: 0.12),
               ),
               borderRadius: BorderRadius.circular(12.r),
             ),

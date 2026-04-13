@@ -1,16 +1,26 @@
 import 'dart:io';
 import 'package:aladeep/core/enum/status.dart';
+import 'package:aladeep/core/routes/app_routs_name.dart';
 import 'package:aladeep/core/theme/app_colors.dart';
+import 'package:aladeep/core/utils/app_drawer.dart';
+import 'package:aladeep/core/utils/header.dart';
+import 'package:aladeep/features/home/data/models/footer_link_model.dart';
+import 'package:aladeep/features/home/presentation/sections/footer_section.dart';
 import 'package:aladeep/features/subscriptions/presentation/bloc/subscribe_bloc.dart';
 import 'package:aladeep/features/subscriptions/presentation/bloc/subscribe_event.dart';
 import 'package:aladeep/features/subscriptions/presentation/bloc/subscribe_state.dart';
+import 'package:aladeep/features/subscriptions/presentation/widgets/payment_method_grid.dart';
+import 'package:aladeep/features/subscriptions/presentation/widgets/premium_summary_card.dart';
+import 'package:aladeep/features/subscriptions/presentation/widgets/receipt_upload_area.dart';
+import 'package:aladeep/features/subscriptions/presentation/widgets/section_title.dart';
+import 'package:aladeep/features/subscriptions/presentation/widgets/subscribe_submit_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:aladeep/core/service_locator/service_locator.dart';
-import 'package:aladeep/core/local_storage/user_cache_interface.dart';
 
 class ConfirmSubscriptionView extends StatefulWidget {
   final int? courseId;
@@ -35,19 +45,21 @@ class _ConfirmSubscriptionViewState extends State<ConfirmSubscriptionView> {
 
   final List<Map<String, String>> _paymentMethods = [
     {
-      'name': 'STC Pay',
-      'number': '0553075671',
-      'logo': 'assets/images/stc_pay.png', // Placeholder
+      'payName': 'بنك الإنماء',
+      'name': 'صلاح الدين فتحي عبدالعال',
+      'number': 'SA9405000068205855779000',
+      'qr': 'assets/images/qrblack.jpeg', // Using logo as placeholder for QR
     },
     {
-      'name': 'مصرف الراجحي',
-      'number': '1234567890123456',
-      'logo': 'assets/images/alrajhi.png', // Placeholder
+      'payName': 'بنك الراجحي',
+      'name': 'صلاح الدين فتحي عبدالعال',
+      'number': 'SA6880000694608016626187',
+      'qr': 'assets/images/qrblue.jpeg',
     },
     {
-      'name': 'مصرف الإنماء',
-      'number': '9876543210987654',
-      'logo': 'assets/images/alinma.png', // Placeholder
+      'payName': 'STC Pay',
+      'name': 'صلاح الدين فتحي عبدالعال',
+      'number': '0540091992',
     },
   ];
 
@@ -67,276 +79,101 @@ class _ConfirmSubscriptionViewState extends State<ConfirmSubscriptionView> {
       create: (context) => getIt<SubscribeBloc>(),
       child: Scaffold(
         backgroundColor: Colors.white,
-        appBar: AppBar(
-          backgroundColor: Colors.white,
-          elevation: 0,
-          leading: IconButton(
-            icon: const Icon(Icons.arrow_back, color: Colors.black),
-            onPressed: () => Navigator.pop(context),
-          ),
-          title: Text(
-            widget.isBundle ? 'تأكيد الاشتراك في الباقة' : 'تأكيد حجز الدورة',
-            style: TextStyle(
-              color: Colors.black,
-              fontSize: 18.sp,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          centerTitle: true,
-        ),
-        body: BlocConsumer<SubscribeBloc, SubscribeState>(
-          listener: (context, state) {
-            if (state.status == Status.success) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text(state.message ?? 'تم إرسال الطلب بنجاح'),
-                  backgroundColor: Colors.green,
-                ),
-              );
-              Navigator.pop(context);
-            } else if (state.status == Status.failure) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text(state.errorMessage ?? 'حدث خطأ ما'),
-                  backgroundColor: Colors.red,
-                ),
-              );
-            }
-          },
-          builder: (context, state) {
-            return SingleChildScrollView(
-              padding: EdgeInsets.all(20.r),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
+        endDrawer: const AppDrawer(),
+        body: SafeArea(
+          child: BlocConsumer<SubscribeBloc, SubscribeState>(
+            listener: (context, state) {
+              if (state.status == Status.success) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text('تم إرسال الطلب بنجاح'),
+                    backgroundColor: Colors.green,
+                  ),
+                );
+                Navigator.pop(context);
+              } else if (state.status == Status.failure) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(state.errorMessage ?? 'حدث خطأ ما'),
+                    backgroundColor: Colors.red,
+                  ),
+                );
+              }
+            },
+            builder: (context, state) {
+              return Column(
                 children: [
-                  _buildPriceSection(),
-                  SizedBox(height: 24.h),
-                  Text(
-                    'اختر وسيلة الدفع المناسبة لك:',
-                    style: TextStyle(
-                      fontSize: 16.sp,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  SizedBox(height: 16.h),
-                  ..._paymentMethods.map(
-                    (method) => _buildPaymentMethodCard(method),
-                  ),
-                  SizedBox(height: 32.h),
-                  Text(
-                    'ارفق صورة إيصال التحويل:',
-                    style: TextStyle(
-                      fontSize: 16.sp,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  SizedBox(height: 12.h),
-                  _buildUploadSection(),
-                  SizedBox(height: 40.h),
-                  _buildSubmitButton(context, state),
-                ],
-              ),
-            );
-          },
-        ),
-      ),
-    );
-  }
-
-  Widget _buildPriceSection() {
-    return Container(
-      width: double.infinity,
-      padding: EdgeInsets.all(16.r),
-      decoration: BoxDecoration(
-        color: AppColors.primaryDark.withValues(alpha: 0.05),
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: AppColors.primaryDark.withValues(alpha: 0.1)),
-      ),
-      child: Column(
-        children: [
-          Text(
-            widget.isBundle ? 'سعر الباقة الشاملة' : 'سعر الدورة',
-            style: TextStyle(fontSize: 14.sp, color: Colors.grey),
-          ),
-          SizedBox(height: 4.h),
-          Text(
-            '${widget.price} ر.س',
-            style: TextStyle(
-              fontSize: 24.sp,
-              fontWeight: FontWeight.bold,
-              color: AppColors.primaryDark,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildPaymentMethodCard(Map<String, String> method) {
-    bool isSelected = _selectedPaymentMethod == method['name'];
-    return GestureDetector(
-      onTap: () => setState(() => _selectedPaymentMethod = method['name']!),
-      child: Container(
-        margin: EdgeInsets.only(bottom: 12.h),
-        padding: EdgeInsets.all(16.r),
-        decoration: BoxDecoration(
-          color: isSelected
-              ? AppColors.primaryDark.withValues(alpha: 0.02)
-              : Colors.white,
-          borderRadius: BorderRadius.circular(12),
-          border: Border.all(
-            color: isSelected ? AppColors.primaryDark : Colors.grey.shade200,
-            width: isSelected ? 2 : 1,
-          ),
-        ),
-        child: Column(
-          children: [
-            Row(
-              children: [
-                if (isSelected)
-                  const Icon(Icons.check_circle, color: AppColors.primaryDark),
-                const Spacer(),
-                Text(
-                  method['name']!,
-                  style: TextStyle(
-                    fontSize: 16.sp,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                SizedBox(width: 12.w),
-                // Icon placeholder
-                Container(
-                  width: 40.w,
-                  height: 40.w,
-                  decoration: BoxDecoration(
-                    color: Colors.grey.shade100,
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: const Icon(
-                    Icons.account_balance_wallet,
-                    color: Colors.grey,
-                  ),
-                ),
-              ],
-            ),
-            if (isSelected) ...[
-              const Divider(height: 24),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  IconButton(
-                    icon: const Icon(Icons.copy, size: 20, color: Colors.grey),
-                    onPressed: () {
-                      Clipboard.setData(ClipboardData(text: method['number']!));
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('تم نسخ الرقم')),
-                      );
-                    },
-                  ),
-                  Text(
-                    method['number']!,
-                    style: TextStyle(
-                      fontSize: 16.sp,
-                      fontFamily: 'Courier',
-                      letterSpacing: 1.2,
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildUploadSection() {
-    return GestureDetector(
-      onTap: _pickImage,
-      child: Container(
-        width: double.infinity,
-        height: 150.h,
-        decoration: BoxDecoration(
-          color: Colors.grey.shade50,
-          borderRadius: BorderRadius.circular(12),
-          border: Border.all(
-            color: Colors.grey.shade300,
-            style: BorderStyle
-                .solid, // Should be dashed if possible via a package, but solid is fine for now
-          ),
-        ),
-        child: _receiptImage != null
-            ? ClipRRect(
-                borderRadius: BorderRadius.circular(12),
-                child: Image.file(_receiptImage!, fit: BoxFit.cover),
-              )
-            : Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(
-                    Icons.cloud_upload_outlined,
-                    size: 40.sp,
-                    color: Colors.grey,
-                  ),
-                  SizedBox(height: 8.h),
-                  Text(
-                    'انقر لرفع صورة الإيصال',
-                    style: TextStyle(color: Colors.grey, fontSize: 14.sp),
-                  ),
-                ],
-              ),
-      ),
-    );
-  }
-
-  Widget _buildSubmitButton(BuildContext context, SubscribeState state) {
-    return SizedBox(
-      width: double.infinity,
-      height: 54.h,
-      child: ElevatedButton(
-        style: ElevatedButton.styleFrom(
-          backgroundColor: AppColors.primaryDark,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
-          ),
-          elevation: 0,
-        ),
-        onPressed: state.status == Status.loading || _receiptImage == null
-            ? null
-            : () {
-                // Get studentId from cache (this is a simplified example, usually you'd get it from your AuthBloc or UserCache)
-                // For now, I'll pass a placeholder or try to get it if available.
-                // Re-reading logic from existing project...
-                final studentId =
-                    27; // User specified this in prompt, but we should ideally get it from cache
-
-                if (widget.isBundle) {
-                  context.read<SubscribeBloc>().add(
-                        SubmitBundleSubscription(
-                          studentId: studentId,
-                          receiptImage: _receiptImage!,
+                  const Header(),
+                  Expanded(
+                    child: CustomScrollView(
+                      slivers: [
+                        SliverToBoxAdapter(
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 24.w,
+                              vertical: 20.h,
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: [
+                                PremiumSummaryCard(
+                                  isBundle: widget.isBundle,
+                                  price: widget.price,
+                                ),
+                                SizedBox(height: 32.h),
+                                const SectionTitle(
+                                  title:
+                                      '1. اختر طريقة الدفع الأنسب لك وحول المبلغ',
+                                  icon: Icons.payments_outlined,
+                                ),
+                                SizedBox(height: 16.h),
+                                PaymentMethodGrid(
+                                  paymentMethods: _paymentMethods,
+                                  selectedPaymentMethod: _selectedPaymentMethod,
+                                  onMethodSelected: (methodName) => setState(
+                                    () => _selectedPaymentMethod = methodName,
+                                  ),
+                                ),
+                                SizedBox(height: 32.h),
+                                const SectionTitle(
+                                  title: '2. إرفاق إيصال التحويل',
+                                  icon: Icons.cloud_upload_outlined,
+                                ),
+                                SizedBox(height: 16.h),
+                                ReceiptUploadArea(
+                                  receiptImage: _receiptImage,
+                                  onPickImage: _pickImage,
+                                ),
+                                SizedBox(height: 32.h),
+                                SubscribeSubmitButton(
+                                  isLoading: state.status == Status.loading,
+                                  onPressed: _receiptImage == null
+                                      ? null
+                                      : () {
+                                          context.read<SubscribeBloc>().add(
+                                                SubmitSubscription(
+                                                  studentId: 27,
+                                                  courseId:
+                                                      widget.courseId ?? 0,
+                                                  receiptImage: _receiptImage!,
+                                                ),
+                                              );
+                                        },
+                                ),
+                                SizedBox(height: 40.h),
+                              ],
+                            ),
+                          ),
                         ),
-                      );
-                } else {
-                  context.read<SubscribeBloc>().add(
-                        SubmitSubscription(
-                          studentId: studentId,
-                          courseId: widget.courseId!,
-                          receiptImage: _receiptImage!,
-                        ),
-                      );
-                }
-              },
-        child: state.status == Status.loading
-            ? const CircularProgressIndicator(color: Colors.white)
-            : Text(
-                'إرسال الإيصال للتفعيل',
-                style: TextStyle(
-                  fontSize: 16.sp,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
-                ),
-              ),
+                        const FooterSection(),
+                      ],
+                    ),
+                  ),
+                ],
+              );
+            },
+          ),
+        ),
       ),
     );
   }

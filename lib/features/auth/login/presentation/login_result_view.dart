@@ -49,66 +49,45 @@ class LoginResultView extends StatelessWidget {
               quickLinks: [
                 FooterLink(
                   title: "الرئيسية",
-                  onTap: () {
-                    Navigator.pushNamed(context, AppRoutsName.homeView);
-                  },
+                  onTap: () =>
+                      Navigator.pushNamed(context, AppRoutsName.homeView),
                 ),
                 FooterLink(
                   title: "عن المدرب",
-                  onTap: () {
-                    Navigator.pushNamed(
-                      context,
-                      AppRoutsName.aboutInstructorView,
-                    );
-                  },
+                  onTap: () => Navigator.pushNamed(
+                    context,
+                    AppRoutsName.aboutInstructorView,
+                  ),
                 ),
                 FooterLink(
                   title: "الدورات",
-                  onTap: () {
-                    Navigator.pushNamed(context, AppRoutsName.browsecourseView);
-                  },
+                  onTap: () =>
+                      Navigator.pushNamed(context, AppRoutsName.browsecourseView),
                 ),
                 FooterLink(
                   title: "آراء الطلاب",
-                  onTap: () {
-                    Navigator.pushNamed(
-                      context,
-                      AppRoutsName.homeView,
-                      arguments: {'scrollToComments': true},
-                    );
-                  },
+                  onTap: () => Navigator.pushNamed(
+                    context,
+                    AppRoutsName.homeView,
+                    arguments: {'scrollToComments': true},
+                  ),
                 ),
                 FooterLink(
                   title: "لماذا نحن",
-                  onTap: () {
-                    Navigator.pushNamed(
-                      context,
-                      AppRoutsName.homeView,
-                      arguments: {'scrollToWhyUs': true},
-                    );
-                  },
+                  onTap: () => Navigator.pushNamed(
+                    context,
+                    AppRoutsName.homeView,
+                    arguments: {'scrollToWhyUs': true},
+                  ),
                 ),
                 FooterLink(
                   title: "سياسة الخصوصية",
-                  onTap: () {
-                    Navigator.pushNamed(
-                      context,
-                      AppRoutsName.privacyPolicyView,
-                    );
-                  },
+                  onTap: () => Navigator.pushNamed(
+                    context,
+                    AppRoutsName.privacyPolicyView,
+                  ),
                 ),
               ],
-              socialLinks: <FaIconData, String>{
-                FontAwesomeIcons.telegram: "https://t.me/+ilC41xR1A0xjZjU0",
-                FontAwesomeIcons.tiktok:
-                    "https://www.tiktok.com/@salahabdelaal100?_r=1&_t=ZS-950VqY9n0iX",
-                FontAwesomeIcons.youtube:
-                    "https://youtube.com/@salahabdel-aal6246?si=QNu4FQYF0Oqovw3c",
-                FontAwesomeIcons.facebook:
-                    "https://www.facebook.com/share/18UrxXvobe/?mibextid=wwXIfr",
-                FontAwesomeIcons.instagram:
-                    "https://www.instagram.com/aladib100?igsh=a2RuaXEwazF5bmpk",
-              },
             ),
           ],
         ),

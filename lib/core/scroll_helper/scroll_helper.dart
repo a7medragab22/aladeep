@@ -1,4 +1,56 @@
 import 'package:flutter/material.dart';
+import 'package:aladeep/core/routes/app_routs_name.dart';
+
+class HomeScrollProvider extends InheritedWidget {
+  final ScrollController scrollController;
+  final GlobalKey commentsKey;
+  final GlobalKey whyUsKey;
+
+  const HomeScrollProvider({
+    super.key,
+    required this.scrollController,
+    required this.commentsKey,
+    required this.whyUsKey,
+    required super.child,
+  });
+
+  static HomeScrollProvider? of(BuildContext context) {
+    return context.dependOnInheritedWidgetOfExactType<HomeScrollProvider>();
+  }
+
+  void scrollToComments() {
+    _scrollToWidget(commentsKey);
+  }
+
+  void scrollToWhyUs() {
+    _scrollToWidget(whyUsKey);
+  }
+
+  void scrollToTop() {
+    scrollController.animateTo(
+      0,
+      duration: const Duration(milliseconds: 800),
+      curve: Curves.easeInOut,
+    );
+  }
+
+  void _scrollToWidget(GlobalKey key) {
+    final context = key.currentContext;
+    if (context != null) {
+      Scrollable.ensureVisible(
+        context,
+        duration: const Duration(milliseconds: 800),
+        curve: Curves.easeInOut,
+      );
+    }
+  }
+
+  @override
+  bool updateShouldNotify(HomeScrollProvider oldWidget) =>
+      scrollController != oldWidget.scrollController ||
+      commentsKey != oldWidget.commentsKey ||
+      whyUsKey != oldWidget.whyUsKey;
+}
 
 mixin HomeScrollMixin {
   final ScrollController scrollController = ScrollController();
