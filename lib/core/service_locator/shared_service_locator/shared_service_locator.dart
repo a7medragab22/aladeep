@@ -11,32 +11,38 @@ import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
 class SharedServiceLocator {
   static Future<void> execute({required GetIt getIt}) async {
-    final token = CacheHelper.getData(key: 'token') ?? '';
-
-    loggerWarn("token in sl $token");
-    loggerWarn(
-      "Accept Language in sl ${navigatorKey.currentContext?.isArabic}",
-    );
     getIt.registerLazySingleton<Dio>(() {
-      return Dio(
-          BaseOptions(
-            baseUrl: Endpoints.baseUrl,
-            connectTimeout: const Duration(seconds: 60),
-            headers: {
-              'Accept': 'application/json',
-              'Content-Type': 'application/json',
-              'Cache-Control': 'no-cache',
-              'Pragma': 'no-cache',
-              'Accept-Language': navigatorKey.currentContext?.isArabic ?? true
-                  ? 'ar'
-                  : 'en',
-              'Authorization': 'Bearer $token',
-            },
-          ),
-        )
-        ..interceptors.addAll([
-          if (kDebugMode)
-            PrettyDioLogger(
+      final dio = Dio(
+        BaseOptions(
+          baseUrl: Endpoints.baseUrl,
+          connectTimeout: const Duration(seconds: 60),
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Cache-Control': 'no-cache',
+            'Pragma': 'no-cache',
+          },
+        ),
+      );
+
+      dio.interceptors.add(
+        InterceptorsWrapper(
+          onRequest: (options, handler) {
+            // Dynamically get fresh token and language for every request
+            final token = CacheHelper.getData(key: 'token') ?? '';
+            final isArabic = navigatorKey.currentContext?.isArabic ?? true;
+
+            options.headers['Authorization'] = 'Bearer $token';
+            options.headers['Accept-Language'] = isArabic ? 'ar' : 'en';
+
+            return handler.next(options);
+          },
+        ),
+      );
+
+      if (kDebugMode) {
+        dio.interceptors.add(
+          PrettyDioLogger(
               requestHeader: true,
               requestBody: true,
               responseBody: true,
@@ -47,7 +53,9 @@ class SharedServiceLocator {
               request: true,
               maxWidth: 90,
             ),
-        ]);
+        );
+      }
+      return dio;
     });
     getIt.registerLazySingleton<ApiConsumer>(
       () => BaseApiConsumer(dio: getIt<Dio>()),

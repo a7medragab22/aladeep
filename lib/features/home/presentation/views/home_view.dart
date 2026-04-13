@@ -45,7 +45,11 @@ class _HomeViewState extends State<HomeView> with HomeScrollMixin {
     return BlocProvider(
       create: (context) => getIt<HomeBloc>()..add(const FetchHomeData()),
       child: Scaffold(
-        endDrawer: const AppDrawer(),
+        endDrawer: AppDrawer(
+          onScrollToComments: () => scrollToWidget(commentsKey),
+          onScrollToFooter: () =>
+              animateTo(scrollController.position.maxScrollExtent),
+        ),
         body: SafeArea(
           child: BlocBuilder<HomeBloc, BaseState>(
             builder: (context, state) {

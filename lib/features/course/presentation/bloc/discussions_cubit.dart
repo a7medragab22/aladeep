@@ -39,6 +39,7 @@ class DiscussionsCubit extends Cubit<DiscussionsState> {
 
     // Mocking API call delay
     await Future.delayed(const Duration(seconds: 1));
+    if (isClosed) return;
 
     final mockData = [
       DiscussionModel(
