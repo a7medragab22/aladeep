@@ -234,7 +234,7 @@ final class BaseApiConsumer implements ApiConsumer {
     try {
       Response response = await _dio.post(
         url,
-        data: formData,
+        data: FormData.fromMap(formData),
         queryParameters: queryParameters,
         options: options,
         cancelToken: cancelToken,

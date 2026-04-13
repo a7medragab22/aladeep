@@ -1,11 +1,15 @@
+import 'package:aladeep/core/routes/app_routs_name.dart';
 import 'package:aladeep/core/theme/app_colors.dart';
 import 'package:aladeep/core/utils/custom_button.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import 'package:aladeep/features/home/data/models/home_model.dart';
+
 class TestYourSelfSection extends StatelessWidget {
-  const TestYourSelfSection({super.key});
+  final SettingsModel? settings;
+  const TestYourSelfSection({super.key, this.settings});
 
   @override
   Widget build(BuildContext context) {
@@ -94,6 +98,20 @@ class TestYourSelfSection extends StatelessWidget {
                 text: 'ابدأ الاختبار التشخيصي',
                 backgroundColor: AppColors.primaryGold,
                 textColor: AppColors.primaryDark,
+                onPressed: () {
+                  Navigator.pushNamed(
+                    context,
+                    AppRoutsName.testYourSelfView,
+                    arguments: 'Ahmed',
+                  );
+
+                  if (settings?.placementTestQuizId != null) {
+                    // Navigate to quiz view with ID
+                    debugPrint(
+                      'Starting quiz: ${settings?.placementTestQuizId}',
+                    );
+                  }
+                },
               ),
             ],
           ),

@@ -10,7 +10,14 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class AppDrawer extends StatefulWidget {
-  const AppDrawer({super.key});
+  final VoidCallback? onScrollToComments;
+  final VoidCallback? onScrollToFooter;
+
+  const AppDrawer({
+    super.key,
+    this.onScrollToComments,
+    this.onScrollToFooter,
+  });
 
   @override
   State<AppDrawer> createState() => _AppDrawerState();
@@ -134,12 +141,16 @@ class _AppDrawerState extends State<AppDrawer> {
                     title: 'آراء الطلاب',
                     onTap: () {
                       Navigator.pop(context);
-                      Navigator.pushNamedAndRemoveUntil(
-                        context,
-                        AppRoutsName.homeView,
-                        (route) => false,
-                        arguments: {'scrollToComments': true},
-                      );
+                      if (widget.onScrollToComments != null) {
+                        widget.onScrollToComments!();
+                      } else {
+                        Navigator.pushNamedAndRemoveUntil(
+                          context,
+                          AppRoutsName.homeView,
+                          (route) => false,
+                          arguments: {'scrollToComments': true},
+                        );
+                      }
                     },
                   ),
                   DrawerItem(
@@ -147,14 +158,30 @@ class _AppDrawerState extends State<AppDrawer> {
                     title: 'تواصل معنا',
                     onTap: () {
                       Navigator.pop(context);
-                      Navigator.pushNamedAndRemoveUntil(
-                        context,
-                        AppRoutsName.homeView,
-                        (route) => false,
-                        arguments: {'scrollToFooter': true},
-                      );
+                      if (widget.onScrollToFooter != null) {
+                        widget.onScrollToFooter!();
+                      } else {
+                        Navigator.pushNamedAndRemoveUntil(
+                          context,
+                          AppRoutsName.homeView,
+                          (route) => false,
+                          arguments: {'scrollToFooter': true},
+                        );
+                      }
                     },
                   ),
+                  if (CacheHelper.getData(key: 'user') != null)
+                    DrawerItem(
+                      icon: Icons.school_rounded,
+                      title: 'منصتى التعليمية',
+                      onTap: () {
+                        Navigator.pop(context);
+                        Navigator.pushNamed(
+                          context,
+                          AppRoutsName.myPlatformDashboard,
+                        );
+                      },
+                    ),
                   DrawerItem(
                     icon: Icons.manage_accounts_rounded,
                     title: 'الملف الشخصي',

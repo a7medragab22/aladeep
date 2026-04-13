@@ -2,8 +2,11 @@ import 'package:aladeep/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import 'package:aladeep/features/home/data/models/home_model.dart';
+
 class VideoSection extends StatelessWidget {
-  const VideoSection({super.key});
+  final SettingsModel? settings;
+  const VideoSection({super.key, this.settings});
 
   @override
   Widget build(BuildContext context) {
@@ -77,23 +80,33 @@ class VideoSection extends StatelessWidget {
                 ),
 
                 // Play button
-                Container(
-                  padding: EdgeInsets.all(18.r),
-                  decoration: BoxDecoration(
-                    color: AppColors.primaryGold,
-                    shape: BoxShape.circle,
-                    boxShadow: [
-                      BoxShadow(
-                        color: AppColors.primaryGold.withValues(alpha: 0.4),
-                        blurRadius: 20,
-                        spreadRadius: 2,
-                      ),
-                    ],
-                  ),
-                  child: Icon(
-                    Icons.play_arrow_rounded,
-                    color: AppColors.primaryDark,
-                    size: 36.sp,
+                GestureDetector(
+                  onTap: () {
+                    if (settings?.promoVideoUrl != null) {
+                      // Navigate or play video
+                      debugPrint(
+                        'Playing promo video: ${settings?.promoVideoUrl}',
+                      );
+                    }
+                  },
+                  child: Container(
+                    padding: EdgeInsets.all(18.r),
+                    decoration: BoxDecoration(
+                      color: AppColors.primaryGold,
+                      shape: BoxShape.circle,
+                      boxShadow: [
+                        BoxShadow(
+                          color: AppColors.primaryGold.withValues(alpha: 0.4),
+                          blurRadius: 20,
+                          spreadRadius: 2,
+                        ),
+                      ],
+                    ),
+                    child: Icon(
+                      Icons.play_arrow_rounded,
+                      color: AppColors.primaryDark,
+                      size: 36.sp,
+                    ),
                   ),
                 ),
 

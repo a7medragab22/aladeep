@@ -1,3 +1,4 @@
+import 'package:aladeep/core/bloc/paginated_bloc/exports.dart';
 import 'package:aladeep/core/routes/app_routs_name.dart';
 import 'package:aladeep/features/home/presentation/sections/brouse_courses_section.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -15,6 +16,11 @@ import 'package:aladeep/features/home/presentation/sections/test_your_self_secti
 import 'package:aladeep/features/home/presentation/sections/video_section.dart';
 import 'package:aladeep/features/home/presentation/sections/why_section.dart';
 import 'package:flutter/material.dart';
+
+import 'package:aladeep/features/home/presentation/bloc/home_bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../../core/enum/status.dart';
+import '../../../../core/service_locator/service_locator.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -39,82 +45,123 @@ class _HomeViewState extends State<HomeView> with HomeScrollMixin {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      endDrawer: const AppDrawer(),
-      body: SafeArea(
-        child: CustomScrollView(
-          controller: scrollController, // Controller من الـ Mixin
-          slivers: [
-            SliverToBoxAdapter(child: Header()),
-            SliverToBoxAdapter(child: HeroSection()),
-            SliverToBoxAdapter(child: StatsSection()),
-            SliverToBoxAdapter(child: TestYourSelfSection()),
-            SliverToBoxAdapter(child: VideoSection()),
+    return BlocProvider(
+      create: (context) => getIt<HomeBloc>()..add(const FetchHomeData()),
+      child: Scaffold(
+        endDrawer: AppDrawer(
+          onScrollToComments: () => scrollToWidget(commentsKey),
+          onScrollToFooter: () =>
+              animateTo(scrollController.position.maxScrollExtent),
+        ),
+        body: SafeArea(
+          child: BlocBuilder<HomeBloc, BaseState>(
+            builder: (context, state) {
+              if (state.status == Status.loading) {
+                return const Center(child: CircularProgressIndicator());
+              }
+              final homeData = state.data;
+              return Column(
+                children: [
+                  Header(),
+                  Expanded(
+                    child: CustomScrollView(
+                      controller: scrollController, // Controller من الـ Mixin
+                      slivers: [
+                        SliverToBoxAdapter(
+                          child: HeroSection(settings: homeData?.settings),
+                        ),
+                        SliverToBoxAdapter(child: StatsSection()),
+                        SliverToBoxAdapter(
+                          child: TestYourSelfSection(
+                            settings: homeData?.settings,
+                          ),
+                        ),
+                        SliverToBoxAdapter(
+                          child: VideoSection(settings: homeData?.settings),
+                        ),
 
-            // مثال لإضافة Key لسكشن "لماذا نحن"
-            SliverToBoxAdapter(child: WhySection(key: whyUsKey)),
+                        // مثال لإضافة Key لسكشن "لماذا نحن"
+                        SliverToBoxAdapter(child: WhySection(key: whyUsKey)),
 
-            FeaturesListSection(),
-            SliverToBoxAdapter(child: SuccefullStorysSection()),
+                        FeaturesListSection(),
+                        SliverToBoxAdapter(child: SuccefullStorysSection()),
 
-            // سكشن الكومنتات مع الـ Key بتاعه
-            CommentsSection(key: commentsKey),
-            SliverToBoxAdapter(child: BrouseCoursesSection()),
-            FooterSection(
-              quickLinks: [
-                FooterLink(
-                  title: "الرئيسية",
-                  onTap: () {
-                    animateTo(0);
-                  },
-                ),
-                FooterLink(
-                  title: "عن المدرب",
-                  onTap: () {
-                    Navigator.pushNamed(context, '/aboutInstructorView');
-                  },
-                ),
-                FooterLink(
-                  title: "الدورات",
-                  onTap: () {
-                    Navigator.pushNamed(context, '/browsecourseView');
-                  },
-                ),
-                FooterLink(
-                  title: "آراء الطلاب",
-                  onTap: () {
-                    scrollToWidget(commentsKey);
-                  },
-                ),
-                FooterLink(
-                  title: "لماذا نحن",
-                  onTap: () {
-                    scrollToWidget(whyUsKey);
-                  },
-                ),
-                FooterLink(
-                  title: "سياسة الخصوصية",
-                  onTap: () {
-                    Navigator.pushNamed(
-                      context,
-                      AppRoutsName.privacyPolicyView,
-                    );
-                  },
-                ),
-              ],
-              socialLinks: <FaIconData, String>{
-                FontAwesomeIcons.telegram: "https://t.me/+ilC41xR1A0xjZjU0",
-                FontAwesomeIcons.tiktok:
-                    "https://www.tiktok.com/@salahabdelaal100?_r=1&_t=ZS-950VqY9n0iX",
-                FontAwesomeIcons.youtube:
-                    "https://youtube.com/@salahabdel-aal6246?si=QNu4FQYF0Oqovw3c",
-                FontAwesomeIcons.facebook:
-                    "https://www.facebook.com/share/18UrxXvobe/?mibextid=wwXIfr",
-                FontAwesomeIcons.instagram:
-                    "https://www.instagram.com/aladib100?igsh=a2RuaXEwazF5bmpk",
-              },
-            ),
-          ],
+                        // سكشن الكومنتات مع الـ Key بتاعه
+                        CommentsSection(key: commentsKey),
+                        SliverToBoxAdapter(
+                          child: BrouseCoursesSection(
+                            courses: homeData?.courses ?? [],
+                          ),
+                        ),
+
+                        FooterSection(
+                          quickLinks: [
+                            FooterLink(
+                              title: "الرئيسية",
+                              onTap: () {
+                                animateTo(0);
+                              },
+                            ),
+                            FooterLink(
+                              title: "عن المدرب",
+                              onTap: () {
+                                Navigator.pushNamed(
+                                  context,
+                                  '/aboutInstructorView',
+                                );
+                              },
+                            ),
+                            FooterLink(
+                              title: "الدورات",
+                              onTap: () {
+                                Navigator.pushNamed(
+                                  context,
+                                  '/browsecourseView',
+                                );
+                              },
+                            ),
+                            FooterLink(
+                              title: "آراء الطلاب",
+                              onTap: () {
+                                scrollToWidget(commentsKey);
+                              },
+                            ),
+                            FooterLink(
+                              title: "لماذا نحن",
+                              onTap: () {
+                                scrollToWidget(whyUsKey);
+                              },
+                            ),
+                            FooterLink(
+                              title: "سياسة الخصوصية",
+                              onTap: () {
+                                Navigator.pushNamed(
+                                  context,
+                                  AppRoutsName.privacyPolicyView,
+                                );
+                              },
+                            ),
+                          ],
+                          socialLinks: <FaIconData, String>{
+                            FontAwesomeIcons.telegram:
+                                "https://t.me/+ilC41xR1A0xjZjU0",
+                            FontAwesomeIcons.tiktok:
+                                "https://www.tiktok.com/@salahabdelaal100?_r=1&_t=ZS-950VqY9n0iX",
+                            FontAwesomeIcons.youtube:
+                                "https://youtube.com/@salahabdel-aal6246?si=QNu4FQYF0Oqovw3c",
+                            FontAwesomeIcons.facebook:
+                                "https://www.facebook.com/share/18UrxXvobe/?mibextid=wwXIfr",
+                            FontAwesomeIcons.instagram:
+                                "https://www.instagram.com/aladib100?igsh=a2RuaXEwazF5bmpk",
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              );
+            },
+          ),
         ),
       ),
     );

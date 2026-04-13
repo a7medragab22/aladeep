@@ -1,11 +1,15 @@
+import 'package:aladeep/core/helpers/cache_helper.dart';
 import 'package:aladeep/core/routes/app_routs_name.dart';
 import 'package:aladeep/core/theme/app_colors.dart';
 import 'package:aladeep/core/utils/custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import 'package:aladeep/features/home/data/models/home_model.dart';
+
 class HeroSection extends StatelessWidget {
-  const HeroSection({super.key});
+  final SettingsModel? settings;
+  const HeroSection({super.key, this.settings});
 
   @override
   Widget build(BuildContext context) {
@@ -87,21 +91,23 @@ class HeroSection extends StatelessWidget {
 
           SizedBox(height: 40.h),
 
-          CustomButton(
-            text: 'ابدأ التعلم الآن',
-            textColor: AppColors.primaryDarker,
-            icon: Icons.rocket_launch_sharp,
-            backgroundColor: AppColors.primaryGold,
-            onPressed: () =>
-                Navigator.pushNamed(context, AppRoutsName.loginView),
-          ),
+          if (CacheHelper.getData(key: 'token') == null)
+            CustomButton(
+              text: 'ابدأ التعلم الآن',
+              textColor: AppColors.primaryDarker,
+              icon: Icons.rocket_launch_sharp,
+              backgroundColor: AppColors.primaryGold,
+              onPressed: () =>
+                  Navigator.pushNamed(context, AppRoutsName.browsecourseView),
+            ),
           SizedBox(height: 16.h),
-          CustomButton(
-            text: 'تسجيل الدخول',
-            backgroundColor: AppColors.primaryDark,
-            onPressed: () =>
-                Navigator.pushNamed(context, AppRoutsName.loginView),
-          ),
+          if (CacheHelper.getData(key: 'token') == null)
+            CustomButton(
+              text: 'تسجيل الدخول',
+              backgroundColor: AppColors.primaryDark,
+              onPressed: () =>
+                  Navigator.pushNamed(context, AppRoutsName.loginView),
+            ),
         ],
       ),
     );

@@ -13,7 +13,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../core/helpers/cache_helper.dart';
 import '../../core/helpers/helpers.dart';
 import 'models/customer_model.dart';
-
 part 'data_source/forget_password_data_source.dart';
 part 'blocs/login/login_event.dart';
 part 'blocs/login/login_bloc.dart';

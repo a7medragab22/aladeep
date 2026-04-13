@@ -46,6 +46,33 @@ class GenericDataSource {
     );
   }
 
+  Future<Either<Failure, T>> fetchFullResponse<T>({
+    required String endpoint,
+    Map<String, dynamic>? data,
+    Map<String, dynamic>? queryParameters,
+    Map<String, dynamic>? headers,
+    required T Function(Map<String, dynamic>) fromJson,
+  }) async {
+    final result = await _apiConsumer.get(
+      endpoint,
+      data: data,
+      queryParameters: queryParameters,
+      headers: headers,
+    );
+    return result.fold(
+      (left) => Left(left),
+      (right) {
+        try {
+          return Right(fromJson(right));
+        } catch (e, stackTrace) {
+          loggerError(stackTrace);
+          loggerWarn(e.toString());
+          return Left(ParsingFailure(message: e.toString()));
+        }
+      },
+    );
+  }
+
   Future<Either<Failure, T>> fetchResult<T>({
     required String endpoint,
     PaginationParams? params,
@@ -62,8 +89,8 @@ class GenericDataSource {
         },
         headers: headers);
     return result.fold(
-          (left) => Left(left),
-          (right) {
+      (left) => Left(left),
+      (right) {
         try {
           if (T == Null) {
             return Right(null as T);

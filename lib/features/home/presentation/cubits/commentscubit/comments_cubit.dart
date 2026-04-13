@@ -9,12 +9,15 @@ class CommentsCubit extends Cubit<CommentsState> {
 
   Future<void> getComments() async {
     emit(CommentsLoading());
-
     try {
       final comments = await repository.getComments();
-      emit(CommentsLoaded(comments));
+      if (!isClosed) {
+        emit(CommentsLoaded(comments));
+      }
     } catch (e) {
-      emit(CommentsError(e.toString()));
+      if (!isClosed) {
+        emit(CommentsError(e.toString()));
+      }
     }
   }
 }
