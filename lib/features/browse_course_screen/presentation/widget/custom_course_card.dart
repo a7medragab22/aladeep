@@ -272,6 +272,24 @@ class CustomCourseCard extends StatelessWidget {
                   textColor: AppColors.primaryGold,
                   faIcon: FontAwesomeIcons.cartShopping,
                   isFaicon: true,
+                  onPressed: () {
+                    final id =
+                        courseSummary?.id ??
+                        int.tryParse(course?.id ?? '0') ??
+                        0;
+                    Navigator.pushNamed(
+                      context,
+                      AppRoutsName.confirmSubscription,
+                      arguments: {
+                        'courseId': id,
+                        'price':
+                            courseSummary?.price ??
+                            course?.discountedPrice ??
+                            0.0,
+                        'isBundle': false,
+                      },
+                    );
+                  },
                 ),
               ),
               const SizedBox(height: 12),

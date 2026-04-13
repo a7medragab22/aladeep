@@ -2,6 +2,7 @@ import 'package:aladeep/core/bloc/paginated_bloc/exports.dart';
 import 'package:aladeep/core/enum/status.dart';
 import 'package:aladeep/core/routes/app_routs_name.dart';
 import 'package:aladeep/core/theme/app_colors.dart';
+import 'package:aladeep/core/utils/app_drawer.dart';
 import 'package:aladeep/core/utils/header.dart';
 import 'package:aladeep/features/my_platform/data/models/my_course_model.dart';
 import 'package:aladeep/features/my_platform/presentation/bloc/my_platform_bloc.dart';
@@ -30,11 +31,25 @@ class _MyPlatformDashboardViewState extends State<MyPlatformDashboardView> {
   }
 
   void _loadUserName() {
-    final userJson = CacheHelper.getData(key: 'user');
-    if (userJson != null) {
-      final user = CustomerModel.fromJson(jsonDecode(userJson));
+    try {
+      final userJson = CacheHelper.getData(key: 'user');
+      if (userJson != null) {
+        final Map<String, dynamic> userMap = jsonDecode(userJson);
+        final user = CustomerModel.fromJson(userMap);
+        setState(() {
+          _userName =
+              (user.fullName != null && user.fullName!.trim().isNotEmpty)
+              ? user.fullName!
+              : 'طالب';
+        });
+      } else {
+        setState(() {
+          _userName = 'طالب';
+        });
+      }
+    } catch (e) {
       setState(() {
-        _userName = user.fullName ?? '';
+        _userName = 'طالب';
       });
     }
   }
@@ -42,38 +57,47 @@ class _MyPlatformDashboardViewState extends State<MyPlatformDashboardView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: const Color(0xffF8FAFC),
+      endDrawer: const AppDrawer(),
       body: SafeArea(
         child: Column(
           children: [
-            const Header(),
+            Header(),
             Expanded(
-              child:
-                  BlocBuilder<MyPlatformBloc, BaseState<List<MyCourseModel>>>(
-                    builder: (context, state) {
-                      return ListView(
-                        padding: EdgeInsets.zero,
-                        children: [
-                          _buildWelcomeSection(),
-                          SizedBox(height: 32.h),
-                          _buildCoursesHeader(),
-                          if (state.status == Status.loading)
-                            const Center(
-                              child: Padding(
-                                padding: EdgeInsets.all(40.0),
-                                child: CircularProgressIndicator(),
-                              ),
-                            )
-                          else if (state.status == Status.success &&
-                              (state.data?.isNotEmpty ?? false))
-                            _buildCoursesList(state.data!)
-                          else
-                            _buildEmptyState(),
-                          SizedBox(height: 40.h),
-                        ],
-                      );
-                    },
-                  ),
+              child: Center(
+                child: ConstrainedBox(
+                  constraints: const BoxConstraints(maxWidth: 800),
+                  child:
+                      BlocBuilder<
+                        MyPlatformBloc,
+                        BaseState<List<MyCourseModel>>
+                      >(
+                        builder: (context, state) {
+                          return ListView(
+                            padding: EdgeInsets.symmetric(vertical: 10.h),
+                            children: [
+                              _buildWelcomeSection(),
+                              SizedBox(height: 24.h),
+                              _buildCoursesHeader(),
+                              if (state.status == Status.loading)
+                                const Center(
+                                  child: Padding(
+                                    padding: EdgeInsets.all(40.0),
+                                    child: CircularProgressIndicator(),
+                                  ),
+                                )
+                              else if (state.status == Status.success &&
+                                  (state.data?.isNotEmpty ?? false))
+                                _buildCoursesList(state.data!)
+                              else
+                                _buildEmptyState(),
+                              SizedBox(height: 40.h),
+                            ],
+                          );
+                        },
+                      ),
+                ),
+              ),
             ),
           ],
         ),
@@ -84,16 +108,20 @@ class _MyPlatformDashboardViewState extends State<MyPlatformDashboardView> {
   Widget _buildWelcomeSection() {
     return Container(
       width: double.infinity,
-      margin: EdgeInsets.all(20.r),
+      margin: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
       padding: EdgeInsets.all(24.r),
       decoration: BoxDecoration(
         color: AppColors.primaryDark,
         borderRadius: BorderRadius.circular(24),
+        boxShadow: [
+          BoxShadow(
+            color: AppColors.primaryDark.withValues(alpha: 0.2),
+            blurRadius: 15,
+            offset: const Offset(0, 8),
+          ),
+        ],
         gradient: LinearGradient(
-          colors: [
-            AppColors.primaryDark,
-            AppColors.primaryDark.withOpacity(0.9),
-          ],
+          colors: [AppColors.primaryDark, const Color(0xff124a7d)],
           begin: Alignment.topRight,
           end: Alignment.bottomLeft,
         ),
@@ -104,51 +132,55 @@ class _MyPlatformDashboardViewState extends State<MyPlatformDashboardView> {
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Text(
-                    'مرحباً بك، $_userName!',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 22.sp,
-                      fontWeight: FontWeight.bold,
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Text(
+                      'مرحباً بك\n $_userName!',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 20.sp,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
-                  ),
-                  SizedBox(height: 4.h),
-                  Text(
-                    'استكمل رحلة تفوقك واجتياز اختبارات القدرات اللفظي بنجاح.',
-                    textDirection: TextDirection.rtl,
-                    style: TextStyle(
-                      color: Colors.white.withOpacity(0.7),
-                      fontSize: 11.sp,
+                    SizedBox(height: 6.h),
+                    Text(
+                      'استكمل رحلة تفوقك واجتياز اختبارات القدرات اللفظي بنجاح.',
+                      textDirection: TextDirection.rtl,
+                      style: TextStyle(
+                        color: Colors.white.withValues(alpha: 0.8),
+                        fontSize: 12.sp,
+                        height: 1.4,
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
               SizedBox(width: 16.w),
-              // Profile circle as per image
+              // Profile circle
               Container(
-                width: 50.w,
-                height: 50.w,
+                width: 54.r,
+                height: 54.r,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   border: Border.all(
-                    color: AppColors.primaryGold.withOpacity(0.5),
-                    width: 2,
+                    color: AppColors.primaryGold.withValues(alpha: 0.6),
+                    width: 2.5,
                   ),
                 ),
                 child: ClipRRect(
-                  borderRadius: BorderRadius.circular(25),
+                  borderRadius: BorderRadius.circular(12),
                   child: Image.asset(
                     'assets/images/user_placeholder.png',
                     fit: BoxFit.cover,
                     errorBuilder: (_, __, ___) => Center(
                       child: Text(
-                        'هـ',
+                        _userName.isNotEmpty ? _userName[0] : '',
                         style: TextStyle(
                           color: AppColors.primaryGold,
                           fontWeight: FontWeight.bold,
+                          fontSize: 26.sp,
                         ),
                       ),
                     ),
@@ -157,24 +189,19 @@ class _MyPlatformDashboardViewState extends State<MyPlatformDashboardView> {
               ),
             ],
           ),
-          SizedBox(height: 24.h),
-          Row(
-            children: [
-              _buildActionButton(
-                title: 'نتائجي وتقييمي',
-                icon: Icons.auto_graph_rounded,
-                isSecondary: true,
-                onTap: () =>
-                    Navigator.pushNamed(context, AppRoutsName.myResults),
-              ),
-              SizedBox(width: 12.w),
-              _buildActionButton(
-                title: 'استكشف الدورات',
-                icon: Icons.explore_outlined,
-                onTap: () =>
-                    Navigator.pushNamed(context, AppRoutsName.browsecourseView),
-              ),
-            ],
+          SizedBox(height: 28.h),
+          _buildActionButton(
+            title: 'استكشف الدورات المتاحة',
+            icon: Icons.explore_outlined,
+            onTap: () =>
+                Navigator.pushNamed(context, AppRoutsName.browsecourseView),
+          ),
+          SizedBox(height: 12.h),
+          _buildActionButton(
+            title: 'نتائجي وتقييمي الدراسي',
+            icon: Icons.auto_graph_rounded,
+            isSecondary: true,
+            onTap: () => Navigator.pushNamed(context, AppRoutsName.myResults),
           ),
         ],
       ),
@@ -187,37 +214,38 @@ class _MyPlatformDashboardViewState extends State<MyPlatformDashboardView> {
     bool isSecondary = false,
     required VoidCallback onTap,
   }) {
-    return Expanded(
-      child: GestureDetector(
-        onTap: onTap,
-        child: Container(
-          padding: EdgeInsets.symmetric(vertical: 14.h),
-          decoration: BoxDecoration(
-            color: isSecondary ? Colors.transparent : AppColors.primaryGold,
-            borderRadius: BorderRadius.circular(12),
-            border: isSecondary
-                ? Border.all(color: Colors.white.withOpacity(0.3))
-                : null,
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                title,
-                style: TextStyle(
-                  color: isSecondary ? Colors.white : AppColors.primaryDark,
-                  fontSize: 13.sp,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              SizedBox(width: 8.w),
-              Icon(
-                icon,
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        width: double.infinity,
+        padding: EdgeInsets.symmetric(vertical: 15.h),
+        decoration: BoxDecoration(
+          color: isSecondary
+              ? Colors.white.withOpacity(0.08)
+              : AppColors.primaryGold,
+          borderRadius: BorderRadius.circular(16),
+          border: isSecondary
+              ? Border.all(color: Colors.white.withOpacity(0.25))
+              : null,
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              title,
+              style: TextStyle(
                 color: isSecondary ? Colors.white : AppColors.primaryDark,
-                size: 18.sp,
+                fontSize: 14.sp,
+                fontWeight: FontWeight.bold,
               ),
-            ],
-          ),
+            ),
+            SizedBox(width: 10.w),
+            Icon(
+              icon,
+              color: isSecondary ? Colors.white : AppColors.primaryDark,
+              size: 20.sp,
+            ),
+          ],
         ),
       ),
     );

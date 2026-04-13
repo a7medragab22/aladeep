@@ -185,7 +185,6 @@ class _ProfileViewState extends State<ProfileView> {
                       Navigator.pushNamed(context, AppRoutsName.homeView),
                 ),
               ],
-              socialLinks: const {},
             ),
           ],
         ),

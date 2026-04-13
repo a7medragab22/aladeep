@@ -174,7 +174,7 @@ class _AppDrawerState extends State<AppDrawer> {
                       Navigator.pop(context); // Close drawer first
                       Navigator.pushNamed(
                         context,
-                        AppRoutsName.profileView,
+                        AppRoutsName.myPlatformDashboard,
                       );
                     },
                   ),

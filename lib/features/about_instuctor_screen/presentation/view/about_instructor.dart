@@ -293,68 +293,7 @@ class _AboutInstructorScreenState extends State<AboutInstructorScreen>
               ),
             ),
             // 3. الفوتر (ثابت)
-            FooterSection(
-              quickLinks: [
-                FooterLink(
-                  title: "الرئيسية",
-                  onTap: () {
-                    Navigator.pushNamed(context, AppRoutsName.homeView);
-                  },
-                ),
-                FooterLink(
-                  title: "عن المدرب",
-                  onTap: () {
-                    animateTo(0);
-                  },
-                ),
-                FooterLink(
-                  title: "الدورات",
-                  onTap: () {
-                    Navigator.pushNamed(context, AppRoutsName.browsecourseView);
-                  },
-                ),
-                FooterLink(
-                  title: "آراء الطلاب",
-                  onTap: () {
-                    Navigator.pushNamed(
-                      context,
-                      AppRoutsName.homeView,
-                      arguments: {'scrollToComments': true},
-                    );
-                  },
-                ),
-                FooterLink(
-                  title: "لماذا نحن",
-                  onTap: () {
-                    Navigator.pushNamed(
-                      context,
-                      AppRoutsName.homeView,
-                      arguments: {'scrollToWhyUs': true},
-                    );
-                  },
-                ),
-                FooterLink(
-                  title: "سياسة الخصوصية",
-                  onTap: () {
-                    Navigator.pushNamed(
-                      context,
-                      AppRoutsName.privacyPolicyView,
-                    );
-                  },
-                ),
-              ],
-              socialLinks: {
-                FontAwesomeIcons.telegram: "https://t.me/+ilC41xR1A0xjZjU0",
-                FontAwesomeIcons.tiktok:
-                    "https://www.tiktok.com/@salahabdelaal100?_r=1&_t=ZS-950VqY9n0iX",
-                FontAwesomeIcons.youtube:
-                    "https://youtube.com/@salahabdel-aal6246?si=QNu4FQYF0Oqovw3c",
-                FontAwesomeIcons.facebook:
-                    "https://www.facebook.com/share/18UrxXvobe/?mibextid=wwXIfr",
-                FontAwesomeIcons.instagram:
-                    "https://www.instagram.com/aladib100?igsh=a2RuaXEwazF5bmpk",
-              },
-            ),
+            const FooterSection(),
           ],
         ),
       ),

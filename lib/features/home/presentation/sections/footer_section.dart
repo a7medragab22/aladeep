@@ -1,3 +1,5 @@
+import 'package:aladeep/core/routes/app_routs_name.dart';
+import 'package:aladeep/core/scroll_helper/scroll_helper.dart';
 import 'package:aladeep/core/services/url_launcher_service.dart';
 import 'package:aladeep/core/theme/app_colors.dart';
 import 'package:aladeep/features/home/data/models/footer_link_model.dart';
@@ -7,14 +9,68 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class FooterSection extends StatelessWidget {
-  final List<FooterLink> quickLinks;
-  final Map<FaIconData, String> socialLinks;
+  final List<FooterLink>? quickLinks;
+  final Map<FaIconData, String>? socialLinks;
 
-  const FooterSection({
-    super.key,
-    required this.quickLinks,
-    required this.socialLinks,
-  });
+  const FooterSection({super.key, this.quickLinks, this.socialLinks});
+
+  static Map<FaIconData, String> get defaultSocialLinks => {
+    FontAwesomeIcons.telegram: "https://t.me/+ilC41xR1A0xjZjU0",
+    FontAwesomeIcons.tiktok:
+        "https://www.tiktok.com/@salahabdelaal100?_r=1&_t=ZS-950VqY9n0iX",
+    FontAwesomeIcons.youtube:
+        "https://youtube.com/@salahabdel-aal6246?si=QNu4FQYF0Oqovw3c",
+    FontAwesomeIcons.facebook:
+        "https://www.facebook.com/share/18UrxXvobe/?mibextid=wwXIfr",
+    FontAwesomeIcons.instagram:
+        "https://www.instagram.com/aladib100?igsh=a2RuaXEwazF5bmpk",
+  };
+
+  static List<FooterLink> getDefaultQuickLinks(BuildContext context) {
+    final scrollProvider = HomeScrollProvider.of(context);
+
+    return [
+      FooterLink(
+        title: "الرئيسية",
+        onTap: () {
+          if (scrollProvider != null) {
+            scrollProvider.scrollToTop();
+          } else {
+            Navigator.pushNamed(context, AppRoutsName.homeView);
+          }
+        },
+      ),
+      FooterLink(
+        title: "عن المدرب",
+        onTap: () =>
+            Navigator.pushNamed(context, AppRoutsName.aboutInstructorView),
+      ),
+      FooterLink(
+        title: "الدورات",
+        onTap: () =>
+            Navigator.pushNamed(context, AppRoutsName.browsecourseView),
+      ),
+      FooterLink(
+        title: "آراء الطلاب",
+        onTap: () {
+          if (scrollProvider != null) {
+            scrollProvider.scrollToComments();
+          } else {
+            Navigator.pushNamed(
+              context,
+              AppRoutsName.homeView,
+              arguments: {'scrollToComments': true},
+            );
+          }
+        },
+      ),
+      FooterLink(
+        title: "سياسة الخصوصية",
+        onTap: () =>
+            Navigator.pushNamed(context, AppRoutsName.privacyPolicyView),
+      ),
+    ];
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -69,7 +125,9 @@ class FooterSection extends StatelessWidget {
                   // Social icons
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: socialLinks.entries.map((entry) {
+                    children: (socialLinks ?? defaultSocialLinks).entries.map((
+                      entry,
+                    ) {
                       return Padding(
                         padding: EdgeInsets.symmetric(horizontal: 6.w),
                         child: InkWell(
@@ -113,31 +171,33 @@ class FooterSection extends StatelessWidget {
                     alignment: WrapAlignment.center,
                     spacing: 8.w,
                     runSpacing: 8.h,
-                    children: quickLinks.map((link) {
-                      return InkWell(
-                        onTap: link.onTap,
-                        child: Container(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: 14.w,
-                            vertical: 8.h,
-                          ),
-                          decoration: BoxDecoration(
-                            color: Colors.white.withValues(alpha: 0.05),
-                            borderRadius: BorderRadius.circular(20),
-                            border: Border.all(
-                              color: Colors.white.withValues(alpha: 0.1),
+                    children: (quickLinks ?? getDefaultQuickLinks(context)).map(
+                      (link) {
+                        return InkWell(
+                          onTap: link.onTap,
+                          child: Container(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 14.w,
+                              vertical: 8.h,
+                            ),
+                            decoration: BoxDecoration(
+                              color: Colors.white.withValues(alpha: 0.05),
+                              borderRadius: BorderRadius.circular(20),
+                              border: Border.all(
+                                color: Colors.white.withValues(alpha: 0.1),
+                              ),
+                            ),
+                            child: Text(
+                              link.title,
+                              style: TextStyle(
+                                color: Colors.white.withValues(alpha: 0.75),
+                                fontSize: 12.sp,
+                              ),
                             ),
                           ),
-                          child: Text(
-                            link.title,
-                            style: TextStyle(
-                              color: Colors.white.withValues(alpha: 0.75),
-                              fontSize: 12.sp,
-                            ),
-                          ),
-                        ),
-                      );
-                    }).toList(),
+                        );
+                      },
+                    ).toList(),
                   ),
 
                   SizedBox(height: 24.h),

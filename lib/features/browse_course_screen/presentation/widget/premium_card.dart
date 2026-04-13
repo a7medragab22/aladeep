@@ -89,31 +89,73 @@ class PremiumCard extends StatelessWidget {
   }
 
   Widget _buildInfoSection(bool isWide) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.end,
-      children: [
-        if (isWide) ...[_buildHeaderBadge(), const SizedBox(height: 16)],
-        Text(
-          settings?.bundleTitle ?? "باقة الأديب",
-          textAlign: TextAlign.right,
-          textDirection: TextDirection.rtl,
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: isWide ? 28.sp : 22.sp,
-            fontWeight: FontWeight.bold,
+    // دالة لجلب البيانات مع التأكد من وجود محتوى دائماً
+    List<String> getBenefits() {
+      final String? desc = settings?.bundleDescription;
+      if (desc == null || desc.trim().isEmpty) {
+        return [
+          'اشتراك مفتوح في جميع دورات المنصة الحالية والمستقبلية.',
+          'وصول كامل لبنك الأسئلة والمحاكيات العشوائية.',
+          'دعم فني ومتابعة شخصية من المدرب.',
+        ];
+      }
+      return desc
+          .split(RegExp(r'[\n•]'))
+          .map((e) => e.trim())
+          .where((e) => e.isNotEmpty)
+          .toList();
+    }
+
+    final List<String> benefits = getBenefits();
+
+    return Directionality(
+      textDirection: TextDirection.rtl,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start, // يبدأ من اليمين في RTL
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          if (isWide) ...[_buildHeaderBadge(), const SizedBox(height: 16)],
+          Text(
+            settings?.bundleTitle ?? "باقة الأديب",
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: isWide ? 26.sp : 20.sp,
+              fontWeight: FontWeight.bold,
+            ),
           ),
-        ),
-        const SizedBox(height: 16),
-        if (settings?.bundleDescription != null)
-          BenefitRow(des: settings!.bundleDescription!),
-        if (settings?.bundleDescription == null) ...[
-          const BenefitRow(
-            des: 'اشتراك مفتوح في جميع دورات المنصة الحالية والمستقبلية.',
+          const SizedBox(height: 16),
+          // عرض المميزات
+          ...benefits.map(
+            (benefit) => Padding(
+              padding: EdgeInsets.only(bottom: 12.h),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(top: 2.h),
+                    child: FaIcon(
+                      FontAwesomeIcons.solidCircleCheck,
+                      size: 14.sp,
+                      color: AppColors.primaryGold,
+                    ),
+                  ),
+                  SizedBox(width: 12.w),
+                  Expanded(
+                    child: Text(
+                      benefit,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 14.sp,
+                        height: 1.4,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
           ),
-          const BenefitRow(des: 'وصول كامل لبنك الأسئلة والمحاكيات العشوائية.'),
-          const BenefitRow(des: 'دعم فني ومتابعة شخصية من المدرب.'),
         ],
-      ],
+      ),
     );
   }
 
@@ -151,37 +193,6 @@ class PremiumCard extends StatelessWidget {
                 );
               },
             ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class BenefitRow extends StatelessWidget {
-  const BenefitRow({super.key, required this.des});
-  final String des;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(vertical: 12.h),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          Expanded(
-            child: Text(
-              des,
-              textDirection: TextDirection.rtl,
-              textAlign: TextAlign.right,
-              style: TextStyle(color: Colors.white, fontSize: 12.sp),
-            ),
-          ),
-          SizedBox(width: 10.w),
-          FaIcon(
-            FontAwesomeIcons.circleCheck,
-            size: 12.sp,
-            color: AppColors.primaryGold,
           ),
         ],
       ),

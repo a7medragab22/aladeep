@@ -1,5 +1,4 @@
 import 'package:aladeep/core/utils%20copy/custom_text_feild.dart';
-import 'package:aladeep/core/utils/custom_text_feild.dart';
 import 'package:flutter/material.dart';
 
 class Label extends StatelessWidget {
