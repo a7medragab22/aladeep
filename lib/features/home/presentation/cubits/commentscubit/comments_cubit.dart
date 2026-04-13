@@ -12,8 +12,10 @@ class CommentsCubit extends Cubit<CommentsState> {
 
     try {
       final comments = await repository.getComments();
+      if (isClosed) return;
       emit(CommentsLoaded(comments));
     } catch (e) {
+      if (isClosed) return;
       emit(CommentsError(e.toString()));
     }
   }
