@@ -15,11 +15,16 @@ class CourseDetailsBloc extends Bloc<CourseDetailsEvent, CourseDetailsState> {
   CourseDetailsBloc(this._courseDataSource) : super(const CourseDetailsState()) {
     on<FetchCourseDetails>(_onFetchCourseDetails);
     on<SelectMaterial>(_onSelectMaterial);
+    on<FetchLiveSessions>(_onFetchLiveSessions);
   }
 
   FutureOr<void> _onFetchCourseDetails(
       FetchCourseDetails event, Emitter<CourseDetailsState> emit) async {
     emit(state.copyWith(status: Status.loading));
+    
+    // Fetch live sessions in parallel
+    add(FetchLiveSessions(event.courseId));
+
     final result = await _courseDataSource.getCourseDetails(event.courseId);
     result.fold(
       (failure) => emit(state.copyWith(
@@ -45,6 +50,21 @@ class CourseDetailsBloc extends Bloc<CourseDetailsEvent, CourseDetailsState> {
           selectedMaterial: initialMaterial,
         ));
       },
+    );
+  }
+
+  FutureOr<void> _onFetchLiveSessions(
+      FetchLiveSessions event, Emitter<CourseDetailsState> emit) async {
+    emit(state.copyWith(liveSessionsStatus: Status.loading));
+    final result = await _courseDataSource.getLiveSessions(event.courseId);
+    result.fold(
+      (failure) => emit(state.copyWith(
+        liveSessionsStatus: Status.failure,
+      )),
+      (sessions) => emit(state.copyWith(
+        liveSessionsStatus: Status.success,
+        liveSessions: sessions,
+      )),
     );
   }
 

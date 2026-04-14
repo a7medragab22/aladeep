@@ -11,5 +11,8 @@ class MyPlatformServiceLocator {
     getIt.registerFactory<MyPlatformBloc>(
       () => MyPlatformBloc(getIt<MyPlatformDataSource>()),
     );
+    getIt.registerFactory<MyResultsBloc>(
+      () => MyResultsBloc(getIt<MyPlatformDataSource>()),
+    );
   }
 }

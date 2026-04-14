@@ -5,12 +5,16 @@ class CourseDetailsState extends Equatable {
   final String? errorMessage;
   final CourseDetailsModel? course;
   final MaterialModel? selectedMaterial;
+  final List<LiveSessionModel> liveSessions;
+  final Status liveSessionsStatus;
 
   const CourseDetailsState({
     this.status = Status.initial,
     this.errorMessage,
     this.course,
     this.selectedMaterial,
+    this.liveSessions = const [],
+    this.liveSessionsStatus = Status.initial,
   });
 
   CourseDetailsState copyWith({
@@ -18,15 +22,26 @@ class CourseDetailsState extends Equatable {
     String? errorMessage,
     CourseDetailsModel? course,
     MaterialModel? selectedMaterial,
+    List<LiveSessionModel>? liveSessions,
+    Status? liveSessionsStatus,
   }) {
     return CourseDetailsState(
       status: status ?? this.status,
       errorMessage: errorMessage ?? this.errorMessage,
       course: course ?? this.course,
       selectedMaterial: selectedMaterial ?? this.selectedMaterial,
+      liveSessions: liveSessions ?? this.liveSessions,
+      liveSessionsStatus: liveSessionsStatus ?? this.liveSessionsStatus,
     );
   }
 
   @override
-  List<Object?> get props => [status, errorMessage, course, selectedMaterial];
+  List<Object?> get props => [
+        status,
+        errorMessage,
+        course,
+        selectedMaterial,
+        liveSessions,
+        liveSessionsStatus,
+      ];
 }

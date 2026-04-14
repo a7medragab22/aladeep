@@ -1,10 +1,11 @@
+import 'package:aladeep/core/bloc/paginated_bloc/exports.dart';
+import 'package:aladeep/core/enum/status.dart';
 import 'package:aladeep/core/theme/app_colors.dart';
 import 'package:aladeep/features/course/data/models/discussion_model.dart';
-import 'package:aladeep/features/course/presentation/bloc/discussions_cubit.dart';
+import 'package:aladeep/features/course/presentation/bloc/discussions_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:intl/intl.dart';
 
 class DiscussionCommentCard extends StatelessWidget {
   final DiscussionModel discussion;
@@ -75,7 +76,7 @@ class DiscussionCommentCard extends StatelessWidget {
               ),
               SizedBox(height: 4.h),
               Text(
-                DateFormat('yyyy/MM/dd HH:mm').format(discussion.createdAt),
+                discussion.createdAt,
                 style: TextStyle(fontSize: 10.sp, color: Colors.grey.shade500),
               ),
             ],
@@ -127,7 +128,7 @@ class DiscussionCommentCard extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    DateFormat('yyyy/MM/dd HH:mm').format(reply.createdAt),
+                    reply.createdAt,
                     style: TextStyle(
                       fontSize: 9.sp,
                       color: Colors.grey.shade500,
@@ -169,25 +170,40 @@ class DiscussionCommentCard extends StatelessWidget {
       padding: EdgeInsets.all(12.r),
       child: Row(
         children: [
-          ElevatedButton(
-            onPressed: () {
-              if (controller.text.isNotEmpty) {
-                context.read<DiscussionsCubit>().postReply(
-                  discussion.id,
-                  controller.text,
-                );
-                controller.clear();
-              }
+          BlocBuilder<DiscussionsBloc, BaseState<DiscussionModel>>(
+            builder: (context, state) {
+              return ElevatedButton(
+                onPressed: state.status == Status.loading
+                    ? null
+                    : () {
+                        if (controller.text.isNotEmpty) {
+                          context.read<DiscussionsBloc>().add(
+                            AddReply(
+                              postId: discussion.id,
+                              courseId: courseId,
+                              content: controller.text,
+                            ),
+                          );
+                          controller.clear();
+                        }
+                      },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xffEFF6FF),
+                  foregroundColor: AppColors.primaryDark,
+                  elevation: 0,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8.r),
+                  ),
+                ),
+                child: state.status == Status.loading
+                    ? const SizedBox(
+                        height: 15,
+                        width: 15,
+                        child: CircularProgressIndicator(strokeWidth: 2),
+                      )
+                    : const Text('رد'),
+              );
             },
-            style: ElevatedButton.styleFrom(
-              backgroundColor: const Color(0xffEFF6FF),
-              foregroundColor: AppColors.primaryDark,
-              elevation: 0,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8.r),
-              ),
-            ),
-            child: const Text('رد'),
           ),
           SizedBox(width: 8.w),
           Expanded(

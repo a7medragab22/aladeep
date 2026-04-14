@@ -22,3 +22,11 @@ class SelectMaterial extends CourseDetailsEvent {
   @override
   List<Object> get props => [material];
 }
+
+class FetchLiveSessions extends CourseDetailsEvent {
+  final int courseId;
+  const FetchLiveSessions(this.courseId);
+
+  @override
+  List<Object> get props => [courseId];
+}

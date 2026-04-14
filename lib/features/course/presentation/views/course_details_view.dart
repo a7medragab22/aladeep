@@ -3,6 +3,7 @@ import 'package:aladeep/core/routes/app_routs_name.dart';
 import 'package:aladeep/core/theme/app_colors.dart';
 import 'package:aladeep/features/course/presentation/bloc/course_details_bloc.dart';
 import 'package:aladeep/features/course/data/models/course_details_model.dart';
+import 'package:aladeep/features/course/presentation/bloc/discussions_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -11,7 +12,8 @@ import 'package:aladeep/core/service_locator/service_locator.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 import 'package:aladeep/features/course/presentation/widgets/discussions_tab.dart';
-import 'package:aladeep/features/course/presentation/bloc/discussions_cubit.dart';
+import 'package:aladeep/features/course/presentation/widgets/course_progress_card.dart';
+import 'package:aladeep/features/course/presentation/widgets/live_sessions_section.dart';
 
 enum CourseTab { curriculum, discussions, competitions }
 
@@ -67,7 +69,7 @@ class _CourseDetailsViewState extends State<CourseDetailsView> {
                         ] else if (_activeTab == CourseTab.discussions)
                           Expanded(
                             child: BlocProvider(
-                              create: (context) => DiscussionsCubit(),
+                              create: (context) => getIt<DiscussionsBloc>(),
                               child: DiscussionsTab(courseId: widget.courseId),
                             ),
                           )
@@ -296,59 +298,16 @@ class _CourseDetailsViewState extends State<CourseDetailsView> {
     final material = state.selectedMaterial;
 
     if (material == null) {
-      return Container(
-        width: double.infinity,
-        decoration: BoxDecoration(
-          color: const Color(0xFF0F172A), // Modern dark blue
-          image: DecorationImage(
-            image: NetworkImage(
-              "https://al-adeep.com${state.course?.imageUrl ?? ''}",
-            ),
-            fit: BoxFit.cover,
-            opacity: 0.2,
+      return ListView(
+        padding: EdgeInsets.symmetric(vertical: 8.h),
+        children: [
+          const CourseProgressCard(progress: 0.0),
+          LiveSessionsSection(
+            sessions: state.liveSessions,
+            status: state.liveSessionsStatus,
           ),
-        ),
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                padding: EdgeInsets.all(20.r),
-                decoration: BoxDecoration(
-                  color: AppColors.primaryGold.withValues(alpha: 0.2),
-                  shape: BoxShape.circle,
-                ),
-                child: Icon(
-                  Icons.play_circle_filled_rounded,
-                  size: 80.sp,
-                  color: AppColors.primaryGold,
-                ),
-              ),
-              SizedBox(height: 24.h),
-              Text(
-                state.course?.title ?? '',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 20.sp,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              SizedBox(height: 12.h),
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
-                decoration: BoxDecoration(
-                  color: Colors.white10,
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: Text(
-                  'اختر درساً من القائمة الجانبية لبدء المذاكرة',
-                  style: TextStyle(color: Colors.white70, fontSize: 13.sp),
-                ),
-              ),
-            ],
-          ),
-        ),
+          ...state.course!.lessons.map((lesson) => _buildLessonSection(lesson, state)),
+        ],
       );
     }
 
@@ -534,12 +493,19 @@ class _CourseDetailsViewState extends State<CourseDetailsView> {
             ),
           ),
           Expanded(
-            child: ListView.builder(
-              itemCount: course.lessons.length,
-              itemBuilder: (context, index) {
-                final lesson = course.lessons[index];
-                return ExpansionTile(
-                  initiallyExpanded: index == 0,
+            child: ListView(
+              padding: EdgeInsets.zero,
+              children: [
+                const CourseProgressCard(progress: 0.0),
+                LiveSessionsSection(
+                  sessions: state.liveSessions,
+                  status: state.liveSessionsStatus,
+                ),
+                ...course.lessons.asMap().entries.map((entry) {
+                  final index = entry.key;
+                  final lesson = entry.value;
+                  return ExpansionTile(
+                    initiallyExpanded: index == 0,
                   title: Text(
                     lesson.title ?? '',
                     textDirection: TextDirection.rtl,
@@ -584,20 +550,168 @@ class _CourseDetailsViewState extends State<CourseDetailsView> {
                     ),
                     ...lesson.quizzes.map(
                       (quiz) => ListTile(
+                        onTap: () {
+                          Navigator.pushNamed(
+                            context,
+                            AppRoutsName.testYourSelfView,
+                            arguments: quiz.id,
+                          );
+                        },
                         title: Text(
                           quiz.title ?? '',
                           textDirection: TextDirection.rtl,
-                          style: TextStyle(fontSize: 13.sp, color: Colors.grey),
+                          style: TextStyle(fontSize: 13.sp, color: Colors.black87),
                         ),
-                        leading: const Icon(Icons.quiz, color: Colors.grey),
+                        leading: Icon(Icons.quiz_rounded, color: AppColors.primaryGold),
                       ),
                     ),
                   ],
-                );
-              },
+                  );
+                }),
+              ],
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildLessonSection(LessonModel lesson, CourseDetailsState state) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.end,
+      children: [
+        Container(
+          width: double.infinity,
+          padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
+          color: Colors.grey.shade50,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Text(
+                lesson.title ?? '',
+                style: TextStyle(
+                  fontSize: 16.sp,
+                  fontWeight: FontWeight.bold,
+                  color: AppColors.primaryDark,
+                ),
+              ),
+              SizedBox(width: 8.w),
+              Icon(Icons.library_books_rounded,
+                  color: AppColors.primaryDark, size: 20.sp),
+            ],
+          ),
+        ),
+        ...lesson.materials.map((mat) => _buildMaterialTile(mat, state)),
+        ...lesson.quizzes.map((quiz) => _buildQuizTile(quiz)),
+      ],
+    );
+  }
+
+  Widget _buildMaterialTile(MaterialModel mat, CourseDetailsState state) {
+    bool isLocked = mat.isFreeSample != true;
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 6.h),
+      child: InkWell(
+        onTap: !isLocked
+            ? () => context.read<CourseDetailsBloc>().add(SelectMaterial(mat))
+            : null,
+        borderRadius: BorderRadius.circular(12.r),
+        child: Container(
+          padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(12.r),
+            border: Border.all(color: Colors.grey.shade200),
+          ),
+          child: Row(
+            children: [
+              if (mat.materialType == 'PDF')
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
+                  decoration: BoxDecoration(
+                    color: Colors.yellow.shade100,
+                    borderRadius: BorderRadius.circular(4),
+                  ),
+                  child: Text(
+                    'مذكرة تفاعلية',
+                    style: TextStyle(
+                        fontSize: 10.sp,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.orange.shade800),
+                  ),
+                ),
+              const Spacer(),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Text(
+                    mat.title ?? '',
+                    style: TextStyle(
+                      fontSize: 14.sp,
+                      fontWeight: FontWeight.bold,
+                      color: isLocked ? Colors.grey : AppColors.primaryDark,
+                    ),
+                  ),
+                  Text(
+                    mat.materialType ?? '',
+                    style: TextStyle(fontSize: 11.sp, color: Colors.grey),
+                  ),
+                ],
+              ),
+              SizedBox(width: 12.w),
+              Container(
+                padding: EdgeInsets.all(8.r),
+                decoration: BoxDecoration(
+                  color: isLocked ? Colors.grey.shade100 : Colors.blue.shade50,
+                  borderRadius: BorderRadius.circular(8.r),
+                ),
+                child: Icon(
+                  mat.materialType == 'PDF'
+                      ? Icons.picture_as_pdf_rounded
+                      : Icons.headphones_rounded,
+                  color: isLocked ? Colors.grey : Colors.blueAccent,
+                  size: 20.sp,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildQuizTile(QuizModel quiz) {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 6.h),
+      child: InkWell(
+        onTap: () {
+          Navigator.pushNamed(
+            context,
+            AppRoutsName.testYourSelfView,
+            arguments: quiz.id,
+          );
+        },
+        borderRadius: BorderRadius.circular(12.r),
+        child: Container(
+          padding: EdgeInsets.all(12.r),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(12.r),
+            border: Border.all(color: Colors.grey.shade200),
+          ),
+          child: Row(
+            children: [
+              const Spacer(),
+              Text(
+                quiz.title ?? '',
+                style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.bold),
+              ),
+              SizedBox(width: 12.w),
+              Icon(Icons.quiz_rounded,
+                  color: AppColors.primaryGold, size: 24.sp),
+            ],
+          ),
+        ),
       ),
     );
   }

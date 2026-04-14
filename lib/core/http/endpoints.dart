@@ -21,5 +21,12 @@ abstract interface class Endpoints {
   static const String courseDetails = "/api/mobile/course/";
   static const String subscribe = "/api/mobile/subscribe";
   static const String subscribeBundle = '/api/mobile/subscribe-bundle';
-  static const String myCourses = '/api/mobile/my-courses/3';
+  static const String myCourses = '/api/mobile/my-courses/';
+  static const String forum = "/api/mobile/forum/";
+  static const String addPost = "/api/mobile/forum/post";
+  static const String addReply = "/api/mobile/forum/reply";
+  static const String quiz = "/api/mobile/quiz/";
+  static const String quizSubmit = "/api/mobile/quiz/submit";
+  static const String myResults = "/api/mobile/my-results/";
+  static const String liveSessions = "/api/mobile/live-sessions/";
 }
