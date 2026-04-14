@@ -6,10 +6,15 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class TestAppBar extends StatefulWidget implements PreferredSizeWidget {
   final String studentName;
+  final int durationInMinutes;
   final VoidCallback? onTimeUp;
 
-  const TestAppBar({Key? key, required this.studentName, this.onTimeUp})
-    : super(key: key);
+  const TestAppBar({
+    Key? key,
+    required this.studentName,
+    required this.durationInMinutes,
+    this.onTimeUp,
+  }) : super(key: key);
 
   @override
   State<TestAppBar> createState() => _TestAppBarState();
@@ -19,12 +24,13 @@ class TestAppBar extends StatefulWidget implements PreferredSizeWidget {
 }
 
 class _TestAppBarState extends State<TestAppBar> {
-  int _secondsRemaining = 15 * 60 + 59; // 15:33 for demo
+  late int _secondsRemaining;
   Timer? _timer;
 
   @override
   void initState() {
     super.initState();
+    _secondsRemaining = widget.durationInMinutes * 60;
     startTimer();
   }
 

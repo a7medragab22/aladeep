@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:aladeep/core/helpers/cache_helper.dart';
 import 'package:aladeep/core/service_locator/service_locator.dart';
 import 'package:aladeep/features/about_instuctor_screen/presentation/view/about_instructor.dart';
 import 'package:aladeep/features/auth/auth.dart';
@@ -6,7 +9,9 @@ import 'package:aladeep/features/auth/profile/presentation/profile_view.dart';
 import 'package:aladeep/features/auth/register/presentation/view/register_result_view.dart';
 import 'package:aladeep/features/auth/register/presentation/view/register_view.dart';
 import 'package:aladeep/features/home/presentation/bloc/home_bloc.dart';
+import 'package:aladeep/features/my_platform/presentation/bloc/my_results_bloc.dart';
 import 'package:aladeep/features/privacy_policy/presentation/views/privacy_policy_view.dart';
+import 'package:aladeep/features/test_your_self/presentation/bloc/quiz_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../core/routes/app_routs_name.dart';
@@ -21,6 +26,7 @@ import '../../features/my_platform/presentation/view/my_results_view.dart';
 import '../../features/my_platform/presentation/bloc/my_platform_bloc.dart';
 import '../../features/test_your_self/presentation/view/test_your_self_view.dart';
 import '../../features/test_your_self/presentation/view/test_your_self_result_view.dart';
+import 'package:aladeep/features/test_your_self/data/models/quiz_model.dart';
 
 class AppRouts {
   static Map<String, WidgetBuilder> routes = {
@@ -72,20 +78,52 @@ class AppRouts {
       }
       return const Scaffold(body: Center(child: Text('Invalid Arguments')));
     },
-    AppRoutsName.myPlatformDashboard: (_) => BlocProvider(
-      create: (context) => getIt<MyPlatformBloc>()..add(const FetchMyCourses()),
-      child: const MyPlatformDashboardView(),
-    ),
-    AppRoutsName.myResults: (_) => const MyResultsView(),
+    AppRoutsName.myPlatformDashboard: (context) {
+      // Get userId from cache
+      int userId = 0;
+      final userData = CacheHelper.getData(key: 'user');
+      if (userData != null) {
+        try {
+          final decoded = jsonDecode(userData);
+          userId = decoded['id'] ?? 0;
+        } catch (_) {}
+      }
+      return BlocProvider(
+        create: (context) =>
+            getIt<MyPlatformBloc>()..add(FetchMyCourses(userId)),
+        child: const MyPlatformDashboardView(),
+      );
+    },
+    AppRoutsName.myResults: (context) {
+      // Get userId from cache
+      int userId = 0;
+      final userData = CacheHelper.getData(key: 'user');
+      if (userData != null) {
+        try {
+          final decoded = jsonDecode(userData);
+          userId = decoded['id'] ?? 0;
+        } catch (_) {}
+      }
+      return BlocProvider(
+        create: (context) =>
+            getIt<MyResultsBloc>()..add(FetchMyResults(userId)),
+        child: const MyResultsView(),
+      );
+    },
     AppRoutsName.testYourSelfView: (context) {
       final args = ModalRoute.of(context)?.settings.arguments;
-      final studentName = args is String ? args : 'ahmed';
-      return TestYourSelfView(studentName: studentName);
+      final quizId = args is int ? args : 14;
+      return BlocProvider(
+        create: (context) => getIt<QuizBloc>()..add(FetchQuiz(quizId)),
+        child: const TestYourSelfView(),
+      );
     },
     AppRoutsName.testYourSelfResultView: (context) {
       final args = ModalRoute.of(context)?.settings.arguments;
-      final score = args is int ? args : 0;
-      return TestYourSelfResultView(scorePercentage: score);
+      if (args is QuizResultModel) {
+        return TestYourSelfResultView(result: args);
+      }
+      return const Scaffold(body: Center(child: Text('Invalid Result Data')));
     },
   };
 }

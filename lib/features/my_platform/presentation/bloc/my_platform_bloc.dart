@@ -13,7 +13,8 @@ abstract class MyPlatformEvent extends Equatable {
 }
 
 class FetchMyCourses extends MyPlatformEvent {
-  const FetchMyCourses();
+  final int userId;
+  const FetchMyCourses(this.userId);
 }
 
 // Bloc
@@ -31,7 +32,7 @@ class MyPlatformBloc
   ) async {
     emit(state.copyWith(status: Status.loading));
 
-    final result = await _dataSource.getMyCourses();
+    final result = await _dataSource.getMyCourses(event.userId);
 
     result.fold(
       (failure) => emit(

@@ -1,17 +1,20 @@
 import 'package:aladeep/core/routes/app_routs_name.dart';
 import 'package:aladeep/core/theme/app_colors.dart';
+import 'package:aladeep/features/test_your_self/data/models/quiz_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class TestYourSelfResultView extends StatelessWidget {
-  final int scorePercentage; // 0 to 100
+  final QuizResultModel result;
 
-  const TestYourSelfResultView({Key? key, required this.scorePercentage}) : super(key: key);
+  const TestYourSelfResultView({Key? key, required this.result}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     Color scoreColor;
     String commentText;
+    
+    double scorePercentage = result.score;
 
     if (scorePercentage < 50) {
       scoreColor = Colors.red.shade600;

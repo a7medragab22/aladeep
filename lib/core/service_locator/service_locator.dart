@@ -9,6 +9,9 @@ import 'package:aladeep/features/subscriptions/presentation/bloc/subscribe_bloc.
 import 'package:aladeep/features/my_platform/data/datasource/my_platform_data_source.dart';
 import 'package:aladeep/features/my_platform/presentation/bloc/my_platform_bloc.dart';
 
+import 'package:aladeep/features/my_platform/presentation/bloc/my_results_bloc.dart';
+import 'package:aladeep/features/test_your_self/data/datasource/test_your_self_data_source.dart';
+import 'package:aladeep/features/test_your_self/presentation/bloc/quiz_bloc.dart';
 import '../../features/auth/auth.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
@@ -27,3 +30,4 @@ part 'home_service_locator/home_service_locator.dart';
 part 'course_service_locator/course_service_locator.dart';
 part 'subscription_service_locator/subscription_service_locator.dart';
 part 'my_platform_service_locator/my_platform_service_locator.dart';
+part 'test_your_self_service_locator/test_your_self_service_locator.dart';

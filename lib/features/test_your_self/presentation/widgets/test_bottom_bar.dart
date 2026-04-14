@@ -1,18 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:aladeep/core/theme/app_colors.dart';
 
 class TestBottomBar extends StatelessWidget {
-  final VoidCallback onNext;
-  final VoidCallback onPrevious;
+  final VoidCallback? onNext;
+  final VoidCallback? onPrevious;
   final VoidCallback onFinish;
 
   const TestBottomBar({
-    Key? key,
-    required this.onNext,
-    required this.onPrevious,
+    super.key,
+    this.onNext,
+    this.onPrevious,
     required this.onFinish,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -87,7 +86,7 @@ class TestBottomBar extends StatelessWidget {
     );
   }
 
-  Widget _buildNavButton(String text, VoidCallback onPressed) {
+  Widget _buildNavButton(String text, VoidCallback? onPressed) {
     return OutlinedButton(
       onPressed: onPressed,
       style: OutlinedButton.styleFrom(

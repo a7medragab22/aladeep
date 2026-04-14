@@ -166,7 +166,7 @@ class _AppDrawerState extends State<AppDrawer> {
                       }
                     },
                   ),
-                  if (CacheHelper.getData(key: 'user') != null)
+                  if (CacheHelper.getData(key: 'user') != null) ...[
                     DrawerItem(
                       icon: Icons.school_rounded,
                       title: 'منصتى التعليمية',
@@ -178,6 +178,18 @@ class _AppDrawerState extends State<AppDrawer> {
                         );
                       },
                     ),
+                    DrawerItem(
+                      icon: Icons.assessment_rounded,
+                      title: 'نتائجي',
+                      onTap: () {
+                        Navigator.pop(context);
+                        Navigator.pushNamed(
+                          context,
+                          AppRoutsName.myResults,
+                        );
+                      },
+                    ),
+                  ],
                   DrawerItem(
                     icon: Icons.manage_accounts_rounded,
                     title: 'الملف الشخصي',

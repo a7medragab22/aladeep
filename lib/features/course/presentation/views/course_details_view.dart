@@ -584,12 +584,19 @@ class _CourseDetailsViewState extends State<CourseDetailsView> {
                     ),
                     ...lesson.quizzes.map(
                       (quiz) => ListTile(
+                        onTap: () {
+                          Navigator.pushNamed(
+                            context,
+                            AppRoutsName.testYourSelfView,
+                            arguments: quiz.id,
+                          );
+                        },
                         title: Text(
                           quiz.title ?? '',
                           textDirection: TextDirection.rtl,
-                          style: TextStyle(fontSize: 13.sp, color: Colors.grey),
+                          style: TextStyle(fontSize: 13.sp, color: Colors.black87),
                         ),
-                        leading: const Icon(Icons.quiz, color: Colors.grey),
+                        leading: Icon(Icons.quiz_rounded, color: AppColors.primaryGold),
                       ),
                     ),
                   ],
