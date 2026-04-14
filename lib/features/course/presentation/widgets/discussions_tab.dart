@@ -1,6 +1,8 @@
+import 'package:aladeep/core/bloc/paginated_bloc/exports.dart';
 import 'package:aladeep/core/enum/status.dart';
 import 'package:aladeep/core/theme/app_colors.dart';
-import 'package:aladeep/features/course/presentation/bloc/discussions_cubit.dart';
+import 'package:aladeep/features/course/data/models/discussion_model.dart';
+import 'package:aladeep/features/course/presentation/bloc/discussions_bloc.dart';
 import 'package:aladeep/features/course/presentation/widgets/discussion_comment_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -20,7 +22,7 @@ class _DiscussionsTabState extends State<DiscussionsTab> {
   @override
   void initState() {
     super.initState();
-    context.read<DiscussionsCubit>().fetchDiscussions(widget.courseId);
+    context.read<DiscussionsBloc>().add(FetchDiscussions(widget.courseId));
   }
 
   @override
@@ -31,22 +33,22 @@ class _DiscussionsTabState extends State<DiscussionsTab> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<DiscussionsCubit, DiscussionsState>(
+    return BlocBuilder<DiscussionsBloc, BaseState<DiscussionModel>>(
       builder: (context, state) {
-        if (state.status == Status.loading) {
+        if (state.status == Status.loading && state.items.isEmpty) {
           return const Center(child: CircularProgressIndicator());
         }
 
         return RefreshIndicator(
           onRefresh: () async {
-            context.read<DiscussionsCubit>().fetchDiscussions(widget.courseId);
+            context.read<DiscussionsBloc>().add(FetchDiscussions(widget.courseId));
           },
           child: SingleChildScrollView(
             physics: const AlwaysScrollableScrollPhysics(),
             child: Column(
               children: [
                 _buildInputSection(),
-                if (state.discussions.isEmpty && state.status == Status.success)
+                if (state.items.isEmpty && state.status == Status.success)
                   Padding(
                     padding: EdgeInsets.only(top: 100.h),
                     child: Center(
@@ -59,10 +61,10 @@ class _DiscussionsTabState extends State<DiscussionsTab> {
                 ListView.builder(
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
-                  itemCount: state.discussions.length,
+                  itemCount: state.items.length,
                   itemBuilder: (context, index) {
                     return DiscussionCommentCard(
-                      discussion: state.discussions[index],
+                      discussion: state.items[index],
                       courseId: widget.courseId,
                     );
                   },
@@ -121,38 +123,53 @@ class _DiscussionsTabState extends State<DiscussionsTab> {
           SizedBox(height: 16.h),
           SizedBox(
             width: 140.w,
-            child: ElevatedButton(
-              onPressed: () {
-                if (_questionController.text.isNotEmpty) {
-                  context.read<DiscussionsCubit>().postDiscussion(
-                        widget.courseId,
-                        _questionController.text,
-                      );
-                  _questionController.clear();
-                  FocusScope.of(context).unfocus();
-                }
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: AppColors.primaryDark,
-                foregroundColor: Colors.white,
-                padding: EdgeInsets.symmetric(vertical: 12.h),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10.r),
-                ),
-                elevation: 0,
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Icon(Icons.send_rounded, size: 18),
-                  SizedBox(width: 8.w),
-                  Text(
-                    'نشر السؤال',
-                    style:
-                        TextStyle(fontSize: 14.sp, fontWeight: FontWeight.bold),
+            child: BlocBuilder<DiscussionsBloc, BaseState<DiscussionModel>>(
+              builder: (context, state) {
+                return ElevatedButton(
+                  onPressed: state.status == Status.loading 
+                      ? null 
+                      : () {
+                          if (_questionController.text.isNotEmpty) {
+                            context.read<DiscussionsBloc>().add(AddPost(
+                                  courseId: widget.courseId,
+                                  content: _questionController.text,
+                                ));
+                            _questionController.clear();
+                            FocusScope.of(context).unfocus();
+                          }
+                        },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppColors.primaryDark,
+                    foregroundColor: Colors.white,
+                    padding: EdgeInsets.symmetric(vertical: 12.h),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.r),
+                    ),
+                    elevation: 0,
                   ),
-                ],
-              ),
+                  child: state.status == Status.loading && state.items.isNotEmpty
+                      ? const SizedBox(
+                          height: 20,
+                          width: 20,
+                          child: CircularProgressIndicator(
+                            color: Colors.white,
+                            strokeWidth: 2,
+                          ),
+                        )
+                      : Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Icon(Icons.send_rounded, size: 18),
+                            SizedBox(width: 8.w),
+                            Text(
+                              'نشر السؤال',
+                              style: TextStyle(
+                                  fontSize: 14.sp, fontWeight: FontWeight.bold),
+                            ),
+                          ],
+                        ),
+                );
+              },
             ),
           ),
         ],

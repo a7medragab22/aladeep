@@ -3,6 +3,7 @@ import 'package:aladeep/core/routes/app_routs_name.dart';
 import 'package:aladeep/core/theme/app_colors.dart';
 import 'package:aladeep/features/course/presentation/bloc/course_details_bloc.dart';
 import 'package:aladeep/features/course/data/models/course_details_model.dart';
+import 'package:aladeep/features/course/presentation/bloc/discussions_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -11,7 +12,6 @@ import 'package:aladeep/core/service_locator/service_locator.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 import 'package:aladeep/features/course/presentation/widgets/discussions_tab.dart';
-import 'package:aladeep/features/course/presentation/bloc/discussions_cubit.dart';
 
 enum CourseTab { curriculum, discussions, competitions }
 
@@ -67,7 +67,7 @@ class _CourseDetailsViewState extends State<CourseDetailsView> {
                         ] else if (_activeTab == CourseTab.discussions)
                           Expanded(
                             child: BlocProvider(
-                              create: (context) => DiscussionsCubit(),
+                              create: (context) => getIt<DiscussionsBloc>(),
                               child: DiscussionsTab(courseId: widget.courseId),
                             ),
                           )

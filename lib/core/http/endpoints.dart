@@ -22,4 +22,7 @@ abstract interface class Endpoints {
   static const String subscribe = "/api/mobile/subscribe";
   static const String subscribeBundle = '/api/mobile/subscribe-bundle';
   static const String myCourses = '/api/mobile/my-courses/3';
+  static const String forum = "/api/mobile/forum/";
+  static const String addPost = "/api/mobile/forum/post";
+  static const String addReply = "/api/mobile/forum/reply";
 }

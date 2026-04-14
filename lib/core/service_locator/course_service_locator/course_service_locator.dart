@@ -11,5 +11,8 @@ class CourseServiceLocator {
     getIt.registerFactory<CourseDetailsBloc>(
       () => CourseDetailsBloc(getIt<CourseDataSource>()),
     );
+    getIt.registerFactory<DiscussionsBloc>(
+      () => DiscussionsBloc(getIt<CourseDataSource>()),
+    );
   }
 }

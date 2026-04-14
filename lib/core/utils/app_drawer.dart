@@ -13,11 +13,7 @@ class AppDrawer extends StatefulWidget {
   final VoidCallback? onScrollToComments;
   final VoidCallback? onScrollToFooter;
 
-  const AppDrawer({
-    super.key,
-    this.onScrollToComments,
-    this.onScrollToFooter,
-  });
+  const AppDrawer({super.key, this.onScrollToComments, this.onScrollToFooter});
 
   @override
   State<AppDrawer> createState() => _AppDrawerState();
@@ -187,10 +183,7 @@ class _AppDrawerState extends State<AppDrawer> {
                     title: 'الملف الشخصي',
                     onTap: () {
                       Navigator.pop(context); // Close drawer first
-                      Navigator.pushNamed(
-                        context,
-                        AppRoutsName.myPlatformDashboard,
-                      );
+                      Navigator.pushNamed(context, AppRoutsName.profileView);
                     },
                   ),
 
