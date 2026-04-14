@@ -6,6 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:aladeep/core/helpers/cache_helper.dart';
 import 'package:aladeep/core/service_locator/service_locator.dart';
 
+// 0540091992
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await CacheHelper.init();
