@@ -50,6 +50,7 @@ class _HomeViewState extends State<HomeView> with HomeScrollMixin {
           onScrollToFooter: () =>
               animateTo(scrollController.position.maxScrollExtent),
         ),
+
         body: SafeArea(
           child: BlocBuilder<HomeBloc, BaseState>(
             builder: (context, state) {
