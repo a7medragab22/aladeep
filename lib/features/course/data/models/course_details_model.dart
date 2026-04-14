@@ -150,3 +150,44 @@ class QuizModel extends Equatable {
   @override
   List<Object?> get props => [id, title, durationInMinutes, isFinalExam];
 }
+
+class LiveSessionModel extends Equatable {
+  final int? id;
+  final String? title;
+  final String? liveUrl;
+  final String? recordedVideoUrl;
+  final DateTime? scheduledDate;
+  final bool? isCompleted;
+
+  const LiveSessionModel({
+    this.id,
+    this.title,
+    this.liveUrl,
+    this.recordedVideoUrl,
+    this.scheduledDate,
+    this.isCompleted,
+  });
+
+  factory LiveSessionModel.fromJson(Map<String, dynamic> json) {
+    return LiveSessionModel(
+      id: json['id'] as int?,
+      title: json['title'] as String?,
+      liveUrl: json['liveUrl'] as String?,
+      recordedVideoUrl: json['recordedVideoUrl'] as String?,
+      scheduledDate: json['scheduledDate'] != null
+          ? DateTime.tryParse(json['scheduledDate'])
+          : null,
+      isCompleted: json['isCompleted'] as bool?,
+    );
+  }
+
+  @override
+  List<Object?> get props => [
+        id,
+        title,
+        liveUrl,
+        recordedVideoUrl,
+        scheduledDate,
+        isCompleted,
+      ];
+}

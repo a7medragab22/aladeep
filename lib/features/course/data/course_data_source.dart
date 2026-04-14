@@ -18,6 +18,7 @@ abstract class CourseDataSource {
     required int userId,
     required String content,
   });
+  Future<Either<Failure, List<LiveSessionModel>>> getLiveSessions(int courseId);
 }
 
 class CourseDataSourceImpl implements CourseDataSource {
@@ -70,6 +71,18 @@ class CourseDataSourceImpl implements CourseDataSource {
       endpoint: Endpoints.addReply,
       data: {"postId": postId, "userId": userId, "content": content},
       fromJson: (json) => json['message'] ?? '',
+    );
+  }
+
+  @override
+  Future<Either<Failure, List<LiveSessionModel>>> getLiveSessions(
+    int courseId,
+  ) async {
+    return await _genericDataSource.fetchFullResponse<List<LiveSessionModel>>(
+      endpoint: "${Endpoints.liveSessions}$courseId",
+      fromJson: (json) => (json['sessions'] as List)
+          .map((e) => LiveSessionModel.fromJson(e))
+          .toList(),
     );
   }
 }
