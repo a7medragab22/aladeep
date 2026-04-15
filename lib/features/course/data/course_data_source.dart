@@ -4,6 +4,7 @@ import 'package:aladeep/features/course/data/models/discussion_model.dart';
 import '../../../../core/http/either.dart';
 import '../../../../core/http/failure.dart';
 import 'models/course_details_model.dart';
+import 'models/leaderboard_model.dart';
 
 abstract class CourseDataSource {
   Future<Either<Failure, CourseDetailsModel>> getCourseDetails(int courseId);
@@ -19,6 +20,9 @@ abstract class CourseDataSource {
     required String content,
   });
   Future<Either<Failure, List<LiveSessionModel>>> getLiveSessions(int courseId);
+  Future<Either<Failure, List<LeaderboardModel>>> getLeaderboard(int courseId);
+  Future<Either<Failure, Map<String, dynamic>>> getMaterialUrl(
+      int courseId, int lessonId);
 }
 
 class CourseDataSourceImpl implements CourseDataSource {
@@ -83,6 +87,27 @@ class CourseDataSourceImpl implements CourseDataSource {
       fromJson: (json) => (json['sessions'] as List)
           .map((e) => LiveSessionModel.fromJson(e))
           .toList(),
+    );
+  }
+
+  @override
+  Future<Either<Failure, List<LeaderboardModel>>> getLeaderboard(
+    int courseId,
+  ) async {
+    return await _genericDataSource.fetchFullResponse<List<LeaderboardModel>>(
+      endpoint: "${Endpoints.leaderboard}$courseId",
+      fromJson: (json) => (json['leaderboard'] as List)
+          .map((e) => LeaderboardModel.fromJson(e))
+          .toList(),
+    );
+  }
+
+  @override
+  Future<Either<Failure, Map<String, dynamic>>> getMaterialUrl(
+      int courseId, int lessonId) async {
+    return await _genericDataSource.fetchFullResponse<Map<String, dynamic>>(
+      endpoint: "${Endpoints.materialUrl}$courseId/$lessonId",
+      fromJson: (json) => json as Map<String, dynamic>,
     );
   }
 }

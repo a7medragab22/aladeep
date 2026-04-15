@@ -14,6 +14,8 @@ import 'package:webview_flutter/webview_flutter.dart';
 import 'package:aladeep/features/course/presentation/widgets/discussions_tab.dart';
 import 'package:aladeep/features/course/presentation/widgets/course_progress_card.dart';
 import 'package:aladeep/features/course/presentation/widgets/live_sessions_section.dart';
+import 'package:aladeep/features/course/presentation/widgets/leaderboard_tab.dart';
+import 'package:aladeep/features/course/presentation/bloc/leaderboard_bloc/leaderboard_bloc.dart';
 
 enum CourseTab { curriculum, discussions, competitions }
 
@@ -64,7 +66,14 @@ class _CourseDetailsViewState extends State<CourseDetailsView> {
                     child: Column(
                       children: [
                         if (_activeTab == CourseTab.curriculum) ...[
-                          Expanded(flex: 3, child: _buildMainContent(state)),
+                          Expanded(
+                            flex: 3,
+                            child: state.materialUrlStatus == Status.loading
+                                ? const Center(
+                                    child: CircularProgressIndicator(),
+                                  )
+                                : _buildMainContent(state),
+                          ),
                           _buildContentDetails(course, state),
                         ] else if (_activeTab == CourseTab.discussions)
                           Expanded(
@@ -74,9 +83,10 @@ class _CourseDetailsViewState extends State<CourseDetailsView> {
                             ),
                           )
                         else
-                          const Expanded(
-                            child: Center(
-                              child: Text('تبويب المسابقات قيد التطوير'),
+                          Expanded(
+                            child: BlocProvider(
+                              create: (context) => getIt<LeaderboardBloc>(),
+                              child: LeaderboardTab(courseId: widget.courseId),
                             ),
                           ),
                       ],
@@ -306,25 +316,17 @@ class _CourseDetailsViewState extends State<CourseDetailsView> {
             sessions: state.liveSessions,
             status: state.liveSessionsStatus,
           ),
-          ...state.course!.lessons.map((lesson) => _buildLessonSection(lesson, state)),
+          ...state.course!.lessons.map(
+            (lesson) => _buildLessonSection(lesson, state),
+          ),
         ],
       );
     }
 
     String rawUrl = material.url ?? '';
 
-    // Fallback logic
     if (rawUrl.isEmpty) {
-      if (material.materialType == 'PDF') {
-        rawUrl =
-            "https://docs.google.com/viewerng/viewer?url=https://bookslibrary.com/files/books-library.com-05271506Fx6W3.pdf";
-      } else if (material.materialType == 'YouTube') {
-        rawUrl = "https://youtube.com/shorts/5DXhwicXIjk?si=nID8555Ws2-xuKss";
-      }
-    }
-
-    if (rawUrl.isEmpty) {
-      return const Center(child: Text("رابط المحتوى غير متوفر"));
+      return const Center(child: Text("المحتوى غير متوفر"));
     }
 
     // Handle relative URLs (if any from API)
@@ -506,66 +508,79 @@ class _CourseDetailsViewState extends State<CourseDetailsView> {
                   final lesson = entry.value;
                   return ExpansionTile(
                     initiallyExpanded: index == 0,
-                  title: Text(
-                    lesson.title ?? '',
-                    textDirection: TextDirection.rtl,
-                    style: const TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  trailing: const Icon(Icons.library_books, size: 20),
-                  children: [
-                    ...lesson.materials.map(
-                      (mat) => ListTile(
-                        onTap: mat.isFreeSample == true
-                            ? () {
-                                context.read<CourseDetailsBloc>().add(
-                                  SelectMaterial(mat),
-                                );
-                                Navigator.pop(context);
-                              }
-                            : null,
-                        title: Text(
-                          mat.title ?? '',
-                          textDirection: TextDirection.rtl,
-                          style: TextStyle(
-                            fontSize: 13.sp,
+                    title: Text(
+                      lesson.title ?? '',
+                      textDirection: TextDirection.rtl,
+                      style: const TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    trailing: const Icon(Icons.library_books, size: 20),
+                    children: [
+                      ...lesson.materials.map(
+                        (mat) => ListTile(
+                          onTap: mat.isFreeSample == true
+                              ? () {
+                                  context.read<CourseDetailsBloc>().add(
+                                    FetchMaterialUrl(
+                                      courseId: widget.courseId,
+                                      lessonId: lesson.id ?? 0,
+                                      material: mat,
+                                    ),
+                                  );
+                                  Navigator.pop(context);
+                                }
+                              : null,
+                          title: Text(
+                            mat.title ?? '',
+                            textDirection: TextDirection.rtl,
+                            style: TextStyle(
+                              fontSize: 13.sp,
+                              color: mat.isFreeSample == true
+                                  ? Colors.black87
+                                  : Colors.grey,
+                            ),
+                          ),
+                          subtitle: Text(
+                            mat.materialType ?? '',
+                            textDirection: TextDirection.rtl,
+                            style: TextStyle(
+                              fontSize: 11.sp,
+                              color: Colors.grey,
+                            ),
+                          ),
+                          leading: Icon(
+                            mat.isFreeSample == true
+                                ? Icons.play_circle
+                                : Icons.lock,
                             color: mat.isFreeSample == true
-                                ? Colors.black87
+                                ? AppColors.primaryLightGold
                                 : Colors.grey,
                           ),
                         ),
-                        subtitle: Text(
-                          mat.materialType ?? '',
-                          textDirection: TextDirection.rtl,
-                          style: TextStyle(fontSize: 11.sp, color: Colors.grey),
-                        ),
-                        leading: Icon(
-                          mat.isFreeSample == true
-                              ? Icons.play_circle
-                              : Icons.lock,
-                          color: mat.isFreeSample == true
-                              ? AppColors.primaryLightGold
-                              : Colors.grey,
+                      ),
+                      ...lesson.quizzes.map(
+                        (quiz) => ListTile(
+                          onTap: () {
+                            Navigator.pushNamed(
+                              context,
+                              AppRoutsName.testYourSelfView,
+                              arguments: quiz.id,
+                            );
+                          },
+                          title: Text(
+                            quiz.title ?? '',
+                            textDirection: TextDirection.rtl,
+                            style: TextStyle(
+                              fontSize: 13.sp,
+                              color: Colors.black87,
+                            ),
+                          ),
+                          leading: Icon(
+                            Icons.quiz_rounded,
+                            color: AppColors.primaryGold,
+                          ),
                         ),
                       ),
-                    ),
-                    ...lesson.quizzes.map(
-                      (quiz) => ListTile(
-                        onTap: () {
-                          Navigator.pushNamed(
-                            context,
-                            AppRoutsName.testYourSelfView,
-                            arguments: quiz.id,
-                          );
-                        },
-                        title: Text(
-                          quiz.title ?? '',
-                          textDirection: TextDirection.rtl,
-                          style: TextStyle(fontSize: 13.sp, color: Colors.black87),
-                        ),
-                        leading: Icon(Icons.quiz_rounded, color: AppColors.primaryGold),
-                      ),
-                    ),
-                  ],
+                    ],
                   );
                 }),
               ],
@@ -596,24 +611,42 @@ class _CourseDetailsViewState extends State<CourseDetailsView> {
                 ),
               ),
               SizedBox(width: 8.w),
-              Icon(Icons.library_books_rounded,
-                  color: AppColors.primaryDark, size: 20.sp),
+              Icon(
+                Icons.library_books_rounded,
+                color: AppColors.primaryDark,
+                size: 20.sp,
+              ),
             ],
           ),
         ),
-        ...lesson.materials.map((mat) => _buildMaterialTile(mat, state)),
+        ...lesson.materials.map(
+          (mat) => _buildMaterialTile(mat, lesson.id ?? 0, state),
+        ),
         ...lesson.quizzes.map((quiz) => _buildQuizTile(quiz)),
       ],
     );
   }
 
-  Widget _buildMaterialTile(MaterialModel mat, CourseDetailsState state) {
+  Widget _buildMaterialTile(
+    MaterialModel mat,
+    int lessonId,
+    CourseDetailsState state,
+  ) {
     bool isLocked = mat.isFreeSample != true;
+    bool isSelected = state.selectedMaterial?.id == mat.id;
+    bool isLoading = isSelected && state.materialUrlStatus == Status.loading;
+
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 6.h),
       child: InkWell(
         onTap: !isLocked
-            ? () => context.read<CourseDetailsBloc>().add(SelectMaterial(mat))
+            ? () => context.read<CourseDetailsBloc>().add(
+                FetchMaterialUrl(
+                  courseId: widget.courseId,
+                  lessonId: lessonId,
+                  material: mat,
+                ),
+              )
             : null,
         borderRadius: BorderRadius.circular(12.r),
         child: Container(
@@ -621,11 +654,22 @@ class _CourseDetailsViewState extends State<CourseDetailsView> {
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(12.r),
-            border: Border.all(color: Colors.grey.shade200),
+            border: Border.all(
+              color: isSelected ? AppColors.primaryGold : Colors.grey.shade200,
+            ),
           ),
           child: Row(
             children: [
-              if (mat.materialType == 'PDF')
+              if (isLoading)
+                SizedBox(
+                  width: 14.sp,
+                  height: 14.sp,
+                  child: CircularProgressIndicator(
+                    strokeWidth: 2,
+                    color: AppColors.primaryGold,
+                  ),
+                )
+              else if (mat.materialType == 'PDF')
                 Container(
                   padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
                   decoration: BoxDecoration(
@@ -635,9 +679,10 @@ class _CourseDetailsViewState extends State<CourseDetailsView> {
                   child: Text(
                     'مذكرة تفاعلية',
                     style: TextStyle(
-                        fontSize: 10.sp,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.orange.shade800),
+                      fontSize: 10.sp,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.orange.shade800,
+                    ),
                   ),
                 ),
               const Spacer(),
@@ -707,8 +752,11 @@ class _CourseDetailsViewState extends State<CourseDetailsView> {
                 style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.bold),
               ),
               SizedBox(width: 12.w),
-              Icon(Icons.quiz_rounded,
-                  color: AppColors.primaryGold, size: 24.sp),
+              Icon(
+                Icons.quiz_rounded,
+                color: AppColors.primaryGold,
+                size: 24.sp,
+              ),
             ],
           ),
         ),

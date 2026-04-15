@@ -29,4 +29,6 @@ abstract interface class Endpoints {
   static const String quizSubmit = "/api/mobile/quiz/submit";
   static const String myResults = "/api/mobile/my-results/";
   static const String liveSessions = "/api/mobile/live-sessions/";
+  static const String leaderboard = "/api/mobile/leaderboard/";
+  static const String materialUrl = "/api/mobile/material-url/";
 }

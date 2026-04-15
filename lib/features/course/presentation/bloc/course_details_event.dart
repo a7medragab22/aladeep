@@ -4,7 +4,7 @@ abstract class CourseDetailsEvent extends Equatable {
   const CourseDetailsEvent();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 class FetchCourseDetails extends CourseDetailsEvent {
@@ -12,7 +12,7 @@ class FetchCourseDetails extends CourseDetailsEvent {
   const FetchCourseDetails(this.courseId);
 
   @override
-  List<Object> get props => [courseId];
+  List<Object?> get props => [courseId];
 }
 
 class SelectMaterial extends CourseDetailsEvent {
@@ -20,7 +20,7 @@ class SelectMaterial extends CourseDetailsEvent {
   const SelectMaterial(this.material);
 
   @override
-  List<Object> get props => [material];
+  List<Object?> get props => [material];
 }
 
 class FetchLiveSessions extends CourseDetailsEvent {
@@ -28,5 +28,18 @@ class FetchLiveSessions extends CourseDetailsEvent {
   const FetchLiveSessions(this.courseId);
 
   @override
-  List<Object> get props => [courseId];
+  List<Object?> get props => [courseId];
+}
+
+class FetchMaterialUrl extends CourseDetailsEvent {
+  final int courseId;
+  final int lessonId;
+  final MaterialModel material;
+  const FetchMaterialUrl({
+    required this.courseId,
+    required this.lessonId,
+    required this.material,
+  });
+  @override
+  List<Object?> get props => [courseId, lessonId, material];
 }

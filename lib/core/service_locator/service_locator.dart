@@ -2,6 +2,7 @@ import 'package:aladeep/core/service_locator/shared_service_locator/shared_servi
 import 'package:aladeep/features/course/data/course_data_source.dart';
 import 'package:aladeep/features/course/presentation/bloc/course_details_bloc.dart';
 import 'package:aladeep/features/course/presentation/bloc/discussions_bloc.dart';
+import 'package:aladeep/features/course/presentation/bloc/leaderboard_bloc/leaderboard_bloc.dart';
 import 'package:aladeep/features/home/data/home_data_source.dart';
 import 'package:aladeep/features/home/presentation/bloc/home_bloc.dart';
 import 'package:aladeep/features/subscriptions/data/datasource/subscription_data_source.dart';

@@ -16,6 +16,7 @@ class CourseDetailsBloc extends Bloc<CourseDetailsEvent, CourseDetailsState> {
     on<FetchCourseDetails>(_onFetchCourseDetails);
     on<SelectMaterial>(_onSelectMaterial);
     on<FetchLiveSessions>(_onFetchLiveSessions);
+    on<FetchMaterialUrl>(_onFetchMaterialUrl);
   }
 
   FutureOr<void> _onFetchCourseDetails(
@@ -32,12 +33,13 @@ class CourseDetailsBloc extends Bloc<CourseDetailsEvent, CourseDetailsState> {
         errorMessage: failure.message,
       )),
       (course) {
-        // Automatically select the first free material if available
         MaterialModel? initialMaterial;
+        int? initialLessonId;
         for (var lesson in course.lessons) {
           for (var mat in lesson.materials) {
             if (mat.isFreeSample == true) {
               initialMaterial = mat;
+              initialLessonId = lesson.id;
               break;
             }
           }
@@ -49,6 +51,15 @@ class CourseDetailsBloc extends Bloc<CourseDetailsEvent, CourseDetailsState> {
           course: course,
           selectedMaterial: initialMaterial,
         ));
+
+        // Automatically fetch URL for the initial free sample
+        if (initialMaterial != null && initialLessonId != null) {
+          add(FetchMaterialUrl(
+            courseId: course.id ?? 0,
+            lessonId: initialLessonId,
+            material: initialMaterial,
+          ));
+        }
       },
     );
   }
@@ -70,5 +81,35 @@ class CourseDetailsBloc extends Bloc<CourseDetailsEvent, CourseDetailsState> {
 
   void _onSelectMaterial(SelectMaterial event, Emitter<CourseDetailsState> emit) {
     emit(state.copyWith(selectedMaterial: event.material));
+  }
+
+  FutureOr<void> _onFetchMaterialUrl(
+      FetchMaterialUrl event, Emitter<CourseDetailsState> emit) async {
+    emit(state.copyWith(
+      materialUrlStatus: Status.loading,
+      selectedMaterial: event.material,
+    ));
+
+    final result = await _courseDataSource.getMaterialUrl(
+      event.courseId,
+      event.lessonId,
+    );
+
+    result.fold(
+      (failure) => emit(state.copyWith(
+        materialUrlStatus: Status.failure,
+        errorMessage: failure.message,
+      )),
+      (data) {
+        final newMaterial = event.material.copyWith(
+          url: data['url'] as String?,
+          materialType: data['type'] as String?,
+        );
+        emit(state.copyWith(
+          materialUrlStatus: Status.success,
+          selectedMaterial: newMaterial,
+        ));
+      },
+    );
   }
 }

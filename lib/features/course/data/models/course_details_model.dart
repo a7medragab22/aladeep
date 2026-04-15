@@ -121,6 +121,22 @@ class MaterialModel extends Equatable {
     );
   }
 
+  MaterialModel copyWith({
+    int? id,
+    String? title,
+    String? materialType,
+    bool? isFreeSample,
+    String? url,
+  }) {
+    return MaterialModel(
+      id: id ?? this.id,
+      title: title ?? this.title,
+      materialType: materialType ?? this.materialType,
+      isFreeSample: isFreeSample ?? this.isFreeSample,
+      url: url ?? this.url,
+    );
+  }
+
   @override
   List<Object?> get props => [id, title, materialType, isFreeSample, url];
 }

@@ -7,6 +7,7 @@ class CourseDetailsState extends Equatable {
   final MaterialModel? selectedMaterial;
   final List<LiveSessionModel> liveSessions;
   final Status liveSessionsStatus;
+  final Status materialUrlStatus;
 
   const CourseDetailsState({
     this.status = Status.initial,
@@ -15,6 +16,7 @@ class CourseDetailsState extends Equatable {
     this.selectedMaterial,
     this.liveSessions = const [],
     this.liveSessionsStatus = Status.initial,
+    this.materialUrlStatus = Status.initial,
   });
 
   CourseDetailsState copyWith({
@@ -24,6 +26,7 @@ class CourseDetailsState extends Equatable {
     MaterialModel? selectedMaterial,
     List<LiveSessionModel>? liveSessions,
     Status? liveSessionsStatus,
+    Status? materialUrlStatus,
   }) {
     return CourseDetailsState(
       status: status ?? this.status,
@@ -32,6 +35,7 @@ class CourseDetailsState extends Equatable {
       selectedMaterial: selectedMaterial ?? this.selectedMaterial,
       liveSessions: liveSessions ?? this.liveSessions,
       liveSessionsStatus: liveSessionsStatus ?? this.liveSessionsStatus,
+      materialUrlStatus: materialUrlStatus ?? this.materialUrlStatus,
     );
   }
 
@@ -43,5 +47,6 @@ class CourseDetailsState extends Equatable {
         selectedMaterial,
         liveSessions,
         liveSessionsStatus,
+        materialUrlStatus,
       ];
 }
