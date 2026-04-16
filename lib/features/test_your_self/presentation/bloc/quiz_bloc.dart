@@ -19,6 +19,14 @@ class QuizBloc extends Bloc<QuizEvent, BaseState<QuizModel>> {
   /// الرقم الحالي للاختبار العشوائي
   static int get currentQuizId => _currentQuizId;
 
+  static void incrementQuizId() {
+    if (_currentQuizId < 50) {
+      _currentQuizId++;
+    } else {
+      _currentQuizId = 7;
+    }
+  }
+
   QuizBloc(this._dataSource)
     : super(
         const BaseState<QuizModel>(
@@ -120,13 +128,6 @@ class QuizBloc extends Bloc<QuizEvent, BaseState<QuizModel>> {
         );
       },
       (resultModel) async {
-        // زود الرقم بواحد في الذاكرة فقط (بدون Cache)
-        if (_currentQuizId < 50) {
-          _currentQuizId++;
-        } else {
-          _currentQuizId = 7;
-        }
-
         emit(
           state.copyWith(
             status: Status.success,

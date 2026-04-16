@@ -137,7 +137,13 @@ class AppRouts {
     AppRoutsName.testYourSelfView: (context) {
       final args = ModalRoute.of(context)?.settings.arguments;
       // لو فيه quizId جاي من اختبار كورس، استخدمه. غير كدا استخدم العداد التلقائي
-      int quizId = args is int ? args : QuizBloc.currentQuizId;
+      int quizId;
+      if (args is int) {
+        quizId = args;
+      } else {
+        quizId = QuizBloc.currentQuizId;
+        QuizBloc.incrementQuizId(); // زود الرقم عشان الاختبار الجاي يتغير
+      }
 
       return BlocProvider(
         create: (context) => getIt<QuizBloc>()..add(FetchQuiz(quizId)),
