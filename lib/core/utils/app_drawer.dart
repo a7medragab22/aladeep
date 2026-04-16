@@ -40,6 +40,7 @@ class _AppDrawerState extends State<AppDrawer> {
 
   @override
   Widget build(BuildContext context) {
+    bool isLoggedIn = CacheHelper.getData(key: 'user') != null;
     return Drawer(
       width: 0.82.sw,
       backgroundColor: AppColors.white,
@@ -166,7 +167,7 @@ class _AppDrawerState extends State<AppDrawer> {
                       }
                     },
                   ),
-                  if (CacheHelper.getData(key: 'user') != null) ...[
+                  if (isLoggedIn) ...[
                     DrawerItem(
                       icon: Icons.school_rounded,
                       title: 'منصتى التعليمية',
@@ -189,15 +190,15 @@ class _AppDrawerState extends State<AppDrawer> {
                         );
                       },
                     ),
+                    DrawerItem(
+                      icon: Icons.manage_accounts_rounded,
+                      title: 'الملف الشخصي',
+                      onTap: () {
+                        Navigator.pop(context); // Close drawer first
+                        Navigator.pushNamed(context, AppRoutsName.profileView);
+                      },
+                    ),
                   ],
-                  DrawerItem(
-                    icon: Icons.manage_accounts_rounded,
-                    title: 'الملف الشخصي',
-                    onTap: () {
-                      Navigator.pop(context); // Close drawer first
-                      Navigator.pushNamed(context, AppRoutsName.profileView);
-                    },
-                  ),
 
                   SizedBox(height: 16.h),
                   Divider(color: Colors.grey.shade100),
@@ -233,33 +234,59 @@ class _AppDrawerState extends State<AppDrawer> {
                   SizedBox(
                     width: double.infinity,
                     height: 50.h,
-                    child: OutlinedButton.icon(
-                      onPressed: () {
-                        CacheHelper.clear();
-                        Navigator.pushNamedAndRemoveUntil(
-                          context,
-                          AppRoutsName.loginView,
-                          (route) => false,
-                        );
-                      },
-                      icon: Icon(Icons.logout_rounded, size: 18.sp),
-                      label: Text(
-                        'تسجيل الخروج',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 15.sp,
-                        ),
-                      ),
-                      style: OutlinedButton.styleFrom(
-                        foregroundColor: AppColors.primaryDark,
-                        side: BorderSide(
-                          color: AppColors.primaryDark.withOpacity(0.2),
-                        ),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(14),
-                        ),
-                      ),
-                    ),
+                    child: isLoggedIn
+                        ? OutlinedButton.icon(
+                            onPressed: () {
+                              CacheHelper.clear();
+                              Navigator.pushNamedAndRemoveUntil(
+                                context,
+                                AppRoutsName.homeView,
+                                (route) => false,
+                              );
+                            },
+                            icon: Icon(Icons.logout_rounded, size: 18.sp),
+                            label: Text(
+                              'تسجيل الخروج',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 15.sp,
+                              ),
+                            ),
+                            style: OutlinedButton.styleFrom(
+                              foregroundColor: AppColors.primaryDark,
+                              side: BorderSide(
+                                color: AppColors.primaryDark.withOpacity(0.2),
+                              ),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(14),
+                              ),
+                            ),
+                          )
+                        : OutlinedButton.icon(
+                            onPressed: () {
+                              Navigator.pushNamed(
+                                context,
+                                AppRoutsName.loginView,
+                              );
+                            },
+                            icon: Icon(Icons.login_rounded, size: 18.sp),
+                            label: Text(
+                              'تسجيل الدخول',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 15.sp,
+                              ),
+                            ),
+                            style: OutlinedButton.styleFrom(
+                              foregroundColor: AppColors.primaryGreen,
+                              side: BorderSide(
+                                color: AppColors.primaryGreen.withOpacity(0.2),
+                              ),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(14),
+                              ),
+                            ),
+                          ),
                   ),
 
                   SizedBox(height: 24.h),

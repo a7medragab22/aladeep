@@ -1,4 +1,5 @@
 part of 'http.dart';
+
 abstract interface class Endpoints {
   static const String baseUrl = 'https://al-adeep.com';
   static const String auth = '/auth';
@@ -31,4 +32,5 @@ abstract interface class Endpoints {
   static const String liveSessions = "/api/mobile/live-sessions/";
   static const String leaderboard = "/api/mobile/leaderboard/";
   static const String materialUrl = "/api/mobile/material-url/";
+  static const String getQuizEndpoint = "/api/mobile/quiz/";
 }

@@ -57,6 +57,12 @@ class AppRouts {
     AppRoutsName.privacyPolicyView: (_) => const PrivacyPolicyPage(),
     AppRoutsName.subscriptionsView: (_) => const SubscriptionsView(),
     AppRoutsName.profileView: (context) {
+      if (CacheHelper.getData(key: 'user') == null) {
+        return BlocProvider(
+          create: (context) => getIt<LoginBloc>(),
+          child: const LoginView(),
+        );
+      }
       return BlocProvider(
         create: (_) => getIt<ProfileUpdateBloc>(),
         child: const ProfileView(),
@@ -68,6 +74,12 @@ class AppRouts {
       return CourseDetailsView(courseId: courseId);
     },
     AppRoutsName.confirmSubscription: (context) {
+      if (CacheHelper.getData(key: 'user') == null) {
+        return BlocProvider(
+          create: (context) => getIt<LoginBloc>(),
+          child: const LoginView(),
+        );
+      }
       final args = ModalRoute.of(context)?.settings.arguments;
       if (args is Map<String, dynamic>) {
         return ConfirmSubscriptionView(
@@ -79,6 +91,12 @@ class AppRouts {
       return const Scaffold(body: Center(child: Text('Invalid Arguments')));
     },
     AppRoutsName.myPlatformDashboard: (context) {
+      if (CacheHelper.getData(key: 'user') == null) {
+        return BlocProvider(
+          create: (context) => getIt<LoginBloc>(),
+          child: const LoginView(),
+        );
+      }
       // Get userId from cache
       int userId = 0;
       final userData = CacheHelper.getData(key: 'user');
@@ -95,6 +113,12 @@ class AppRouts {
       );
     },
     AppRoutsName.myResults: (context) {
+      if (CacheHelper.getData(key: 'user') == null) {
+        return BlocProvider(
+          create: (context) => getIt<LoginBloc>(),
+          child: const LoginView(),
+        );
+      }
       // Get userId from cache
       int userId = 0;
       final userData = CacheHelper.getData(key: 'user');
@@ -112,7 +136,9 @@ class AppRouts {
     },
     AppRoutsName.testYourSelfView: (context) {
       final args = ModalRoute.of(context)?.settings.arguments;
-      final quizId = args is int ? args : 14;
+      // لو فيه quizId جاي من اختبار كورس، استخدمه. غير كدا استخدم العداد التلقائي
+      int quizId = args is int ? args : QuizBloc.currentQuizId;
+
       return BlocProvider(
         create: (context) => getIt<QuizBloc>()..add(FetchQuiz(quizId)),
         child: const TestYourSelfView(),

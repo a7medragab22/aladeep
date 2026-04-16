@@ -6,7 +6,9 @@ import '../models/quiz_model.dart';
 
 abstract class TestYourSelfDataSource {
   Future<Either<Failure, QuizModel>> getQuiz(int quizId);
-  Future<Either<Failure, QuizResultModel>> submitQuiz(QuizSubmissionModel submission);
+  Future<Either<Failure, QuizResultModel>> submitQuiz(
+    QuizSubmissionModel submission,
+  );
 }
 
 class TestYourSelfDataSourceImpl implements TestYourSelfDataSource {

@@ -2,6 +2,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class CacheHelper {
   static late SharedPreferences sharedPreferences;
+  static const String kQuizIndex = 'quiz_index';
 
   static Future<void> init() async {
     sharedPreferences = await SharedPreferences.getInstance();

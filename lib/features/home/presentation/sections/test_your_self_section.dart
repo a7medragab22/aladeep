@@ -102,15 +102,7 @@ class TestYourSelfSection extends StatelessWidget {
                   Navigator.pushNamed(
                     context,
                     AppRoutsName.testYourSelfView,
-                    arguments: 'Ahmed',
                   );
-
-                  if (settings?.placementTestQuizId != null) {
-                    // Navigate to quiz view with ID
-                    debugPrint(
-                      'Starting quiz: ${settings?.placementTestQuizId}',
-                    );
-                  }
                 },
               ),
             ],

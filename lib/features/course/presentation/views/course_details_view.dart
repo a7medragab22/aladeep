@@ -1,4 +1,5 @@
 import 'package:aladeep/core/enum/status.dart';
+import 'package:aladeep/core/helpers/cache_helper.dart';
 import 'package:aladeep/core/routes/app_routs_name.dart';
 import 'package:aladeep/core/theme/app_colors.dart';
 import 'package:aladeep/features/course/presentation/bloc/course_details_bloc.dart';
@@ -311,7 +312,6 @@ class _CourseDetailsViewState extends State<CourseDetailsView> {
       return ListView(
         padding: EdgeInsets.symmetric(vertical: 8.h),
         children: [
-          const CourseProgressCard(progress: 0.0),
           LiveSessionsSection(
             sessions: state.liveSessions,
             status: state.liveSessionsStatus,
@@ -498,7 +498,6 @@ class _CourseDetailsViewState extends State<CourseDetailsView> {
             child: ListView(
               padding: EdgeInsets.zero,
               children: [
-                const CourseProgressCard(progress: 0.0),
                 LiveSessionsSection(
                   sessions: state.liveSessions,
                   status: state.liveSessionsStatus,
@@ -560,6 +559,13 @@ class _CourseDetailsViewState extends State<CourseDetailsView> {
                       ...lesson.quizzes.map(
                         (quiz) => ListTile(
                           onTap: () {
+                            if (CacheHelper.getData(key: 'user') == null) {
+                              Navigator.pushNamed(
+                                context,
+                                AppRoutsName.loginView,
+                              );
+                              return;
+                            }
                             Navigator.pushNamed(
                               context,
                               AppRoutsName.testYourSelfView,
@@ -730,6 +736,10 @@ class _CourseDetailsViewState extends State<CourseDetailsView> {
       padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 6.h),
       child: InkWell(
         onTap: () {
+          if (CacheHelper.getData(key: 'user') == null) {
+            Navigator.pushNamed(context, AppRoutsName.loginView);
+            return;
+          }
           Navigator.pushNamed(
             context,
             AppRoutsName.testYourSelfView,

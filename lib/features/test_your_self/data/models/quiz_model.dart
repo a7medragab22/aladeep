@@ -16,14 +16,14 @@ class QuizModel extends Equatable {
   });
 
   factory QuizModel.fromJson(Map<String, dynamic> json) {
-    final quizJson = json['quiz'] ?? {};
+    final quizJson = json['quiz'] as Map<String, dynamic>? ?? {};
     return QuizModel(
-      id: quizJson['id'] ?? 0,
-      title: quizJson['title'] ?? '',
-      durationInMinutes: quizJson['durationInMinutes'] ?? 0,
-      isFinalExam: quizJson['isFinalExam'] ?? false,
+      id: quizJson['id'] as int? ?? 0,
+      title: quizJson['title'] as String? ?? '',
+      durationInMinutes: quizJson['durationInMinutes'] as int? ?? 0,
+      isFinalExam: quizJson['isFinalExam'] as bool? ?? false,
       questions: (json['questions'] as List? ?? [])
-          .map((e) => QuestionModel.fromJson(e))
+          .map((e) => QuestionModel.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
   }
@@ -48,12 +48,13 @@ class QuestionModel extends Equatable {
   });
 
   factory QuestionModel.fromJson(Map<String, dynamic> json) {
+    final rawOptions = json['options'] as Map<String, dynamic>? ?? {};
     return QuestionModel(
-      id: json['id'] ?? 0,
-      text: json['text'] ?? '',
-      image: json['image'],
-      skill: json['skill'] ?? '',
-      options: Map<String, String>.from(json['options'] ?? {}),
+      id: json['id'] as int? ?? 0,
+      text: json['text'] as String? ?? '',
+      image: json['image'] as String?,
+      skill: json['skill'] as String? ?? '',
+      options: rawOptions.map((key, value) => MapEntry(key, value.toString())),
     );
   }
 
@@ -102,10 +103,10 @@ class QuizResultModel extends Equatable {
   factory QuizResultModel.fromJson(Map<String, dynamic> json) {
     return QuizResultModel(
       score: (json['score'] as num? ?? 0).toDouble(),
-      correctCount: json['correctCount'] ?? 0,
-      total: json['total'] ?? 0,
-      passed: json['passed'] ?? false,
-      isFinal: json['isFinal'] ?? false,
+      correctCount: json['correctCount'] as int? ?? 0,
+      total: json['total'] as int? ?? 0,
+      passed: json['passed'] as bool? ?? false,
+      isFinal: json['isFinal'] as bool? ?? false,
     );
   }
 
