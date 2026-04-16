@@ -7,13 +7,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class TestYourSelfResultView extends StatelessWidget {
   final QuizResultModel result;
 
-  const TestYourSelfResultView({Key? key, required this.result}) : super(key: key);
+  const TestYourSelfResultView({super.key, required this.result});
 
   @override
   Widget build(BuildContext context) {
     Color scoreColor;
     String commentText;
-    
+
     double scorePercentage = result.score;
 
     if (scorePercentage < 50) {
@@ -38,7 +38,10 @@ class TestYourSelfResultView extends StatelessWidget {
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(16.r),
-              border: Border.all(color: const Color(0xFF248566).withValues(alpha: 0.5), width: 1.5),
+              border: Border.all(
+                color: const Color(0xFF248566).withValues(alpha: 0.5),
+                width: 1.5,
+              ),
               boxShadow: [
                 BoxShadow(
                   color: Colors.black.withValues(alpha: 0.05),

@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'package:aladeep/core/bloc/paginated_bloc/exports.dart';
 import 'package:aladeep/core/enum/status.dart';
 import 'package:aladeep/features/course/data/course_data_source.dart';
 import 'package:aladeep/features/course/data/models/course_details_model.dart';
@@ -12,7 +11,8 @@ part 'course_details_state.dart';
 class CourseDetailsBloc extends Bloc<CourseDetailsEvent, CourseDetailsState> {
   final CourseDataSource _courseDataSource;
 
-  CourseDetailsBloc(this._courseDataSource) : super(const CourseDetailsState()) {
+  CourseDetailsBloc(this._courseDataSource)
+    : super(const CourseDetailsState()) {
     on<FetchCourseDetails>(_onFetchCourseDetails);
     on<SelectMaterial>(_onSelectMaterial);
     on<FetchLiveSessions>(_onFetchLiveSessions);
@@ -20,18 +20,19 @@ class CourseDetailsBloc extends Bloc<CourseDetailsEvent, CourseDetailsState> {
   }
 
   FutureOr<void> _onFetchCourseDetails(
-      FetchCourseDetails event, Emitter<CourseDetailsState> emit) async {
+    FetchCourseDetails event,
+    Emitter<CourseDetailsState> emit,
+  ) async {
     emit(state.copyWith(status: Status.loading));
-    
+
     // Fetch live sessions in parallel
     add(FetchLiveSessions(event.courseId));
 
     final result = await _courseDataSource.getCourseDetails(event.courseId);
     result.fold(
-      (failure) => emit(state.copyWith(
-        status: Status.failure,
-        errorMessage: failure.message,
-      )),
+      (failure) => emit(
+        state.copyWith(status: Status.failure, errorMessage: failure.message),
+      ),
       (course) {
         MaterialModel? initialMaterial;
         int? initialLessonId;
@@ -46,49 +47,62 @@ class CourseDetailsBloc extends Bloc<CourseDetailsEvent, CourseDetailsState> {
           if (initialMaterial != null) break;
         }
 
-        emit(state.copyWith(
-          status: Status.success,
-          course: course,
-          selectedMaterial: initialMaterial,
-        ));
+        emit(
+          state.copyWith(
+            status: Status.success,
+            course: course,
+            selectedMaterial: initialMaterial,
+          ),
+        );
 
         // Automatically fetch URL for the initial free sample
         if (initialMaterial != null && initialLessonId != null) {
-          add(FetchMaterialUrl(
-            courseId: course.id ?? 0,
-            lessonId: initialLessonId,
-            material: initialMaterial,
-          ));
+          add(
+            FetchMaterialUrl(
+              courseId: course.id ?? 0,
+              lessonId: initialLessonId,
+              material: initialMaterial,
+            ),
+          );
         }
       },
     );
   }
 
   FutureOr<void> _onFetchLiveSessions(
-      FetchLiveSessions event, Emitter<CourseDetailsState> emit) async {
+    FetchLiveSessions event,
+    Emitter<CourseDetailsState> emit,
+  ) async {
     emit(state.copyWith(liveSessionsStatus: Status.loading));
     final result = await _courseDataSource.getLiveSessions(event.courseId);
     result.fold(
-      (failure) => emit(state.copyWith(
-        liveSessionsStatus: Status.failure,
-      )),
-      (sessions) => emit(state.copyWith(
-        liveSessionsStatus: Status.success,
-        liveSessions: sessions,
-      )),
+      (failure) => emit(state.copyWith(liveSessionsStatus: Status.failure)),
+      (sessions) => emit(
+        state.copyWith(
+          liveSessionsStatus: Status.success,
+          liveSessions: sessions,
+        ),
+      ),
     );
   }
 
-  void _onSelectMaterial(SelectMaterial event, Emitter<CourseDetailsState> emit) {
+  void _onSelectMaterial(
+    SelectMaterial event,
+    Emitter<CourseDetailsState> emit,
+  ) {
     emit(state.copyWith(selectedMaterial: event.material));
   }
 
   FutureOr<void> _onFetchMaterialUrl(
-      FetchMaterialUrl event, Emitter<CourseDetailsState> emit) async {
-    emit(state.copyWith(
-      materialUrlStatus: Status.loading,
-      selectedMaterial: event.material,
-    ));
+    FetchMaterialUrl event,
+    Emitter<CourseDetailsState> emit,
+  ) async {
+    emit(
+      state.copyWith(
+        materialUrlStatus: Status.loading,
+        selectedMaterial: event.material,
+      ),
+    );
 
     final result = await _courseDataSource.getMaterialUrl(
       event.courseId,
@@ -96,19 +110,23 @@ class CourseDetailsBloc extends Bloc<CourseDetailsEvent, CourseDetailsState> {
     );
 
     result.fold(
-      (failure) => emit(state.copyWith(
-        materialUrlStatus: Status.failure,
-        errorMessage: failure.message,
-      )),
+      (failure) => emit(
+        state.copyWith(
+          materialUrlStatus: Status.failure,
+          errorMessage: failure.message,
+        ),
+      ),
       (data) {
         final newMaterial = event.material.copyWith(
           url: data['url'] as String?,
           materialType: data['type'] as String?,
         );
-        emit(state.copyWith(
-          materialUrlStatus: Status.success,
-          selectedMaterial: newMaterial,
-        ));
+        emit(
+          state.copyWith(
+            materialUrlStatus: Status.success,
+            selectedMaterial: newMaterial,
+          ),
+        );
       },
     );
   }

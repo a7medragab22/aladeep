@@ -221,11 +221,11 @@ class _MyPlatformDashboardViewState extends State<MyPlatformDashboardView> {
         padding: EdgeInsets.symmetric(vertical: 15.h),
         decoration: BoxDecoration(
           color: isSecondary
-              ? Colors.white.withOpacity(0.08)
+              ? Colors.white.withValues(alpha: 0.08)
               : AppColors.primaryGold,
           borderRadius: BorderRadius.circular(16),
           border: isSecondary
-              ? Border.all(color: Colors.white.withOpacity(0.25))
+              ? Border.all(color: Colors.white.withValues(alpha: 0.25))
               : null,
         ),
         child: Row(
@@ -269,7 +269,7 @@ class _MyPlatformDashboardViewState extends State<MyPlatformDashboardView> {
           Container(
             padding: EdgeInsets.all(8.r),
             decoration: BoxDecoration(
-              color: AppColors.primaryDark.withOpacity(0.05),
+              color: AppColors.primaryDark.withValues(alpha: 0.05),
               borderRadius: BorderRadius.circular(8),
             ),
             child: Icon(
@@ -300,7 +300,7 @@ class _MyPlatformDashboardViewState extends State<MyPlatformDashboardView> {
             border: Border.all(color: Colors.grey.shade100),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(0.02),
+                color: Colors.black.withValues(alpha: 0.02),
                 blurRadius: 10,
                 offset: const Offset(0, 4),
               ),
@@ -404,7 +404,7 @@ class _MyPlatformDashboardViewState extends State<MyPlatformDashboardView> {
                 width: 100.w,
                 height: 100.w,
                 decoration: BoxDecoration(
-                  color: AppColors.primaryGold.withOpacity(0.1),
+                  color: AppColors.primaryGold.withValues(alpha: 0.1),
                   shape: BoxShape.circle,
                 ),
                 child: Center(

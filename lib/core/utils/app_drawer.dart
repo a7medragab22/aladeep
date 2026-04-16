@@ -59,10 +59,10 @@ class _AppDrawerState extends State<AppDrawer> {
                     child: Container(
                       padding: EdgeInsets.all(8.r),
                       decoration: BoxDecoration(
-                        color: AppColors.primaryDark.withOpacity(0.05),
+                        color: AppColors.primaryDark.withValues(alpha: 0.05),
                         borderRadius: BorderRadius.circular(10),
                         border: Border.all(
-                          color: AppColors.primaryDark.withOpacity(0.1),
+                          color: AppColors.primaryDark.withValues(alpha: 0.1),
                         ),
                       ),
                       child: Icon(
@@ -80,10 +80,10 @@ class _AppDrawerState extends State<AppDrawer> {
                       vertical: 10.h,
                     ),
                     decoration: BoxDecoration(
-                      color: AppColors.primaryGold.withOpacity(0.12),
+                      color: AppColors.primaryGold.withValues(alpha: 0.12),
                       borderRadius: BorderRadius.circular(12),
                       border: Border.all(
-                        color: AppColors.primaryGold.withOpacity(0.35),
+                        color: AppColors.primaryGold.withValues(alpha: 0.35),
                       ),
                     ),
                     child: Text(
@@ -184,10 +184,7 @@ class _AppDrawerState extends State<AppDrawer> {
                       title: 'نتائجي',
                       onTap: () {
                         Navigator.pop(context);
-                        Navigator.pushNamed(
-                          context,
-                          AppRoutsName.myResults,
-                        );
+                        Navigator.pushNamed(context, AppRoutsName.myResults);
                       },
                     ),
                     DrawerItem(
@@ -255,7 +252,9 @@ class _AppDrawerState extends State<AppDrawer> {
                             style: OutlinedButton.styleFrom(
                               foregroundColor: AppColors.primaryDark,
                               side: BorderSide(
-                                color: AppColors.primaryDark.withOpacity(0.2),
+                                color: AppColors.primaryDark.withValues(
+                                  alpha: 0.2,
+                                ),
                               ),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(14),
@@ -280,7 +279,9 @@ class _AppDrawerState extends State<AppDrawer> {
                             style: OutlinedButton.styleFrom(
                               foregroundColor: AppColors.primaryGreen,
                               side: BorderSide(
-                                color: AppColors.primaryGreen.withOpacity(0.2),
+                                color: AppColors.primaryGreen.withValues(
+                                  alpha: 0.2,
+                                ),
                               ),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(14),

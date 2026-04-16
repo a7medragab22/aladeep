@@ -1,13 +1,10 @@
-import 'package:aladeep/core/routes/app_routs_name.dart';
 import 'package:aladeep/core/utils/app_drawer.dart';
 import 'package:aladeep/core/utils/header.dart';
 import 'package:aladeep/features/auth/register/presentation/widgets/empty_courses_card.dart';
 import 'package:aladeep/features/auth/register/presentation/widgets/header_card.dart';
 import 'package:aladeep/features/auth/register/presentation/widgets/section_title.dart';
-import 'package:aladeep/features/home/data/models/footer_link_model.dart';
 import 'package:aladeep/features/home/presentation/sections/footer_section.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class RegisterResultView extends StatelessWidget {
   const RegisterResultView({super.key, required this.name});

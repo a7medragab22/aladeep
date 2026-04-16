@@ -1,10 +1,8 @@
 import 'dart:io';
 import 'package:aladeep/core/enum/status.dart';
-import 'package:aladeep/core/routes/app_routs_name.dart';
-import 'package:aladeep/core/theme/app_colors.dart';
+
 import 'package:aladeep/core/utils/app_drawer.dart';
 import 'package:aladeep/core/utils/header.dart';
-import 'package:aladeep/features/home/data/models/footer_link_model.dart';
 import 'package:aladeep/features/home/presentation/sections/footer_section.dart';
 import 'package:aladeep/features/subscriptions/presentation/bloc/subscribe_bloc.dart';
 import 'package:aladeep/features/subscriptions/presentation/bloc/subscribe_event.dart';
@@ -15,10 +13,8 @@ import 'package:aladeep/features/subscriptions/presentation/widgets/receipt_uplo
 import 'package:aladeep/features/subscriptions/presentation/widgets/section_title.dart';
 import 'package:aladeep/features/subscriptions/presentation/widgets/subscribe_submit_button.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:aladeep/core/service_locator/service_locator.dart';
 
@@ -151,13 +147,12 @@ class _ConfirmSubscriptionViewState extends State<ConfirmSubscriptionView> {
                                       ? null
                                       : () {
                                           context.read<SubscribeBloc>().add(
-                                                SubmitSubscription(
-                                                  studentId: 27,
-                                                  courseId:
-                                                      widget.courseId ?? 0,
-                                                  receiptImage: _receiptImage!,
-                                                ),
-                                              );
+                                            SubmitSubscription(
+                                              studentId: 27,
+                                              courseId: widget.courseId ?? 0,
+                                              receiptImage: _receiptImage!,
+                                            ),
+                                          );
                                         },
                                 ),
                                 SizedBox(height: 40.h),

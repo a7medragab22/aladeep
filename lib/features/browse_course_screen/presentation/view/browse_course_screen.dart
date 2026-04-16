@@ -1,17 +1,13 @@
 import 'package:aladeep/core/bloc/paginated_bloc/exports.dart';
 import 'package:aladeep/features/browse_course_screen/presentation/widget/header_section.dart';
 import 'package:aladeep/features/browse_course_screen/presentation/widget/premium_card.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:aladeep/core/routes/app_routs_name.dart';
 import 'package:aladeep/core/scroll_helper/scroll_helper.dart';
 import 'package:aladeep/core/theme/app_colors.dart';
 import 'package:aladeep/core/utils/app_drawer.dart'; // الـ Drawer الموحد
 import 'package:aladeep/core/utils/header.dart'; // الهيدر الموحد
 import 'package:aladeep/features/browse_course_screen/presentation/widget/custom_course_card.dart';
-import 'package:aladeep/features/home/data/models/footer_link_model.dart';
 import 'package:aladeep/features/home/presentation/sections/footer_section.dart'; // الفوتر الموحد
 import 'package:flutter/material.dart';
-
 import 'package:aladeep/features/home/presentation/bloc/home_bloc.dart';
 import 'package:aladeep/features/home/data/models/home_model.dart';
 import 'package:aladeep/core/enum/status.dart';

@@ -3,7 +3,6 @@ import 'package:aladeep/core/enum/status.dart';
 import 'package:aladeep/features/auth/auth.dart';
 import 'package:aladeep/features/auth/models/customer_model.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:aladeep/core/routes/app_routs_name.dart';
 import 'package:aladeep/core/scroll_helper/scroll_helper.dart';
 import 'package:aladeep/core/theme/app_colors.dart';
@@ -12,7 +11,6 @@ import 'package:aladeep/core/utils/custom_button.dart';
 import 'package:aladeep/core/utils/header.dart';
 import 'package:aladeep/features/auth/login/presentation/widgts/field_label.dart';
 import 'package:aladeep/features/auth/login/presentation/widgts/input_field.dart';
-import 'package:aladeep/features/home/data/models/footer_link_model.dart';
 import 'package:aladeep/features/home/presentation/sections/footer_section.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -196,7 +194,10 @@ class _LoginViewState extends State<LoginView> with HomeScrollMixin {
                       SnackBar(
                         content: Text(
                           'يرجى ملء جميع الحقول',
-                          style: TextStyle(color: Colors.white, fontSize: 13.sp),
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 13.sp,
+                          ),
                         ),
                         backgroundColor: Colors.red.shade600,
                         behavior: SnackBarBehavior.floating,

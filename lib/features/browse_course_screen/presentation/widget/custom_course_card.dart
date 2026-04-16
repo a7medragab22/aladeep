@@ -130,7 +130,10 @@ class CustomCourseCard extends StatelessWidget {
               color: Colors.white,
               borderRadius: BorderRadius.circular(30),
               boxShadow: [
-                BoxShadow(color: Colors.black.withOpacity(.1), blurRadius: 10),
+                BoxShadow(
+                  color: Colors.black.withValues(alpha: .1),
+                  blurRadius: 10,
+                ),
               ],
             ),
             child: Row(

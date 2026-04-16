@@ -9,8 +9,6 @@ import 'package:aladeep/features/auth/models/customer_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:aladeep/features/home/data/models/footer_link_model.dart';
 import 'package:aladeep/features/home/presentation/sections/footer_section.dart';
 import 'package:aladeep/core/bloc/paginated_bloc/exports.dart';
 import 'package:aladeep/features/auth/login/presentation/widgts/field_label.dart';
@@ -227,7 +225,10 @@ class _RegisterViewState extends State<RegisterView> {
                       SnackBar(
                         content: Text(
                           'يرجى ملء جميع الحقول',
-                          style: TextStyle(color: Colors.white, fontSize: 13.sp),
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 13.sp,
+                          ),
                         ),
                         backgroundColor: Colors.red.shade600,
                         behavior: SnackBarBehavior.floating,
@@ -244,7 +245,10 @@ class _RegisterViewState extends State<RegisterView> {
                       SnackBar(
                         content: Text(
                           'كلمة المرور غير متطابقة',
-                          style: TextStyle(color: Colors.white, fontSize: 13.sp),
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 13.sp,
+                          ),
                         ),
                         backgroundColor: Colors.red.shade600,
                         behavior: SnackBarBehavior.floating,

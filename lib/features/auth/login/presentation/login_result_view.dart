@@ -7,7 +7,6 @@ import 'package:aladeep/features/auth/register/presentation/widgets/section_titl
 import 'package:aladeep/features/home/data/models/footer_link_model.dart';
 import 'package:aladeep/features/home/presentation/sections/footer_section.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class LoginResultView extends StatelessWidget {
   const LoginResultView({super.key, required this.name});
@@ -61,8 +60,10 @@ class LoginResultView extends StatelessWidget {
                 ),
                 FooterLink(
                   title: "الدورات",
-                  onTap: () =>
-                      Navigator.pushNamed(context, AppRoutsName.browsecourseView),
+                  onTap: () => Navigator.pushNamed(
+                    context,
+                    AppRoutsName.browsecourseView,
+                  ),
                 ),
                 FooterLink(
                   title: "آراء الطلاب",

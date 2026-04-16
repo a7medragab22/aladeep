@@ -81,7 +81,9 @@ class _ProfileViewState extends State<ProfileView> {
                         borderRadius: BorderRadius.circular(24),
                         boxShadow: [
                           BoxShadow(
-                            color: AppColors.primaryDark.withOpacity(0.05),
+                            color: AppColors.primaryDark.withValues(
+                              alpha: 0.05,
+                            ),
                             blurRadius: 30,
                             offset: const Offset(0, 10),
                           ),

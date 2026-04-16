@@ -13,7 +13,6 @@ import 'package:aladeep/core/service_locator/service_locator.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 import 'package:aladeep/features/course/presentation/widgets/discussions_tab.dart';
-import 'package:aladeep/features/course/presentation/widgets/course_progress_card.dart';
 import 'package:aladeep/features/course/presentation/widgets/live_sessions_section.dart';
 import 'package:aladeep/features/course/presentation/widgets/leaderboard_tab.dart';
 import 'package:aladeep/features/course/presentation/bloc/leaderboard_bloc/leaderboard_bloc.dart';
