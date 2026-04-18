@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:aladeep/core/bloc/paginated_bloc/exports.dart';
 import 'package:aladeep/core/enum/status.dart';
-import 'package:aladeep/core/helpers/cache_helper.dart';
+import 'package:aladeep/core/helpers/secure_storage_helper.dart';
 import 'package:aladeep/features/test_your_self/data/datasource/test_your_self_data_source.dart';
 import 'package:aladeep/features/test_your_self/data/models/quiz_model.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -30,10 +30,7 @@ class QuizBloc extends Bloc<QuizEvent, BaseState<QuizModel>> {
   QuizBloc(this._dataSource)
     : super(
         const BaseState<QuizModel>(
-          metadata: {
-            'currentIndex': 0,
-            'answers': <int, String>{},
-          },
+          metadata: {'currentIndex': 0, 'answers': <int, String>{}},
         ),
       ) {
     on<FetchQuiz>(_onFetchQuiz);
@@ -97,8 +94,8 @@ class QuizBloc extends Bloc<QuizEvent, BaseState<QuizModel>> {
   ) async {
     if (state.data == null) return;
 
-    final userData = CacheHelper.getData(key: 'user');
-    int studentId = 27;
+    final userData = await SecureStorageHelper.getData(key: 'user');
+    int studentId = 0;
     if (userData != null) {
       try {
         final decoded = jsonDecode(userData);
@@ -139,4 +136,3 @@ class QuizBloc extends Bloc<QuizEvent, BaseState<QuizModel>> {
     );
   }
 }
-

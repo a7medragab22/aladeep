@@ -10,6 +10,7 @@ class CourseModel {
   final int durationMonths;
   final bool isSpecialOffer;
   final bool isFeatured;
+  final DateTime? expiryDate;
 
   const CourseModel({
     required this.id,
@@ -22,5 +23,6 @@ class CourseModel {
     required this.durationMonths,
     this.isSpecialOffer = false,
     this.isFeatured = false,
+    this.expiryDate,
   });
 }

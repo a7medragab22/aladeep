@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:aladeep/core/bloc/paginated_bloc/exports.dart';
 import 'package:aladeep/core/enum/status.dart';
-import 'package:aladeep/core/helpers/cache_helper.dart';
+import 'package:aladeep/core/helpers/secure_storage_helper.dart';
 import 'package:aladeep/core/routes/app_routs_name.dart';
 import 'package:aladeep/core/theme/app_colors.dart';
 import 'package:aladeep/features/test_your_self/data/models/quiz_model.dart';
@@ -22,15 +22,30 @@ class TestYourSelfView extends StatefulWidget {
 }
 
 class _TestYourSelfViewState extends State<TestYourSelfView> {
-  String _getStudentName() {
-    final userData = CacheHelper.getData(key: 'user');
+  String _studentName = 'طالب';
+
+  @override
+  void initState() {
+    super.initState();
+    _loadStudentName();
+  }
+
+  void _loadStudentName() async {
+    final userData = await SecureStorageHelper.getData(key: 'user');
     if (userData != null) {
       try {
         final decoded = jsonDecode(userData);
-        return decoded['userName'] ?? 'طالب';
+        if (mounted) {
+          setState(() {
+            _studentName = decoded['userName'] ?? 'طالب';
+          });
+        }
       } catch (_) {}
     }
-    return 'طالب';
+  }
+
+  String _getStudentName() {
+    return _studentName;
   }
 
   @override
@@ -56,7 +71,8 @@ class _TestYourSelfViewState extends State<TestYourSelfView> {
 
           if (state.status == Status.failure) {
             String errorMessage = state.errorMessage ?? 'حدث خطأ ما';
-            final isMissing = errorMessage.contains('غير موجود') ||
+            final isMissing =
+                errorMessage.contains('غير موجود') ||
                 errorMessage.contains('not found') ||
                 errorMessage.contains('404');
 

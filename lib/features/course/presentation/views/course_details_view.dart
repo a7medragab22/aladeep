@@ -1,14 +1,16 @@
 import 'package:aladeep/core/enum/status.dart';
-import 'package:aladeep/core/helpers/cache_helper.dart';
+import 'package:aladeep/core/enum/snack_bar_enum.dart';
+import 'package:aladeep/core/extensions/extensions.dart';
 import 'package:aladeep/core/routes/app_routs_name.dart';
 import 'package:aladeep/core/theme/app_colors.dart';
+import 'package:aladeep/core/helpers/secure_storage_helper.dart';
 import 'package:aladeep/features/course/presentation/bloc/course_details_bloc.dart';
 import 'package:aladeep/features/course/data/models/course_details_model.dart';
 import 'package:aladeep/features/course/presentation/bloc/discussions_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:youtube_player_flutter/youtube_player_flutter.dart';
+// import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import 'package:aladeep/core/service_locator/service_locator.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
@@ -16,12 +18,14 @@ import 'package:aladeep/features/course/presentation/widgets/discussions_tab.dar
 import 'package:aladeep/features/course/presentation/widgets/live_sessions_section.dart';
 import 'package:aladeep/features/course/presentation/widgets/leaderboard_tab.dart';
 import 'package:aladeep/features/course/presentation/bloc/leaderboard_bloc/leaderboard_bloc.dart';
+import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 enum CourseTab { curriculum, discussions, competitions }
 
 class CourseDetailsView extends StatefulWidget {
   final int courseId;
-  const CourseDetailsView({super.key, required this.courseId});
+  final DateTime? expiryDate;
+  const CourseDetailsView({super.key, required this.courseId, this.expiryDate});
 
   @override
   State<CourseDetailsView> createState() => _CourseDetailsViewState();
@@ -50,7 +54,9 @@ class _CourseDetailsViewState extends State<CourseDetailsView> {
             );
           }
 
-          final course = state.course;
+          final course = state.course?.copyWith(
+            expiryDate: state.course?.expiryDate ?? widget.expiryDate,
+          );
           if (course == null) return const SizedBox();
 
           return Scaffold(
@@ -116,26 +122,17 @@ class _CourseDetailsViewState extends State<CourseDetailsView> {
       ),
       child: Row(
         children: [
-          // Left side: Exit and Portfolio button
-          Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              IconButton(
-                padding: EdgeInsets.zero,
-                constraints: const BoxConstraints(),
-                icon: Icon(
-                  Icons.close_rounded,
-                  color: Colors.grey.shade600,
-                  size: 24.sp,
-                ),
-                onPressed: () => Navigator.pop(context),
-              ),
-            ],
+          IconButton(
+            padding: EdgeInsets.zero,
+            constraints: const BoxConstraints(),
+            icon: Icon(
+              Icons.close_rounded,
+              color: Colors.grey.shade600,
+              size: 24.sp,
+            ),
+            onPressed: () => Navigator.pop(context),
           ),
-
           const Spacer(),
-
-          // Right side: Tabs and Menu
           Expanded(
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
@@ -245,6 +242,10 @@ class _CourseDetailsViewState extends State<CourseDetailsView> {
   }
 
   Widget _buildContentAlert(CourseDetailsModel course) {
+    if (course.expiryDate == null ||
+        course.expiryDate!.isAfter(DateTime.now())) {
+      return const SizedBox.shrink();
+    }
     return Container(
       margin: EdgeInsets.all(12.r),
       padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 10.h),
@@ -308,6 +309,9 @@ class _CourseDetailsViewState extends State<CourseDetailsView> {
     final material = state.selectedMaterial;
 
     if (material == null) {
+      final allQuizzes = state.course!.lessons
+          .expand((l) => l.quizzes)
+          .toList();
       return ListView(
         padding: EdgeInsets.symmetric(vertical: 8.h),
         children: [
@@ -316,7 +320,7 @@ class _CourseDetailsViewState extends State<CourseDetailsView> {
             status: state.liveSessionsStatus,
           ),
           ...state.course!.lessons.map(
-            (lesson) => _buildLessonSection(lesson, state),
+            (lesson) => _buildLessonSection(lesson, state, allQuizzes),
           ),
         ],
       );
@@ -328,13 +332,12 @@ class _CourseDetailsViewState extends State<CourseDetailsView> {
       return const Center(child: Text("المحتوى غير متوفر"));
     }
 
-    // Handle relative URLs (if any from API)
+    // Handle relative URLs
     String fullUrl = rawUrl;
     if (!rawUrl.startsWith('http')) {
       if (rawUrl.startsWith('/')) {
         fullUrl = "https://al-adeep.com$rawUrl";
       } else if (rawUrl.isNotEmpty) {
-        // If it looks like a domain but missing scheme
         if (rawUrl.contains('.') && !rawUrl.contains('/')) {
           fullUrl = "https://$rawUrl";
         } else {
@@ -353,13 +356,22 @@ class _CourseDetailsViewState extends State<CourseDetailsView> {
 
     if (material.materialType == 'PDF') {
       try {
-        final uri = Uri.tryParse(fullUrl);
-        if (uri == null || !uri.isAbsolute) {
-          return const Center(child: Text("رابط غير صالح أو غير مطلق"));
-        }
+        // Encode the full URL to handle Arabic/special characters
+        final encodedUrl = Uri.encodeFull(fullUrl);
+        // Use Google Docs Viewer for reliable PDF rendering on Android
+        final viewerUrl =
+            'https://docs.google.com/gview?embedded=true&url=$encodedUrl';
+        final uri = Uri.parse(viewerUrl);
         return WebViewWidget(
           controller: WebViewController()
             ..setJavaScriptMode(JavaScriptMode.unrestricted)
+            ..setNavigationDelegate(
+              NavigationDelegate(
+                onPageStarted: (_) {},
+                onPageFinished: (_) {},
+                onWebResourceError: (error) {},
+              ),
+            )
             ..loadRequest(uri),
         );
       } catch (e) {
@@ -456,6 +468,7 @@ class _CourseDetailsViewState extends State<CourseDetailsView> {
     CourseDetailsModel course,
     CourseDetailsState state,
   ) {
+    final allQuizzes = course.lessons.expand((l) => l.quizzes).toList();
     return Drawer(
       width: 0.8.sw,
       backgroundColor: Colors.white,
@@ -520,7 +533,7 @@ class _CourseDetailsViewState extends State<CourseDetailsView> {
                                   context.read<CourseDetailsBloc>().add(
                                     FetchMaterialUrl(
                                       courseId: widget.courseId,
-                                      lessonId: lesson.id ?? 0,
+                                      materialId: mat.id ?? 0,
                                       material: mat,
                                     ),
                                   );
@@ -555,36 +568,62 @@ class _CourseDetailsViewState extends State<CourseDetailsView> {
                           ),
                         ),
                       ),
-                      ...lesson.quizzes.map(
-                        (quiz) => ListTile(
-                          onTap: () {
-                            if (CacheHelper.getData(key: 'user') == null) {
-                              Navigator.pushNamed(
-                                context,
-                                AppRoutsName.loginView,
+                      ...lesson.quizzes.map((quiz) {
+                        final quizIndex = allQuizzes.indexOf(quiz);
+                        final bool isLocked =
+                            quizIndex > 0 &&
+                            !allQuizzes[quizIndex - 1].isSolved;
+                        return ListTile(
+                          onTap: () async {
+                            if (isLocked) {
+                              context.showTopSnackBar(
+                                message: "يجب حل كويز الدرس السابق أولاً",
+                                type: SnackBarType.warning,
                               );
                               return;
                             }
-                            Navigator.pushNamed(
-                              context,
-                              AppRoutsName.testYourSelfView,
-                              arguments: quiz.id,
+                            final token = await SecureStorageHelper.getData(
+                              key: 'user',
                             );
+                            if (token == null) {
+                              if (context.mounted) {
+                                Navigator.pushNamed(
+                                  context,
+                                  AppRoutsName.loginView,
+                                );
+                              }
+                              return;
+                            }
+                            if (context.mounted) {
+                              Navigator.pushNamed(
+                                context,
+                                AppRoutsName.testYourSelfView,
+                                arguments: quiz.id,
+                              ).then((_) {
+                                if (context.mounted) {
+                                  context.read<CourseDetailsBloc>().add(
+                                    FetchCourseDetails(widget.courseId),
+                                  );
+                                }
+                              });
+                            }
                           },
                           title: Text(
                             quiz.title ?? '',
                             textDirection: TextDirection.rtl,
                             style: TextStyle(
                               fontSize: 13.sp,
-                              color: Colors.black87,
+                              color: isLocked ? Colors.grey : Colors.black87,
                             ),
                           ),
                           leading: Icon(
-                            Icons.quiz_rounded,
-                            color: AppColors.primaryGold,
+                            isLocked ? Icons.lock_outline : Icons.quiz_rounded,
+                            color: isLocked
+                                ? Colors.grey
+                                : AppColors.primaryGold,
                           ),
-                        ),
-                      ),
+                        );
+                      }),
                     ],
                   );
                 }),
@@ -596,7 +635,11 @@ class _CourseDetailsViewState extends State<CourseDetailsView> {
     );
   }
 
-  Widget _buildLessonSection(LessonModel lesson, CourseDetailsState state) {
+  Widget _buildLessonSection(
+    LessonModel lesson,
+    CourseDetailsState state,
+    List<QuizModel> allQuizzes,
+  ) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
@@ -624,19 +667,13 @@ class _CourseDetailsViewState extends State<CourseDetailsView> {
             ],
           ),
         ),
-        ...lesson.materials.map(
-          (mat) => _buildMaterialTile(mat, lesson.id ?? 0, state),
-        ),
-        ...lesson.quizzes.map((quiz) => _buildQuizTile(quiz)),
+        ...lesson.materials.map((mat) => _buildMaterialTile(mat, state)),
+        ...lesson.quizzes.map((quiz) => _buildQuizTile(quiz, allQuizzes)),
       ],
     );
   }
 
-  Widget _buildMaterialTile(
-    MaterialModel mat,
-    int lessonId,
-    CourseDetailsState state,
-  ) {
+  Widget _buildMaterialTile(MaterialModel mat, CourseDetailsState state) {
     bool isLocked = mat.isFreeSample != true;
     bool isSelected = state.selectedMaterial?.id == mat.id;
     bool isLoading = isSelected && state.materialUrlStatus == Status.loading;
@@ -648,7 +685,7 @@ class _CourseDetailsViewState extends State<CourseDetailsView> {
             ? () => context.read<CourseDetailsBloc>().add(
                 FetchMaterialUrl(
                   courseId: widget.courseId,
-                  lessonId: lessonId,
+                  materialId: mat.id ?? 0,
                   material: mat,
                 ),
               )
@@ -730,20 +767,40 @@ class _CourseDetailsViewState extends State<CourseDetailsView> {
     );
   }
 
-  Widget _buildQuizTile(QuizModel quiz) {
+  Widget _buildQuizTile(QuizModel quiz, List<QuizModel> allQuizzes) {
+    final index = allQuizzes.indexOf(quiz);
+    final bool isLocked = index > 0 && !allQuizzes[index - 1].isSolved;
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 6.h),
       child: InkWell(
-        onTap: () {
-          if (CacheHelper.getData(key: 'user') == null) {
-            Navigator.pushNamed(context, AppRoutsName.loginView);
+        onTap: () async {
+          if (isLocked) {
+            context.showTopSnackBar(
+              message: "يجب حل كويز الدرس السابق أولاً",
+              type: SnackBarType.warning,
+            );
             return;
           }
-          Navigator.pushNamed(
-            context,
-            AppRoutsName.testYourSelfView,
-            arguments: quiz.id,
-          );
+          final token = await SecureStorageHelper.getData(key: 'user');
+          if (token == null) {
+            if (context.mounted) {
+              Navigator.pushNamed(context, AppRoutsName.loginView);
+            }
+            return;
+          }
+          if (context.mounted) {
+            Navigator.pushNamed(
+              context,
+              AppRoutsName.testYourSelfView,
+              arguments: quiz.id,
+            ).then((_) {
+              if (context.mounted) {
+                context.read<CourseDetailsBloc>().add(
+                  FetchCourseDetails(widget.courseId),
+                );
+              }
+            });
+          }
         },
         borderRadius: BorderRadius.circular(12.r),
         child: Container(
@@ -755,15 +812,21 @@ class _CourseDetailsViewState extends State<CourseDetailsView> {
           ),
           child: Row(
             children: [
+              if (isLocked)
+                Icon(Icons.lock_outline, color: Colors.grey, size: 18.sp),
               const Spacer(),
               Text(
                 quiz.title ?? '',
-                style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.bold),
+                style: TextStyle(
+                  fontSize: 14.sp,
+                  fontWeight: FontWeight.bold,
+                  color: isLocked ? Colors.grey : Colors.black,
+                ),
               ),
               SizedBox(width: 12.w),
               Icon(
-                Icons.quiz_rounded,
-                color: AppColors.primaryGold,
+                isLocked ? Icons.lock_outline : Icons.quiz_rounded,
+                color: isLocked ? Colors.grey : AppColors.primaryGold,
                 size: 24.sp,
               ),
             ],
@@ -790,7 +853,12 @@ class _YouTubePlayerWidgetState extends State<YouTubePlayerWidget> {
     super.initState();
     _controller = YoutubePlayerController(
       initialVideoId: widget.videoId,
-      flags: const YoutubePlayerFlags(autoPlay: false, mute: false),
+
+      flags: const YoutubePlayerFlags(
+        autoPlay: true,
+        mute: false,
+        enableCaption: true,
+      ),
     );
   }
 
@@ -810,10 +878,23 @@ class _YouTubePlayerWidgetState extends State<YouTubePlayerWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return YoutubePlayer(
-      controller: _controller,
-      showVideoProgressIndicator: true,
-      progressIndicatorColor: AppColors.primaryGold,
+    return YoutubePlayerBuilder(
+      player: YoutubePlayer(
+        controller: _controller,
+        showVideoProgressIndicator: true,
+        progressIndicatorColor: AppColors.primaryGold,
+        bottomActions: [
+          const SizedBox(width: 14.0),
+          CurrentPosition(),
+          const SizedBox(width: 8.0),
+          ProgressBar(isExpanded: true),
+          RemainingDuration(),
+          const PlaybackSpeedButton(),
+        ],
+      ),
+      builder: (context, player) {
+        return Column(children: [player]);
+      },
     );
   }
 }

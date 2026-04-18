@@ -33,13 +33,13 @@ class FetchLiveSessions extends CourseDetailsEvent {
 
 class FetchMaterialUrl extends CourseDetailsEvent {
   final int courseId;
-  final int lessonId;
+  final int materialId;
   final MaterialModel material;
   const FetchMaterialUrl({
     required this.courseId,
-    required this.lessonId,
+    required this.materialId,
     required this.material,
   });
   @override
-  List<Object?> get props => [courseId, lessonId, material];
+  List<Object?> get props => [courseId, materialId, material];
 }

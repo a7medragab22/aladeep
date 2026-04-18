@@ -1,3 +1,5 @@
+import 'package:aladeep/core/enum/snack_bar_enum.dart';
+import 'package:aladeep/core/extensions/extensions.dart';
 import 'package:aladeep/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -115,8 +117,9 @@ class PaymentMethodGrid extends StatelessWidget {
                           Clipboard.setData(
                             ClipboardData(text: method['number']!),
                           );
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(content: Text('تم نسخ الرقم')),
+                          context.showTopSnackBar(
+                            message: 'تم نسخ الرقم',
+                            type: SnackBarType.info,
                           );
                         },
                       ),

@@ -5,7 +5,7 @@ class MyCourseModel extends Equatable {
   final String? title;
   final String? description;
   final String? imageUrl;
-  final String? expiryDate;
+  final DateTime? expiryDate;
 
   const MyCourseModel({
     this.id,
@@ -21,7 +21,9 @@ class MyCourseModel extends Equatable {
       title: json['title'] as String?,
       description: json['description'] as String?,
       imageUrl: json['imageUrl'] as String?,
-      expiryDate: json['expiryDate'] as String?,
+      expiryDate: json['expiryDate'] != null
+          ? DateTime.tryParse(json['expiryDate'])
+          : null,
     );
   }
 

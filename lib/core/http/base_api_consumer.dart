@@ -61,7 +61,7 @@ final class BaseApiConsumer implements ApiConsumer {
         return Left<Failure, Map<String, dynamic>>(failure);
       } catch (e) {
         return Left<Failure, Map<String, dynamic>>(
-            UnknownFailure(message: 'An unexpected error occurred: $e'));
+            UnknownFailure(message: 'حدث خطأ غير متوقع، يرجى المحاولة لاحقاً'));
       }
     }
 
@@ -95,7 +95,7 @@ final class BaseApiConsumer implements ApiConsumer {
       return Left(failure);
     } catch (e) {
       return Left(UnknownFailure(
-          message: 'An unexpected error occurred${e.toString()}'));
+          message: 'حدث خطأ غير متوقع، يرجى المحاولة لاحقاً'));
     }
   }
 
@@ -128,7 +128,7 @@ final class BaseApiConsumer implements ApiConsumer {
       return Left(failure);
     } catch (e) {
       return Left(UnknownFailure(
-          message: 'An unexpected error occurred${e.toString()}'));
+          message: 'حدث خطأ غير متوقع، يرجى المحاولة لاحقاً'));
     }
   }
 
@@ -159,7 +159,7 @@ final class BaseApiConsumer implements ApiConsumer {
       return Left(failure);
     } catch (e) {
       return Left(UnknownFailure(
-          message: 'An unexpected error occurred${e.toString()}'));
+          message: 'حدث خطأ غير متوقع، يرجى المحاولة لاحقاً'));
     }
   }
 
@@ -188,7 +188,7 @@ final class BaseApiConsumer implements ApiConsumer {
       return Left(failure);
     } catch (e) {
       return Left(UnknownFailure(
-          message: 'An unexpected error occurred${e.toString()}'));
+          message: 'حدث خطأ غير متوقع، يرجى المحاولة لاحقاً'));
     }
   }
 
@@ -217,7 +217,7 @@ final class BaseApiConsumer implements ApiConsumer {
     } catch (e) {
       return Left(
         UnknownFailure(
-            message: 'An unexpected error occurred: ${e.toString()}'),
+            message: 'حدث خطأ غير متوقع، يرجى المحاولة لاحقاً'),
       );
     }
   }
@@ -248,7 +248,7 @@ final class BaseApiConsumer implements ApiConsumer {
       return Left(_handleDioError(e));
     } catch (e) {
       return Left(UnknownFailure(
-          message: 'An unexpected error occurred${e.toString()}'));
+          message: 'حدث خطأ غير متوقع، يرجى المحاولة لاحقاً'));
     }
   }
 
@@ -274,7 +274,7 @@ final class BaseApiConsumer implements ApiConsumer {
       return Left<Failure, Map<String, dynamic>>(failure);
     } catch (e) {
       return Left<Failure, Map<String, dynamic>>(
-          UnknownFailure(message: 'An unexpected error occurred: $e'));
+          UnknownFailure(message: 'حدث خطأ غير متوقع، يرجى المحاولة لاحقاً'));
     }
   }
   @override

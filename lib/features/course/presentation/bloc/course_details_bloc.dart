@@ -60,7 +60,7 @@ class CourseDetailsBloc extends Bloc<CourseDetailsEvent, CourseDetailsState> {
           add(
             FetchMaterialUrl(
               courseId: course.id ?? 0,
-              lessonId: initialLessonId,
+              materialId: initialMaterial.id ?? 0,
               material: initialMaterial,
             ),
           );
@@ -106,7 +106,7 @@ class CourseDetailsBloc extends Bloc<CourseDetailsEvent, CourseDetailsState> {
 
     final result = await _courseDataSource.getMaterialUrl(
       event.courseId,
-      event.lessonId,
+      event.materialId,
     );
 
     result.fold(

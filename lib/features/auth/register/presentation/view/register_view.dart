@@ -1,4 +1,6 @@
 import 'package:aladeep/core/enum/status.dart';
+import 'package:aladeep/core/enum/snack_bar_enum.dart';
+import 'package:aladeep/core/extensions/extensions.dart';
 import 'package:aladeep/core/routes/app_routs_name.dart';
 import 'package:aladeep/core/theme/app_colors.dart';
 import 'package:aladeep/core/utils/app_drawer.dart';
@@ -122,28 +124,13 @@ class _RegisterViewState extends State<RegisterView> {
       child: BlocConsumer<RegisterBloc, BaseState<CustomerModel>>(
         listener: (context, state) {
           if (state.status == Status.success) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text('تم إنشاء الحساب بنجاح، قم بتسجيل الدخول'),
-                backgroundColor: Colors.green,
-              ),
+            context.showTopSnackBar(
+              message: 'تم إنشاء الحساب بنجاح، قم بتسجيل الدخول',
+              type: SnackBarType.success,
             );
             Navigator.pushReplacementNamed(context, AppRoutsName.loginView);
           } else if (state.status == Status.failure) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(
-                  state.errorMessage ?? 'حدث خطأ ما',
-                  style: TextStyle(color: Colors.white, fontSize: 13.sp),
-                ),
-                backgroundColor: Colors.red.shade600,
-                behavior: SnackBarBehavior.floating,
-                margin: EdgeInsets.all(20.r),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12.r),
-                ),
-              ),
-            );
+            context.showErrorMessage(state.errorMessage ?? 'حدث خطأ ما');
           }
         },
         builder: (context, state) {
@@ -221,43 +208,11 @@ class _RegisterViewState extends State<RegisterView> {
                   if (nameController.text.isEmpty ||
                       phoneController.text.isEmpty ||
                       passwordController.text.isEmpty) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text(
-                          'يرجى ملء جميع الحقول',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 13.sp,
-                          ),
-                        ),
-                        backgroundColor: Colors.red.shade600,
-                        behavior: SnackBarBehavior.floating,
-                        margin: EdgeInsets.all(20.r),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12.r),
-                        ),
-                      ),
-                    );
+                    context.showErrorMessage('يرجى ملء جميع الحقول');
                     return;
                   }
                   if (passwordController.text != confirmController.text) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text(
-                          'كلمة المرور غير متطابقة',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 13.sp,
-                          ),
-                        ),
-                        backgroundColor: Colors.red.shade600,
-                        behavior: SnackBarBehavior.floating,
-                        margin: EdgeInsets.all(20.r),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12.r),
-                        ),
-                      ),
-                    );
+                    context.showErrorMessage('كلمة المرور غير متطابقة');
                     return;
                   }
                   context.read<RegisterBloc>().add(

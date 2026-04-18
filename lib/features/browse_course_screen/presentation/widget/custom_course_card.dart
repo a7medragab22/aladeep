@@ -79,7 +79,7 @@ class CustomCourseCard extends StatelessWidget {
               finalImg,
               height: imageHeight,
               width: double.infinity,
-              fit: BoxFit.cover,
+              fit: BoxFit.contain,
               errorBuilder: (context, error, stackTrace) => Container(
                 height: imageHeight,
                 width: double.infinity,
@@ -167,6 +167,11 @@ class CustomCourseCard extends StatelessWidget {
   }
 
   Widget _buildContent(BuildContext context, bool isWide) {
+    final DateTime? currentExpiryDate =
+        courseSummary?.expiryDate ?? course?.expiryDate;
+    final bool isSubscribed =
+        currentExpiryDate != null && currentExpiryDate.isAfter(DateTime.now());
+
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 16.h),
       child: Column(
@@ -267,42 +272,45 @@ class CustomCourseCard extends StatelessWidget {
           /// BUTTONS
           Column(
             children: [
-              SizedBox(
-                width: double.infinity,
-                child: CustomButton(
-                  text: "اشترك الآن",
-                  backgroundColor: AppColors.primaryDarker,
-                  textColor: AppColors.primaryGold,
-                  faIcon: FontAwesomeIcons.cartShopping,
-                  isFaicon: true,
-                  onPressed: () {
-                    final id =
-                        courseSummary?.id ??
-                        int.tryParse(course?.id ?? '0') ??
-                        0;
-                    Navigator.pushNamed(
-                      context,
-                      AppRoutsName.confirmSubscription,
-                      arguments: {
-                        'courseId': id,
-                        'price':
-                            courseSummary?.price ??
-                            course?.discountedPrice ??
-                            0.0,
-                        'isBundle': false,
-                      },
-                    );
-                  },
+              if (!isSubscribed)
+                SizedBox(
+                  width: double.infinity,
+                  child: CustomButton(
+                    text: "اشترك الآن",
+                    backgroundColor: AppColors.primaryDarker,
+                    textColor: AppColors.primaryGold,
+                    faIcon: FontAwesomeIcons.cartShopping,
+                    isFaicon: true,
+                    onPressed: () {
+                      final id =
+                          courseSummary?.id ??
+                          int.tryParse(course?.id ?? '0') ??
+                          0;
+                      Navigator.pushNamed(
+                        context,
+                        AppRoutsName.confirmSubscription,
+                        arguments: {
+                          'courseId': id,
+                          'price':
+                              courseSummary?.price ??
+                              course?.discountedPrice ??
+                              0.0,
+                          'isBundle': false,
+                        },
+                      );
+                    },
+                  ),
                 ),
-              ),
               const SizedBox(height: 12),
               SizedBox(
                 width: double.infinity,
                 child: CustomButton(
-                  text: "شاهد العينة",
+                  text: isSubscribed ? "عرض الكورس" : "شاهد العينة",
                   backgroundColor: Colors.white,
                   textColor: AppColors.primaryDarker,
-                  faIcon: FontAwesomeIcons.eye,
+                  faIcon: isSubscribed
+                      ? FontAwesomeIcons.bookOpen
+                      : FontAwesomeIcons.eye,
                   isFaicon: true,
                   borderColor: AppColors.primaryDarker,
                   onPressed: () {
@@ -313,7 +321,9 @@ class CustomCourseCard extends StatelessWidget {
                     Navigator.pushNamed(
                       context,
                       AppRoutsName.courseDetailsView,
-                      arguments: id,
+                      arguments: isSubscribed
+                          ? {'courseId': id, 'expiryDate': currentExpiryDate}
+                          : id,
                     );
                   },
                 ),

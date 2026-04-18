@@ -11,6 +11,7 @@ class CourseDetailsModel extends Equatable {
   final String? trainerBio;
   final int? lessonsCount;
   final List<LessonModel> lessons;
+  final DateTime? expiryDate;
 
   const CourseDetailsModel({
     this.id,
@@ -23,6 +24,7 @@ class CourseDetailsModel extends Equatable {
     this.trainerBio,
     this.lessonsCount,
     this.lessons = const [],
+    this.expiryDate,
   });
 
   factory CourseDetailsModel.fromJson(Map<String, dynamic> json) {
@@ -44,6 +46,37 @@ class CourseDetailsModel extends Equatable {
               .map((e) => LessonModel.fromJson(e))
               .toList()
           : [],
+      expiryDate: data['expiryDate'] != null
+          ? DateTime.tryParse(data['expiryDate'])
+          : null,
+    );
+  }
+
+  CourseDetailsModel copyWith({
+    int? id,
+    String? title,
+    String? description,
+    String? imageUrl,
+    double? price,
+    double? oldPrice,
+    String? trainerName,
+    String? trainerBio,
+    int? lessonsCount,
+    List<LessonModel>? lessons,
+    DateTime? expiryDate,
+  }) {
+    return CourseDetailsModel(
+      id: id ?? this.id,
+      title: title ?? this.title,
+      description: description ?? this.description,
+      imageUrl: imageUrl ?? this.imageUrl,
+      price: price ?? this.price,
+      oldPrice: oldPrice ?? this.oldPrice,
+      trainerName: trainerName ?? this.trainerName,
+      trainerBio: trainerBio ?? this.trainerBio,
+      lessonsCount: lessonsCount ?? this.lessonsCount,
+      lessons: lessons ?? this.lessons,
+      expiryDate: expiryDate ?? this.expiryDate,
     );
   }
 
@@ -58,7 +91,8 @@ class CourseDetailsModel extends Equatable {
         trainerName,
         trainerBio,
         lessonsCount,
-        lessons
+        lessons,
+        expiryDate,
       ];
 }
 
@@ -146,12 +180,14 @@ class QuizModel extends Equatable {
   final String? title;
   final int? durationInMinutes;
   final bool? isFinalExam;
+  final bool isSolved;
 
   const QuizModel({
     this.id,
     this.title,
     this.durationInMinutes,
     this.isFinalExam,
+    this.isSolved = false,
   });
 
   factory QuizModel.fromJson(Map<String, dynamic> json) {
@@ -160,6 +196,7 @@ class QuizModel extends Equatable {
       title: json['title'] as String?,
       durationInMinutes: json['durationInMinutes'] as int?,
       isFinalExam: json['isFinalExam'] as bool?,
+      isSolved: json['isSolved'] as bool? ?? false,
     );
   }
 

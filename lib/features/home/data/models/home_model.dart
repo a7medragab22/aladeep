@@ -90,6 +90,7 @@ class CourseSummaryModel extends Equatable {
   final double? price;
   final double? oldPrice;
   final String? trainerName;
+  final DateTime? expiryDate;
 
   const CourseSummaryModel({
     this.id,
@@ -99,21 +100,23 @@ class CourseSummaryModel extends Equatable {
     this.price,
     this.oldPrice,
     this.trainerName,
+    this.expiryDate,
   });
 
   factory CourseSummaryModel.fromJson(Map<String, dynamic> json) {
     return CourseSummaryModel(
-      id: json['id'] as int?,
+      id: json['id'] is int ? json['id'] : int.tryParse(json['id']?.toString() ?? ''),
       title: json['title'] as String?,
       description: json['description'] as String?,
       imageUrl: json['imageUrl'] as String?,
       price: (json['price'] as num?)?.toDouble(),
       oldPrice: (json['oldPrice'] as num?)?.toDouble(),
       trainerName: json['trainerName'] as String?,
+      expiryDate: json['expiryDate'] != null ? DateTime.tryParse(json['expiryDate']) : null,
     );
   }
 
   @override
   List<Object?> get props =>
-      [id, title, description, imageUrl, price, oldPrice, trainerName];
+      [id, title, description, imageUrl, price, oldPrice, trainerName, expiryDate];
 }

@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:aladeep/core/helpers/cache_helper.dart';
+import 'package:aladeep/core/helpers/secure_storage_helper.dart';
 import 'package:aladeep/core/service_locator/service_locator.dart';
 import 'package:aladeep/features/about_instuctor_screen/presentation/view/about_instructor.dart';
 import 'package:aladeep/features/auth/auth.dart';
@@ -57,81 +57,111 @@ class AppRouts {
     AppRoutsName.privacyPolicyView: (_) => const PrivacyPolicyPage(),
     AppRoutsName.subscriptionsView: (_) => const SubscriptionsView(),
     AppRoutsName.profileView: (context) {
-      if (CacheHelper.getData(key: 'user') == null) {
-        return BlocProvider(
-          create: (context) => getIt<LoginBloc>(),
-          child: const LoginView(),
-        );
-      }
-      return BlocProvider(
-        create: (_) => getIt<ProfileUpdateBloc>(),
-        child: const ProfileView(),
+      return FutureBuilder<String?>(
+        future: SecureStorageHelper.getData(key: 'user'),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Scaffold(body: Center(child: CircularProgressIndicator()));
+          }
+          if (snapshot.data == null) {
+            return BlocProvider(
+              create: (context) => getIt<LoginBloc>(),
+              child: const LoginView(),
+            );
+          }
+          return BlocProvider(
+            create: (_) => getIt<ProfileUpdateBloc>(),
+            child: const ProfileView(),
+          );
+        },
       );
     },
     AppRoutsName.courseDetailsView: (context) {
       final args = ModalRoute.of(context)?.settings.arguments;
+      if (args is Map<String, dynamic>) {
+        return CourseDetailsView(
+          courseId: args['courseId'] as int? ?? 0,
+          expiryDate: args['expiryDate'] as DateTime?,
+        );
+      }
       final courseId = args is int ? args : 0;
       return CourseDetailsView(courseId: courseId);
     },
     AppRoutsName.confirmSubscription: (context) {
-      if (CacheHelper.getData(key: 'user') == null) {
-        return BlocProvider(
-          create: (context) => getIt<LoginBloc>(),
-          child: const LoginView(),
-        );
-      }
       final args = ModalRoute.of(context)?.settings.arguments;
-      if (args is Map<String, dynamic>) {
-        return ConfirmSubscriptionView(
-          courseId: args['courseId'],
-          price: (args['price'] as num?)?.toDouble() ?? 0.0,
-          isBundle: args['isBundle'] ?? false,
-        );
-      }
-      return const Scaffold(body: Center(child: Text('Invalid Arguments')));
+      return FutureBuilder<String?>(
+        future: SecureStorageHelper.getData(key: 'user'),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Scaffold(body: Center(child: CircularProgressIndicator()));
+          }
+          if (snapshot.data == null) {
+            return BlocProvider(
+              create: (context) => getIt<LoginBloc>(),
+              child: const LoginView(),
+            );
+          }
+          if (args is Map<String, dynamic>) {
+            return ConfirmSubscriptionView(
+              courseId: args['courseId'],
+              price: (args['price'] as num?)?.toDouble() ?? 0.0,
+              isBundle: args['isBundle'] ?? false,
+            );
+          }
+          return const Scaffold(body: Center(child: Text('Invalid Arguments')));
+        },
+      );
     },
     AppRoutsName.myPlatformDashboard: (context) {
-      if (CacheHelper.getData(key: 'user') == null) {
-        return BlocProvider(
-          create: (context) => getIt<LoginBloc>(),
-          child: const LoginView(),
-        );
-      }
-      // Get userId from cache
-      int userId = 0;
-      final userData = CacheHelper.getData(key: 'user');
-      if (userData != null) {
-        try {
-          final decoded = jsonDecode(userData);
-          userId = decoded['id'] ?? 0;
-        } catch (_) {}
-      }
-      return BlocProvider(
-        create: (context) =>
-            getIt<MyPlatformBloc>()..add(FetchMyCourses(userId)),
-        child: const MyPlatformDashboardView(),
+      return FutureBuilder<String?>(
+        future: SecureStorageHelper.getData(key: 'user'),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Scaffold(body: Center(child: CircularProgressIndicator()));
+          }
+          if (snapshot.data == null) {
+            return BlocProvider(
+              create: (context) => getIt<LoginBloc>(),
+              child: const LoginView(),
+            );
+          }
+          int userId = 0;
+          try {
+            final decoded = jsonDecode(snapshot.data!);
+            userId = decoded['id'] ?? 0;
+          } catch (_) {}
+          return BlocProvider(
+            create: (context) =>
+                getIt<MyPlatformBloc>()..add(FetchMyCourses(userId)),
+            child: const MyPlatformDashboardView(),
+          );
+        },
       );
     },
     AppRoutsName.myResults: (context) {
-      if (CacheHelper.getData(key: 'user') == null) {
-        return BlocProvider(
-          create: (context) => getIt<LoginBloc>(),
-          child: const LoginView(),
-        );
-      }
-      // Get userId from cache
-      int userId = 0;
-      final userData = CacheHelper.getData(key: 'user');
-      if (userData != null) {
-        try {
-          final decoded = jsonDecode(userData);
-          userId = decoded['id'] ?? 0;
-        } catch (_) {}
-      }
-      return BlocProvider(
-        create: (context) =>
-            getIt<MyResultsBloc>()..add(FetchMyResults(userId)),
-        child: const MyResultsView(),
+      return FutureBuilder<String?>(
+        future: SecureStorageHelper.getData(key: 'user'),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Scaffold(body: Center(child: CircularProgressIndicator()));
+          }
+          if (snapshot.data == null) {
+            return BlocProvider(
+              create: (context) => getIt<LoginBloc>(),
+              child: const LoginView(),
+            );
+          }
+          int userId = 0;
+          try {
+            final decoded = jsonDecode(snapshot.data!);
+            userId = decoded['id'] ?? 0;
+          } catch (_) {}
+          return BlocProvider(
+            create: (context) =>
+                getIt<MyResultsBloc>()..add(FetchMyResults(userId)),
+            child: const MyResultsView(),
+          );
+        },
       );
     },
     AppRoutsName.testYourSelfView: (context) {

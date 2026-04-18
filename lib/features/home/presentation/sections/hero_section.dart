@@ -1,7 +1,7 @@
-import 'package:aladeep/core/helpers/cache_helper.dart';
 import 'package:aladeep/core/routes/app_routs_name.dart';
 import 'package:aladeep/core/theme/app_colors.dart';
 import 'package:aladeep/core/utils/custom_button.dart';
+import 'package:aladeep/core/helpers/secure_storage_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -91,23 +91,36 @@ class HeroSection extends StatelessWidget {
 
           SizedBox(height: 40.h),
 
-          if (CacheHelper.getData(key: 'token') == null)
-            CustomButton(
-              text: 'ابدأ التعلم الآن',
-              textColor: AppColors.primaryDarker,
-              icon: Icons.rocket_launch_sharp,
-              backgroundColor: AppColors.primaryGold,
-              onPressed: () =>
-                  Navigator.pushNamed(context, AppRoutsName.browsecourseView),
-            ),
-          SizedBox(height: 16.h),
-          if (CacheHelper.getData(key: 'token') == null)
-            CustomButton(
-              text: 'تسجيل الدخول',
-              backgroundColor: AppColors.primaryDark,
-              onPressed: () =>
-                  Navigator.pushNamed(context, AppRoutsName.loginView),
-            ),
+          FutureBuilder<String?>(
+            future: SecureStorageHelper.getData(key: 'token'),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const SizedBox(height: 50); // placeholder height
+              }
+              if (snapshot.data == null) {
+                return Column(
+                  children: [
+                    CustomButton(
+                      text: 'ابدأ التعلم الآن',
+                      textColor: AppColors.primaryDarker,
+                      icon: Icons.rocket_launch_sharp,
+                      backgroundColor: AppColors.primaryGold,
+                      onPressed: () => Navigator.pushNamed(
+                          context, AppRoutsName.browsecourseView),
+                    ),
+                    SizedBox(height: 16.h),
+                    CustomButton(
+                      text: 'تسجيل الدخول',
+                      backgroundColor: AppColors.primaryDark,
+                      onPressed: () => Navigator.pushNamed(
+                          context, AppRoutsName.loginView),
+                    ),
+                  ],
+                );
+              }
+              return const SizedBox.shrink();
+            },
+          ),
         ],
       ),
     );

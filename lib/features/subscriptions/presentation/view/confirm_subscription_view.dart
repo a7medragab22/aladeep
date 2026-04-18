@@ -1,7 +1,9 @@
+import 'dart:convert';
 import 'dart:io';
 import 'package:aladeep/core/enum/status.dart';
-
-import 'package:aladeep/core/utils/app_drawer.dart';
+import 'package:aladeep/core/enum/snack_bar_enum.dart';
+import 'package:aladeep/core/extensions/extensions.dart';
+import 'package:aladeep/core/helpers/secure_storage_helper.dart';
 import 'package:aladeep/core/utils/header.dart';
 import 'package:aladeep/features/home/presentation/sections/footer_section.dart';
 import 'package:aladeep/features/subscriptions/presentation/bloc/subscribe_bloc.dart';
@@ -38,6 +40,27 @@ class ConfirmSubscriptionView extends StatefulWidget {
 class _ConfirmSubscriptionViewState extends State<ConfirmSubscriptionView> {
   File? _receiptImage;
   String _selectedPaymentMethod = 'STC Pay';
+  int _studentId = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadUser();
+  }
+
+  void _loadUser() async {
+    final userData = await SecureStorageHelper.getData(key: 'user');
+    if (userData != null) {
+      try {
+        final Map<String, dynamic> decoded = jsonDecode(userData);
+        setState(() {
+          _studentId = decoded['id'] ?? 0;
+        });
+      } catch (e) {
+        debugPrint('Error decoding user data: $e');
+      }
+    }
+  }
 
   final List<Map<String, String>> _paymentMethods = [
     {
@@ -75,24 +98,20 @@ class _ConfirmSubscriptionViewState extends State<ConfirmSubscriptionView> {
       create: (context) => getIt<SubscribeBloc>(),
       child: Scaffold(
         backgroundColor: Colors.white,
-        endDrawer: const AppDrawer(),
+        // endDrawer: const AppDrawer(),
         body: SafeArea(
           child: BlocConsumer<SubscribeBloc, SubscribeState>(
             listener: (context, state) {
               if (state.status == Status.success) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text('تم إرسال الطلب بنجاح'),
-                    backgroundColor: Colors.green,
-                  ),
+                context.showTopSnackBar(
+                  message: 'تم إرسال الطلب بنجاح',
+                  type: SnackBarType.success,
                 );
                 Navigator.pop(context);
               } else if (state.status == Status.failure) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text(state.errorMessage ?? 'حدث خطأ ما'),
-                    backgroundColor: Colors.red,
-                  ),
+                context.showTopSnackBar(
+                  message: state.errorMessage ?? 'حدث خطأ ما',
+                  type: SnackBarType.error,
                 );
               }
             },
@@ -143,16 +162,29 @@ class _ConfirmSubscriptionViewState extends State<ConfirmSubscriptionView> {
                                 SizedBox(height: 32.h),
                                 SubscribeSubmitButton(
                                   isLoading: state.status == Status.loading,
-                                  onPressed: _receiptImage == null
+                                  onPressed:
+                                      (_receiptImage == null ||
+                                          (!widget.isBundle &&
+                                              (widget.courseId == null ||
+                                                  widget.courseId == 0)))
                                       ? null
                                       : () {
-                                          context.read<SubscribeBloc>().add(
-                                            SubmitSubscription(
-                                              studentId: 27,
-                                              courseId: widget.courseId ?? 0,
-                                              receiptImage: _receiptImage!,
-                                            ),
-                                          );
+                                          if (widget.isBundle) {
+                                            context.read<SubscribeBloc>().add(
+                                              SubmitBundleSubscription(
+                                                studentId: _studentId,
+                                                receiptImage: _receiptImage!,
+                                              ),
+                                            );
+                                          } else {
+                                            context.read<SubscribeBloc>().add(
+                                              SubmitSubscription(
+                                                studentId: _studentId,
+                                                courseId: widget.courseId!,
+                                                receiptImage: _receiptImage!,
+                                              ),
+                                            );
+                                          }
                                         },
                                 ),
                                 SizedBox(height: 40.h),

@@ -22,11 +22,6 @@ class PremiumSummaryCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: AppColors.primaryDark,
         borderRadius: BorderRadius.circular(24.r),
-        image: const DecorationImage(
-          image: AssetImage('assets/images/pattern.png'),
-          opacity: 0.05,
-          fit: BoxFit.cover,
-        ),
       ),
       child: Column(
         children: [

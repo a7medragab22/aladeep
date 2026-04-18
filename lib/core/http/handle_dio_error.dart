@@ -14,34 +14,33 @@ Failure _handleDioError(DioException error) {
     case DioExceptionType.sendTimeout:
       scaffoldMessengerKey.currentContext!.showErrorMessage('انتهت مهلة الاتصال ');
       return ServerFailure(message: 'انتهت مهلة الإرسال في الاتصال ');
-    case DioExceptionType.badResponse://400-500
+    case DioExceptionType.badResponse: //400-500
       if (error.response?.data != null) {
         try {
           final data = error.response!.data;
           final Map<String, dynamic> decoded =
-          data is String ? json.decode(data) : data;
+              data is String ? json.decode(data) : data;
           if (error.response?.statusCode == 503) {
-            return ServerFailure(message: 'network failure ${error.message}');
+            return ServerFailure(message: 'خطأ في الخدمة، يرجى المحاولة لاحقاً');
           }
           if (error.response?.statusCode == 401) {
             scaffoldMessengerKey.currentContext!.showErrorMessage('غير مصرح لك');
+
             ///TODO: navigate to login screen
             // scaffoldMessengerKey.currentContext!.go(const WhoAreYou(forLogin: true));
-            return UnauthorizedFailure(
-                message: error.message ?? 'غير مصرح لك');
+            return UnauthorizedFailure(message: 'غير مصرح لك');
           }
 
           if (error.response?.statusCode == 413) {
             scaffoldMessengerKey.currentContext!
-                .showErrorMessage('File size is too large');
+                .showErrorMessage('حجم الملف كبير جداً');
 
             return ServerFailure(
-              message: 'File size is too large',
+              message: 'حجم الملف كبير جداً',
             );
           }
           if (error.response?.statusCode == 410) {
-            scaffoldMessengerKey.currentContext!
-                .showErrorMessage('لقد تعرضت للحظر ');
+            scaffoldMessengerKey.currentContext!.showErrorMessage('لقد تعرضت للحظر ');
             // scaffoldMessengerKey.currentContext!.goWithNoReturn(const LoginScreen());
 
             return BanFailure(
@@ -53,6 +52,13 @@ Failure _handleDioError(DioException error) {
             loggerWarn('VERIFYERROR');
             return VerifyOTPFailure(message: 'خطأ في التحقق من الكود');
           }
+
+          if (error.response?.statusCode != null &&
+              error.response!.statusCode! >= 500) {
+            return ServerFailure(
+                message: 'حدث خطأ في الخادم، يرجى المحاولة لاحقاً');
+          }
+
           if (decoded.containsKey('message')) {
             String message = decoded['message'];
 
@@ -84,20 +90,22 @@ Failure _handleDioError(DioException error) {
         } catch (e) {
           // scaffoldMessengerKey.currentContext!.showErrorMessage(e.toString());
           return ServerFailure(
-              message:
-              'Received invalid status code: ${error.response?.statusCode}');
+              message: error.response?.statusCode == 500
+                  ? 'حدث خطأ في الخادم، يرجى المحاولة لاحقاً'
+                  : 'حدث خطأ غير متوقع: ${error.response?.statusCode}');
         }
       }
       // scaffoldMessengerKey.currentContext!.showErrorMessage(error.message!);
       return ServerFailure(
-          message:
-          'Received invalid status code: ${error.response?.statusCode}');
+          message: error.response?.statusCode == 500
+              ? 'حدث خطأ في الخادم، يرجى المحاولة لاحقاً'
+              : 'حدث خطأ غير متوقع: ${error.response?.statusCode}');
     case DioExceptionType.badCertificate:
       return ServerFailure(message: 'تعذر الاتصال ');
     case DioExceptionType.connectionError:
       scaffoldMessengerKey.currentContext!.showErrorMessage('تعذر الاتصال ');
       return NetworkFailure(message: 'تعذر الاتصال ');
     case DioExceptionType.unknown:
-      return UnknownFailure(message: 'Unexpected error: ${error.message}');
+      return UnknownFailure(message: 'حدث خطأ غير متوقع، يرجى المحاولة لاحقاً');
   }
-}
+}
