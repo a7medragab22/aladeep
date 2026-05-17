@@ -31,7 +31,7 @@ class ReceiptUploadArea extends StatelessWidget {
         child: receiptImage != null
             ? ClipRRect(
                 borderRadius: BorderRadius.circular(20.r),
-                child: Image.file(receiptImage!, fit: BoxFit.cover),
+                child: Image.file(receiptImage!, fit: BoxFit.contain),
               )
             : Column(
                 mainAxisAlignment: MainAxisAlignment.center,

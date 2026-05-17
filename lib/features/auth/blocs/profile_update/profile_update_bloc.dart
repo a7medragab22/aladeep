@@ -18,14 +18,14 @@ class ProfileUpdateBloc
       phoneNumber: event.phoneNumber,
       newPassword: event.newPassword,
     );
-    result.fold(
-      (failure) => emit(state.copyWith(
+    await result.fold(
+      (failure) async => emit(state.copyWith(
           status: Status.failure,
           errorMessage: failure.message,
           failure: failure)),
-      (updatedUser) {
+      (updatedUser) async {
         // Merge with existing user to preserve token and data
-        final currentUserJson = CacheHelper.getData(key: 'user');
+        final currentUserJson = await SecureStorageHelper.getData(key: 'user');
         if (currentUserJson != null) {
           final currentUser =
               CustomerModel.fromJson(jsonDecode(currentUserJson));
@@ -40,13 +40,13 @@ class ProfileUpdateBloc
                 : event.phoneNumber,
             token: updatedUser.token ?? currentUser.token,
           );
-          CacheHelper.saveData(
+          await SecureStorageHelper.saveData(
             key: 'user',
             value: jsonEncode(mergedUser.toJson()),
           );
           emit(state.copyWith(status: Status.success, data: mergedUser));
         } else {
-          CacheHelper.saveData(
+          await SecureStorageHelper.saveData(
             key: 'user',
             value: jsonEncode(updatedUser.toJson()),
           );

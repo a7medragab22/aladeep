@@ -1,5 +1,7 @@
 import 'package:aladeep/core/bloc/paginated_bloc/exports.dart';
 import 'package:aladeep/core/enum/status.dart';
+import 'package:aladeep/core/enum/snack_bar_enum.dart';
+import 'package:aladeep/core/extensions/extensions.dart';
 import 'package:aladeep/features/auth/auth.dart';
 import 'package:aladeep/features/auth/models/customer_model.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -132,15 +134,10 @@ class _LoginViewState extends State<LoginView> with HomeScrollMixin {
           if (state.status == Status.success) {
             Navigator.pushReplacementNamed(
               context,
-              AppRoutsName.myPlatformDashboard,
+              AppRoutsName.homeView,
             );
           } else if (state.status == Status.failure) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(state.errorMessage ?? 'حدث خطأ ما'),
-                backgroundColor: AppColors.primaryDark,
-              ),
-            );
+            context.showErrorMessage(state.errorMessage ?? 'حدث خطأ ما');
           }
         },
         builder: (context, state) {
@@ -190,23 +187,7 @@ class _LoginViewState extends State<LoginView> with HomeScrollMixin {
                       ),
                     );
                   } else {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text(
-                          'يرجى ملء جميع الحقول',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 13.sp,
-                          ),
-                        ),
-                        backgroundColor: Colors.red.shade600,
-                        behavior: SnackBarBehavior.floating,
-                        margin: EdgeInsets.all(20.r),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12.r),
-                        ),
-                      ),
-                    );
+                    context.showErrorMessage('يرجى ملء جميع الحقول');
                   }
                 },
               ),

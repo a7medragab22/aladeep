@@ -31,12 +31,12 @@ class CourseCard extends StatelessWidget {
         children: [
           // Course Image
           ClipRRect(
-            borderRadius: BorderRadius.vertical(top: Radius.circular(20.r)),
+            // borderRadius: BorderRadius.vertical(top: Radius.circular(20.r)),
             child: CachedNetworkImage(
               imageUrl: "https://al-adeep.com${course.imageUrl}",
               height: 160.h,
               width: double.infinity,
-              fit: BoxFit.cover,
+              fit: BoxFit.fitHeight,
               placeholder: (context, url) => Shimmer.fromColors(
                 baseColor: Colors.grey[300]!,
                 highlightColor: Colors.grey[100]!,
@@ -45,6 +45,7 @@ class CourseCard extends StatelessWidget {
               errorWidget: (context, url, error) => const Icon(Icons.error),
             ),
           ),
+
           Padding(
             padding: EdgeInsets.all(16.r),
             child: Column(
@@ -63,10 +64,7 @@ class CourseCard extends StatelessWidget {
                 SizedBox(height: 8.h),
                 Text(
                   course.trainerName ?? '',
-                  style: TextStyle(
-                    fontSize: 12.sp,
-                    color: Colors.grey,
-                  ),
+                  style: TextStyle(fontSize: 12.sp, color: Colors.grey),
                 ),
                 SizedBox(height: 12.h),
                 Row(

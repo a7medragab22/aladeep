@@ -1,10 +1,11 @@
 import 'dart:convert';
 import 'package:aladeep/core/bloc/paginated_bloc/exports.dart';
 import 'package:aladeep/core/enum/status.dart';
-import 'package:aladeep/core/helpers/cache_helper.dart';
+import 'package:aladeep/core/extensions/extensions.dart';
 import 'package:aladeep/core/routes/app_routs_name.dart';
 import 'package:aladeep/core/theme/app_colors.dart';
 import 'package:aladeep/core/utils/app_drawer.dart';
+import 'package:aladeep/core/helpers/secure_storage_helper.dart';
 import 'package:aladeep/core/utils/header.dart';
 import 'package:aladeep/core/utils/custom_button.dart';
 import 'package:aladeep/core/utils/custom_text_feild.dart';
@@ -35,15 +36,19 @@ class _ProfileViewState extends State<ProfileView> {
     _loadUserData();
   }
 
-  void _loadUserData() {
-    final userJson = CacheHelper.getData(key: 'user');
+  void _loadUserData() async {
+    final userJson = await SecureStorageHelper.getData(key: 'user');
     if (userJson != null) {
       user = CustomerModel.fromJson(jsonDecode(userJson));
       nameController = TextEditingController(text: user?.fullName);
       phoneController = TextEditingController(text: user?.phoneNumber);
+      setState(() {});
     } else {
       nameController = TextEditingController();
       phoneController = TextEditingController();
+      setState(() {
+        user = CustomerModel(); // or handle differently, but user shouldn't be null indefinitely
+      });
     }
   }
 
@@ -96,26 +101,16 @@ class _ProfileViewState extends State<ProfileView> {
                           >(
                             listener: (context, state) {
                               if (state.status == Status.success) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    content: Text(
-                                      'تم تحديث الملف الشخصي بنجاح',
-                                    ),
-                                    backgroundColor: Colors.green,
-                                  ),
+                                context.showSuccessMessage(
+                                  'تم تحديث الملف الشخصي بنجاح',
                                 );
                                 // Update local state after success
                                 setState(() {
                                   user = state.data;
                                 });
                               } else if (state.status == Status.failure) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    content: Text(
-                                      state.errorMessage ?? 'حدث خطأ ما',
-                                    ),
-                                    backgroundColor: AppColors.primaryDark,
-                                  ),
+                                context.showErrorMessage(
+                                  state.errorMessage ?? 'حدث خطأ ما',
                                 );
                               }
                             },

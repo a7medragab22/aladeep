@@ -1,6 +1,6 @@
 import 'dart:convert';
-import 'package:aladeep/core/helpers/cache_helper.dart';
 import 'package:aladeep/core/routes/app_routs_name.dart';
+import 'package:aladeep/core/helpers/secure_storage_helper.dart';
 import 'package:aladeep/core/theme/app_colors.dart';
 import 'package:aladeep/core/utils/drawer_item.dart';
 import 'package:aladeep/core/utils/social_icon.dart';
@@ -21,6 +21,7 @@ class AppDrawer extends StatefulWidget {
 
 class _AppDrawerState extends State<AppDrawer> {
   String userName = 'طالب';
+  bool isLoggedIn = false;
 
   @override
   void initState() {
@@ -28,19 +29,19 @@ class _AppDrawerState extends State<AppDrawer> {
     _loadUserInfo();
   }
 
-  void _loadUserInfo() {
-    final userJson = CacheHelper.getData(key: 'user');
+  void _loadUserInfo() async {
+    final userJson = await SecureStorageHelper.getData(key: 'user');
     if (userJson != null) {
       final user = CustomerModel.fromJson(jsonDecode(userJson));
       setState(() {
         userName = user.fullName ?? 'طالب';
+        isLoggedIn = true;
       });
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    bool isLoggedIn = CacheHelper.getData(key: 'user') != null;
     return Drawer(
       width: 0.82.sw,
       backgroundColor: AppColors.white,
@@ -206,7 +207,11 @@ class _AppDrawerState extends State<AppDrawer> {
                     width: double.infinity,
                     height: 50.h,
                     child: ElevatedButton.icon(
-                      onPressed: () => Navigator.pop(context),
+                      onPressed: () => Navigator.pushNamed(
+                        context,
+                        AppRoutsName.myPlatformDashboard,
+                      ),
+
                       icon: Icon(Icons.rocket_launch_rounded, size: 18.sp),
                       label: Text(
                         'ابدأ الآن',
@@ -233,13 +238,15 @@ class _AppDrawerState extends State<AppDrawer> {
                     height: 50.h,
                     child: isLoggedIn
                         ? OutlinedButton.icon(
-                            onPressed: () {
-                              CacheHelper.clear();
-                              Navigator.pushNamedAndRemoveUntil(
-                                context,
-                                AppRoutsName.homeView,
-                                (route) => false,
-                              );
+                            onPressed: () async {
+                              await SecureStorageHelper.clear();
+                              if (context.mounted) {
+                                Navigator.pushNamedAndRemoveUntil(
+                                  context,
+                                  AppRoutsName.homeView,
+                                  (route) => false,
+                                );
+                              }
                             },
                             icon: Icon(Icons.logout_rounded, size: 18.sp),
                             label: Text(
@@ -298,13 +305,34 @@ class _AppDrawerState extends State<AppDrawer> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      SocialIcon(icon: FontAwesomeIcons.telegram),
+                      SocialIcon(
+                        icon: FontAwesomeIcons.telegram,
+                        url: "https://t.me/+ilC41xR1A0xjZjU0",
+                      ),
                       SizedBox(width: 10.w),
-                      SocialIcon(icon: FontAwesomeIcons.tiktok),
+                      SocialIcon(
+                        icon: FontAwesomeIcons.tiktok,
+                        url:
+                            "https://www.tiktok.com/@salahabdelaal100?_r=1&_t=ZS-950VqY9n0iX",
+                      ),
                       SizedBox(width: 10.w),
-                      SocialIcon(icon: FontAwesomeIcons.facebook),
+                      SocialIcon(
+                        icon: FontAwesomeIcons.facebook,
+                        url:
+                            "https://www.facebook.com/share/18UrxXvobe/?mibextid=wwXIfr",
+                      ),
                       SizedBox(width: 10.w),
-                      SocialIcon(icon: FontAwesomeIcons.youtube),
+                      SocialIcon(
+                        icon: FontAwesomeIcons.youtube,
+                        url:
+                            "https://youtube.com/@salahabdel-aal6246?si=QNu4FQYF0Oqovw3c",
+                      ),
+                      SizedBox(width: 10.w),
+                      SocialIcon(
+                        icon: FontAwesomeIcons.instagram,
+                        url:
+                            "https://www.instagram.com/aladib100?igsh=a2RuaXEwazF5bmpk",
+                      ),
                     ],
                   ),
 
