@@ -1,18 +1,12 @@
-import 'package:aladeep/core/routes/app_routs_name.dart';
 import 'package:aladeep/core/utils/app_drawer.dart';
 import 'package:aladeep/core/utils/header.dart';
 import 'package:aladeep/features/browse_course_screen/presentation/widget/header_section.dart';
-import 'package:aladeep/features/privacy_policy/presentation/widgets/custom_row.dart';
 import 'package:aladeep/features/privacy_policy/presentation/widgets/first_section.dart';
-import 'package:aladeep/features/privacy_policy/presentation/widgets/intellectual_content.dart';
-import 'package:aladeep/features/privacy_policy/presentation/widgets/payment_content.dart';
 import 'package:aladeep/features/privacy_policy/presentation/widgets/second_section.dart';
 import 'package:aladeep/features/privacy_policy/presentation/widgets/third_section.dart';
-import 'package:aladeep/features/home/data/models/footer_link_model.dart';
 import 'package:aladeep/features/home/presentation/sections/footer_section.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class PrivacyPolicyPage extends StatelessWidget {
   const PrivacyPolicyPage({super.key});

@@ -1,10 +1,8 @@
-import 'package:aladeep/core/routes/app_routs_name.dart';
 import 'package:aladeep/core/scroll_helper/scroll_helper.dart';
 import 'package:aladeep/core/theme/app_colors.dart';
 import 'package:aladeep/core/utils/app_drawer.dart';
 import 'package:aladeep/core/utils/header.dart';
 import 'package:aladeep/features/about_instuctor_screen/presentation/widgets/custom_info_card.dart';
-import 'package:aladeep/features/home/data/models/footer_link_model.dart';
 import 'package:aladeep/features/home/presentation/sections/footer_section.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -70,7 +68,7 @@ class _AboutInstructorScreenState extends State<AboutInstructorScreen>
                             vertical: 8.h,
                           ),
                           decoration: BoxDecoration(
-                            color: AppColors.primaryGold.withOpacity(0.2),
+                            color: AppColors.primaryGold.withValues(alpha: 0.2),
                             borderRadius: BorderRadius.circular(20.r),
                           ),
                           child: Row(
@@ -166,7 +164,9 @@ class _AboutInstructorScreenState extends State<AboutInstructorScreen>
                                   borderRadius: BorderRadius.circular(20.r),
                                   boxShadow: [
                                     BoxShadow(
-                                      color: Colors.black.withOpacity(0.1),
+                                      color: Colors.black.withValues(
+                                        alpha: 0.1,
+                                      ),
                                       blurRadius: 8.r,
                                     ),
                                   ],

@@ -1,5 +1,6 @@
 import 'package:aladeep/core/bloc/paginated_bloc/exports.dart';
 import 'package:aladeep/core/enum/status.dart';
+import 'package:aladeep/core/helpers/secure_storage_helper.dart';
 import 'package:aladeep/core/routes/app_routs_name.dart';
 import 'package:aladeep/core/theme/app_colors.dart';
 import 'package:aladeep/core/utils/app_drawer.dart';
@@ -10,7 +11,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'dart:convert';
-import 'package:aladeep/core/helpers/cache_helper.dart';
 import 'package:aladeep/features/auth/models/customer_model.dart';
 
 class MyPlatformDashboardView extends StatefulWidget {
@@ -30,9 +30,9 @@ class _MyPlatformDashboardViewState extends State<MyPlatformDashboardView> {
     _loadUserName();
   }
 
-  void _loadUserName() {
+  void _loadUserName() async {
     try {
-      final userJson = CacheHelper.getData(key: 'user');
+      final userJson = await SecureStorageHelper.getData(key: 'user');
       if (userJson != null) {
         final Map<String, dynamic> userMap = jsonDecode(userJson);
         final user = CustomerModel.fromJson(userMap);
@@ -221,11 +221,11 @@ class _MyPlatformDashboardViewState extends State<MyPlatformDashboardView> {
         padding: EdgeInsets.symmetric(vertical: 15.h),
         decoration: BoxDecoration(
           color: isSecondary
-              ? Colors.white.withOpacity(0.08)
+              ? Colors.white.withValues(alpha: 0.08)
               : AppColors.primaryGold,
           borderRadius: BorderRadius.circular(16),
           border: isSecondary
-              ? Border.all(color: Colors.white.withOpacity(0.25))
+              ? Border.all(color: Colors.white.withValues(alpha: 0.25))
               : null,
         ),
         child: Row(
@@ -269,7 +269,7 @@ class _MyPlatformDashboardViewState extends State<MyPlatformDashboardView> {
           Container(
             padding: EdgeInsets.all(8.r),
             decoration: BoxDecoration(
-              color: AppColors.primaryDark.withOpacity(0.05),
+              color: AppColors.primaryDark.withValues(alpha: 0.05),
               borderRadius: BorderRadius.circular(8),
             ),
             child: Icon(
@@ -300,7 +300,7 @@ class _MyPlatformDashboardViewState extends State<MyPlatformDashboardView> {
             border: Border.all(color: Colors.grey.shade100),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(0.02),
+                color: Colors.black.withValues(alpha: 0.02),
                 blurRadius: 10,
                 offset: const Offset(0, 4),
               ),
@@ -311,7 +311,10 @@ class _MyPlatformDashboardViewState extends State<MyPlatformDashboardView> {
               Navigator.pushNamed(
                 context,
                 AppRoutsName.courseDetailsView,
-                arguments: course.id,
+                arguments: {
+                  'courseId': course.id,
+                  'expiryDate': course.expiryDate,
+                },
               );
             },
             child: Row(
@@ -347,7 +350,7 @@ class _MyPlatformDashboardViewState extends State<MyPlatformDashboardView> {
                           borderRadius: BorderRadius.circular(8),
                         ),
                         child: Text(
-                          'نشط حتى: ${course.expiryDate?.split('T').first ?? ''}',
+                          'نشط حتى: ${course.expiryDate?.toString().split(' ').first ?? ''}',
                           style: TextStyle(
                             fontSize: 10.sp,
                             color: Colors.green,
@@ -404,7 +407,7 @@ class _MyPlatformDashboardViewState extends State<MyPlatformDashboardView> {
                 width: 100.w,
                 height: 100.w,
                 decoration: BoxDecoration(
-                  color: AppColors.primaryGold.withOpacity(0.1),
+                  color: AppColors.primaryGold.withValues(alpha: 0.1),
                   shape: BoxShape.circle,
                 ),
                 child: Center(

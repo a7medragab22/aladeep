@@ -26,34 +26,9 @@ extension ContextExtensions on BuildContext {
   FocusScopeNode get foucsScopeNode => FocusScope.of(this);
 
   void showErrorMessage(String message) {
-    scaffoldMessengerKey.currentState?.clearSnackBars();
-    scaffoldMessengerKey.currentState?.showSnackBar(
-      SnackBar(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10),
-        ),
-        content: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Expanded(
-              child: Text(
-                message,
-                style: AppTextTheme.bodyMedium.copyWith(color: Colors.black),
-                textAlign: TextAlign.center,
-              ),
-            ),
-            const SizedBox(width: 10),
-            const Icon(
-              Icons.error,
-              color: Colors.red,
-            ),
-          ],
-        ),
-        backgroundColor: Colors.white,
-        behavior: SnackBarBehavior.floating,
-        padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-        margin: const EdgeInsets.only(bottom: 25, right: 20, left: 20),
-      ),
+    showTopSnackBar(
+      message: message,
+      type: SnackBarType.error,
     );
   }
 
@@ -62,35 +37,10 @@ extension ContextExtensions on BuildContext {
     Color color = Colors.green,
     IconData icon = Icons.check_circle,
   }) {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      scaffoldMessengerKey.currentState?.showSnackBar(
-        SnackBar(
-          duration: const Duration(seconds: 2),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
-          ),
-          content: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Expanded(
-                child: LocalizedLabel(
-                  text: message,
-                  style: AppTextTheme.bodyMedium.copyWith(color: Colors.black),
-                  textAlign: TextAlign.center,
-                  maxLines: 4,
-                ),
-              ),
-              const SizedBox(width: 10),
-              Icon(icon, color: color),
-            ],
-          ),
-          backgroundColor: Colors.white,
-          behavior: SnackBarBehavior.floating,
-          padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-          margin: const EdgeInsets.only(bottom: 25, right: 20, left: 20),
-        ),
-      );
-    });
+    showTopSnackBar(
+      message: message,
+      type: SnackBarType.success,
+    );
   }
 
   void showTapAgainToExit({
@@ -98,34 +48,10 @@ extension ContextExtensions on BuildContext {
     Color color = Colors.grey,
     IconData icon = Icons.logout,
   }) {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      scaffoldMessengerKey.currentState?.showSnackBar(
-        SnackBar(
-          duration: const Duration(seconds: 1),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
-          ),
-          content: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Expanded(
-                child: Text(
-                  message,
-                  style: AppTextTheme.bodyMedium.copyWith(color: Colors.black),
-                  textAlign: TextAlign.center,
-                ),
-              ),
-              const SizedBox(width: 10),
-              Icon(icon, color: color),
-            ],
-          ),
-          backgroundColor: Colors.white,
-          behavior: SnackBarBehavior.floating,
-          padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-          margin: const EdgeInsets.only(bottom: 25, right: 20, left: 20),
-        ),
-      );
-    });
+    showTopSnackBar(
+      message: message,
+      type: SnackBarType.info,
+    );
   }
 
   void showSuccessDialog(String text) {

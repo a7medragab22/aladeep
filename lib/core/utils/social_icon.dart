@@ -1,3 +1,4 @@
+import 'package:aladeep/core/services/url_launcher_service.dart';
 import 'package:aladeep/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -5,7 +6,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class SocialIcon extends StatelessWidget {
   final FaIconData icon;
-  const SocialIcon({required this.icon});
+  final String url;
+  const SocialIcon({required this.icon, required this.url, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -16,10 +18,15 @@ class SocialIcon extends StatelessWidget {
         borderRadius: BorderRadius.circular(10),
         border: Border.all(color: AppColors.primaryDark.withValues(alpha: 0.1)),
       ),
-      child: FaIcon(
-        icon,
-        color: AppColors.primaryDark.withValues(alpha: 0.6),
-        size: 18.sp,
+      child: InkWell(
+        onTap: () {
+          UrlLauncherService.open(url);
+        },
+        child: FaIcon(
+          icon,
+          color: AppColors.primaryDark.withValues(alpha: 0.6),
+          size: 18.sp,
+        ),
       ),
     );
   }

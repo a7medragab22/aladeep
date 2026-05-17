@@ -25,7 +25,9 @@ class BrouseCoursesSection extends StatelessWidget {
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
             ),
-            border: Border.all(color: AppColors.primaryGold.withOpacity(0.35)),
+            border: Border.all(
+              color: AppColors.primaryGold.withValues(alpha: 0.35),
+            ),
           ),
           child: Column(
             children: [

@@ -1,5 +1,5 @@
 import 'package:aladeep/core/extensions/extensions.dart';
-import 'package:aladeep/core/helpers/cache_helper.dart';
+import 'package:aladeep/core/helpers/secure_storage_helper.dart';
 import 'package:aladeep/core/helpers/helpers.dart';
 import 'package:aladeep/core/http/http.dart';
 
@@ -27,9 +27,9 @@ class SharedServiceLocator {
 
       dio.interceptors.add(
         InterceptorsWrapper(
-          onRequest: (options, handler) {
-            // Dynamically get fresh token and language for every request
-            final token = CacheHelper.getData(key: 'token') ?? '';
+          onRequest: (options, handler) async {
+            // Dynamically get fresh token and language for every request from secure storage
+            final token = await SecureStorageHelper.getData(key: 'token') ?? '';
             final isArabic = navigatorKey.currentContext?.isArabic ?? true;
 
             options.headers['Authorization'] = 'Bearer $token';

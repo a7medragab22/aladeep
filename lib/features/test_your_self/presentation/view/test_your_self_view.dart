@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:aladeep/core/bloc/paginated_bloc/exports.dart';
 import 'package:aladeep/core/enum/status.dart';
-import 'package:aladeep/core/helpers/cache_helper.dart';
+import 'package:aladeep/core/helpers/secure_storage_helper.dart';
 import 'package:aladeep/core/routes/app_routs_name.dart';
 import 'package:aladeep/core/theme/app_colors.dart';
 import 'package:aladeep/features/test_your_self/data/models/quiz_model.dart';
@@ -22,22 +22,38 @@ class TestYourSelfView extends StatefulWidget {
 }
 
 class _TestYourSelfViewState extends State<TestYourSelfView> {
-  String _getStudentName() {
-    final userData = CacheHelper.getData(key: 'user');
+  String _studentName = 'طالب';
+
+  @override
+  void initState() {
+    super.initState();
+    _loadStudentName();
+  }
+
+  void _loadStudentName() async {
+    final userData = await SecureStorageHelper.getData(key: 'user');
     if (userData != null) {
       try {
         final decoded = jsonDecode(userData);
-        return decoded['userName'] ?? 'طالب';
+        if (mounted) {
+          setState(() {
+            _studentName = decoded['userName'] ?? 'طالب';
+          });
+        }
       } catch (_) {}
     }
-    return 'طالب';
+  }
+
+  String _getStudentName() {
+    return _studentName;
   }
 
   @override
   Widget build(BuildContext context) {
     return BlocListener<QuizBloc, BaseState<QuizModel>>(
       listener: (context, state) {
-        if (state.status == Status.success && state.metadata.containsKey('result')) {
+        if (state.status == Status.success &&
+            state.metadata.containsKey('result')) {
           Navigator.pushReplacementNamed(
             context,
             AppRoutsName.testYourSelfResultView,
@@ -48,20 +64,122 @@ class _TestYourSelfViewState extends State<TestYourSelfView> {
       child: BlocBuilder<QuizBloc, BaseState<QuizModel>>(
         builder: (context, state) {
           if (state.status == Status.loading && state.data == null) {
-            return const Scaffold(body: Center(child: CircularProgressIndicator()));
+            return const Scaffold(
+              body: Center(child: CircularProgressIndicator()),
+            );
           }
 
           if (state.status == Status.failure) {
+            String errorMessage = state.errorMessage ?? 'حدث خطأ ما';
+            final isMissing =
+                errorMessage.contains('غير موجود') ||
+                errorMessage.contains('not found') ||
+                errorMessage.contains('404');
+
             return Scaffold(
+              backgroundColor: Colors.white,
               body: Center(
-                child: Text(state.errorMessage ?? 'حدث خطأ ما'),
+                child: Padding(
+                  padding: EdgeInsets.all(32.r),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        isMissing
+                            ? Icons.hourglass_top_rounded
+                            : Icons.error_outline_rounded,
+                        size: 80.sp,
+                        color: AppColors.primaryGold,
+                      ),
+                      SizedBox(height: 24.h),
+                      Text(
+                        isMissing
+                            ? 'جاري إضافة هذا الاختبار.. انتظر قريباً'
+                            : errorMessage,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 18.sp,
+                          fontWeight: FontWeight.bold,
+                          color: AppColors.primaryDark,
+                          height: 1.5,
+                        ),
+                      ),
+                      SizedBox(height: 32.h),
+                      SizedBox(
+                        width: 200.w,
+                        height: 50.h,
+                        child: ElevatedButton(
+                          onPressed: () => Navigator.pop(context),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: AppColors.primaryDark,
+                            foregroundColor: Colors.white,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                          ),
+                          child: const Text('العودة للرئيسية'),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               ),
             );
           }
 
           final quiz = state.data;
           if (quiz == null) {
-            return const Scaffold(body: Center(child: Text('لا يوجد اختبار حالياً')));
+            return const Scaffold(
+              body: Center(child: Text('لا يوجد اختبار حالياً')),
+            );
+          }
+
+          if (quiz.questions.isEmpty) {
+            return Scaffold(
+              backgroundColor: Colors.white,
+              body: Center(
+                child: Padding(
+                  padding: EdgeInsets.all(32.r),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.hourglass_top_rounded,
+                        size: 80.sp,
+                        color: AppColors.primaryGold,
+                      ),
+                      SizedBox(height: 24.h),
+                      Text(
+                        'جاري إضافة أسئلة هذا الاختبار..\nانتظر قريباً',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 18.sp,
+                          fontWeight: FontWeight.bold,
+                          color: AppColors.primaryDark,
+                          height: 1.5,
+                        ),
+                      ),
+                      SizedBox(height: 32.h),
+                      SizedBox(
+                        width: 200.w,
+                        height: 50.h,
+                        child: ElevatedButton(
+                          onPressed: () => Navigator.pop(context),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: AppColors.primaryDark,
+                            foregroundColor: Colors.white,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                          ),
+                          child: const Text('العودة للرئيسية'),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            );
           }
 
           final currentIndex = state.metadata['currentIndex'] as int? ?? 0;
@@ -102,24 +220,38 @@ class _TestYourSelfViewState extends State<TestYourSelfView> {
                                   Expanded(
                                     child: SingleChildScrollView(
                                       child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         textDirection: TextDirection.rtl,
                                         children: [
-                                          _buildQuestionContent(currentQuestion),
+                                          _buildQuestionContent(
+                                            currentQuestion,
+                                          ),
                                           SizedBox(height: 8.h),
-                                          ...currentQuestion.options.entries.map((entry) {
-                                            return QuestionOptionTile(
-                                              letter: entry.key.toUpperCase(),
-                                              text: entry.value,
-                                              isSelected: selectedOption == entry.key,
-                                              onTap: () {
-                                                context.read<QuizBloc>().add(UpdateAnswer(
-                                                  questionId: currentQuestion.id,
-                                                  optionKey: entry.key,
-                                                ));
-                                              },
-                                            );
-                                          }),
+                                          ...currentQuestion.options.entries
+                                              .map((entry) {
+                                                return QuestionOptionTile(
+                                                  letter: entry.key
+                                                      .toUpperCase(),
+                                                  text: entry.value,
+                                                  isSelected:
+                                                      selectedOption ==
+                                                      entry.key,
+                                                  onTap: () {
+                                                    context
+                                                        .read<QuizBloc>()
+                                                        .add(
+                                                          UpdateAnswer(
+                                                            questionId:
+                                                                currentQuestion
+                                                                    .id,
+                                                            optionKey:
+                                                                entry.key,
+                                                          ),
+                                                        );
+                                                  },
+                                                );
+                                              }),
                                         ],
                                       ),
                                     ),
@@ -136,7 +268,8 @@ class _TestYourSelfViewState extends State<TestYourSelfView> {
                           ? () => context.read<QuizBloc>().add(NextQuestion())
                           : null,
                       onPrevious: currentIndex > 0
-                          ? () => context.read<QuizBloc>().add(PreviousQuestion())
+                          ? () =>
+                                context.read<QuizBloc>().add(PreviousQuestion())
                           : null,
                       onFinish: () {
                         context.read<QuizBloc>().add(SubmitQuiz());

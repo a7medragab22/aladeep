@@ -1,6 +1,5 @@
 import 'package:aladeep/core/theme/app_colors.dart';
 import 'package:aladeep/core/utils/custom_button.dart';
-import 'package:aladeep/features/auth/register/presentation/widgets/action_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -42,7 +41,7 @@ class HeaderCard extends StatelessWidget {
                     "مرحباً بك،",
                     textDirection: TextDirection.rtl,
                     style: TextStyle(
-                      color: Colors.white.withOpacity(0.9),
+                      color: Colors.white.withValues(alpha: 0.9),
                       fontSize: 20,
                     ),
                   ),
